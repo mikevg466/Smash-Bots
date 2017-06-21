@@ -1,11 +1,11 @@
-// import { expect } from 'chai';
-// import { createStore, applyMiddleware } from 'redux';
-// import combineReducer from '../../client/redux';
-// import {  } from '../../client/redux/pet';
-// import thunkMiddleware from 'redux-thunk';
+import { expect } from 'chai';
+import { createStore, applyMiddleware } from 'redux';
+import combineReducer from '../../client/redux';
+import thunkMiddleware from 'redux-thunk';
+import 
 
-// const db = require('../../server/db');
-// const Pet = require('../../server/db/models/pet');
+const db = require('../../server/db');
+const Item = require('../../server/db/models/item');
 
 describe('Items Reducer', () => {
   let testStore;
@@ -46,17 +46,6 @@ describe('Items Reducer', () => {
       const newState = testStore.getState().item;
       expect(newState.itemsList[0]).to.deep.equal({ name: 'Sword' });
       expect(newState.itemsList[1]).to.deep.equal({ name: 'Axe' });
-    });
-    it('loads all items using the /api/items route', () => {
-      return testStore.dispatch(fetchItems())
-        .then(() => {
-          const newState = testStore.getState().item;
-          testItemsList.forEach((item, idx) => {
-            Object.keys(item).forEach(key => {
-              expect(newState.itemsList[idx][key]).to.equal(item[key]);
-            });
-          });
-        });
     });
   }); // end describe('LOAD_ITEMS')
 
