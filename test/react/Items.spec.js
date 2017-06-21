@@ -1,9 +1,9 @@
-// import React from 'react';
-// import {expect} from 'chai';
-// import {shallow} from 'enzyme';
-// import {spy} from 'sinon';
+import React from 'react';
+import {expect} from 'chai';
+import {shallow} from 'enzyme';
+import {spy} from 'sinon';
 
-import Items from '../../client/components/Items';
+import ItemContainer from '../../client/containers/ItemContainer';
 
 describe('Items container', () => {
 
@@ -22,7 +22,7 @@ describe('Items container', () => {
 
   beforeEach('Create container', () => {
     items = shallow(
-      <Items
+      <ItemContainer
         itemsList={itemsList}
       />
     );
