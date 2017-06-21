@@ -5,9 +5,22 @@ const User = db.model('user');
 describe('User model', () => {
 
   beforeEach(() => {
-    return db.sync({ force: true });
+    return db.sync({ force: true })
+    .then(()=>{
+      User.create({
+        email: 'hi@hi.com',
+        password: 'hi',
+        username: 'hi26',
+        gold: 1000,
+        level: 2,
+        exp: 13
+      })
+    })
   });
 
+  describe('field definitions', () => {
+
+  })
   describe('instanceMethods', () => {
 
     describe('correctPassword', () => {
