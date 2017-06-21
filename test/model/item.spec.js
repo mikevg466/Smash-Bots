@@ -5,8 +5,8 @@ const chaiThings = require('chai-things');
 chai.use(chaiProperties);
 chai.use(chaiThings);
 const expect = chai.expect;
-const Item = db.model('item')
-//item model has: 
+const Item = db.model('item');
+//item model has:
 // ID:
 // Name
 // graphic
@@ -14,34 +14,34 @@ const Item = db.model('item')
 
 describe('item model', () => {
   let testItem;
-  beforeEach('create database', ()=>{
+  beforeEach('create database', () => {
     return db.sync({force: true})
-    .then(()=> 
+    .then(() =>
       Item.create({
         name: 'Thor\'s Hammer',
         graphic: 'https://openclipart.org/download/85753/Axe-001.svg',
         price:  500
       })
     )
-    .then((item)=> {
-      testItem = item
-    })
-  })
+    .then((item) => {
+      testItem = item;
+    });
+  });
 
   describe('field definitions', () => {
-    xit('should have a name field', () => {
+    it('should have a name field', () => {
       expect(testItem.name).to.be.a('string');
       expect(testItem.name).to.equal('Thor\'s Hammer');
     });
-    xit('should have a graphic field', () => {
+    it('should have a graphic field', () => {
       expect(testItem.graphic).to.be.a('string');
       expect(testItem.graphic).to.equal('https://openclipart.org/download/85753/Axe-001.svg');
     });
-    xit('should have a price field', () => {
+    it('should have a price field', () => {
       expect(testItem.price).to.be.a('number');
       expect(testItem.price).to.equal(500);
-    })
-  }) // end describe 'field definitions'
+    });
+  }); // end describe 'field definitions'
 
 
   describe('validations', () => {
@@ -89,4 +89,4 @@ describe('item model', () => {
     });
   }); // end describe('validations')
 
-}) // end describe 'item model'
+}); // end describe 'item model'
