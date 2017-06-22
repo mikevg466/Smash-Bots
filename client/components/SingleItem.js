@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default const SingleItem = props => {
+const SingleItem = props => {
 
   const { graphic, name, price } = props.selectedItem;
 
@@ -15,8 +15,10 @@ export default const SingleItem = props => {
 }
 
 
-SingleItem.propTypes = {
-  selectedItem.name: PropTypes.string.isRequired,
-  selectedItem.graphic: PropTypes.string.isRequired,
-  selectedItem.price: PropTypes.number.isRequired
-};
+// SingleItem.propTypes = {
+//   selectedItem.name: PropTypes.string.isRequired,
+//   selectedItem.graphic: PropTypes.string.isRequired,
+//   selectedItem.price: PropTypes.number.isRequired
+// };
+
+export default SingleItem;

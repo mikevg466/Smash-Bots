@@ -28,10 +28,12 @@ class ItemContainer extends React.Component{
   }
 }
 
-const mapState = state => {
-  itemsList: state.item.itemsList;
-};
+// const mapState = state => {
+//   itemsList: state.item.itemsList;
+// };
 
-const mapDispatch = dispatch => {};
+// const mapDispatch = dispatch => {};
 
-export default connect(mapState, mapDispatch)(ItemContainer);
+// export default connect(mapState, mapDispatch)(ItemContainer);
+
+export default ItemContainer;

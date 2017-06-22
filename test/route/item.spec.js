@@ -2,7 +2,7 @@ const db = require('../../server/db');
 const expect = require('chai').expect;
 const app = require('../../server');
 const agent = require('supertest').agent(app);
-const Item = require('../../server/models/item');
+const Item = require('../../server/db/models/item');
 
 
 const testItemList = [
@@ -50,8 +50,8 @@ describe('Item Routes', () => {
     it('GET should return single item data', () => {
       return Item.findOne({ where: { name: testItemList[0].name } })
         .then(item => agent.get(`/api/items/${item.id}`))
-        .expect(200)
         .then(res => {
+          expect(res.status).to.equal(200);
           expect(res.body).to.be.a('object');
           Object.keys(testItemList[0]).forEach(key => {
             expect(res.body[key]).to.equal(testItemList[0][key]);
