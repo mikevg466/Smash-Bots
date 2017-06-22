@@ -20,7 +20,7 @@ const initState = {
 
 // ------- REDUCERS ------------
 export default function (state = initState, action) {
-  const newState = Object.assign({}, state )
+  const newState = Object.assign({}, state );
   switch (action.type) {
     case LOAD_ITEMS:
       newState.itemsList = action.itemsList;
