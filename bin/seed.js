@@ -4,8 +4,23 @@ const Page = require('../server/db/models').Page;
 const Promise = require('bluebird');
 
 const data = {
-  dummy: [
-    {},
+  item: [
+    {
+    name: 'Thor\'s Hammer',
+    graphic: 'http://orig07.deviantart.net/a821/f/2013/251/c/7/thor_hammer_mjolnir__avengers_version__by_pannaus-d6lir5n.jpg',
+    price: 500
+  },
+  {
+    name: 'Sword',
+    graphic: 'http://store.hbo.com/imgcache/product/resized/000/499/553/catl/game-of-thrones-longclaw-letter-opener_1000.jpg?k=2f027467&pid=499553&s=catl&sn=hbo',
+    price: 20
+  },
+  {
+    name: 'Axe',
+    graphic: 'https://openclipart.org/download/85753/Axe-001.svg',
+    price: 10000
+  }
+
   ]
 };
 
