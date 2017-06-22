@@ -1,7 +1,7 @@
-// import React from 'react';
-// import {expect} from 'chai';
-// import {shallow} from 'enzyme';
-// import {spy} from 'sinon';
+import React from 'react';
+import {expect} from 'chai';
+import {shallow} from 'enzyme';
+import {spy} from 'sinon';
 
 import SingleItem from '../../client/components/SingleItem';
 
@@ -10,7 +10,7 @@ describe('Item component', () => {
   let singleItem;
   const selectedItem = {
     name: 'Sword',
-    image: 'http://www.darksword-armory.com/medieval-weapon/medieval-swords/the-warmonger/',
+    graphic: 'http://www.darksword-armory.com/medieval-weapon/medieval-swords/the-warmonger/',
     price: 100
   };
 
@@ -29,7 +29,7 @@ describe('Item component', () => {
     expect(singleItem.find('h3').length).to.equal(1);
   });
   it('image should use the seletedItem\'s url', () => {
-    expect(singleItem.find('img').prop('src')).to.equal(selectedItem.image);
+    expect(singleItem.find('img').prop('src')).to.equal(selectedItem.graphic);
   });
   it('button data should display selectedItem\'s price', () => {
     expect(singleItem.find('button').prop('data')).to.equal(selectedItem.price);

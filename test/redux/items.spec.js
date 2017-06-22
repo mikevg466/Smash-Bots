@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import { createStore, applyMiddleware } from 'redux';
 import combineReducer from '../../client/redux';
 import thunkMiddleware from 'redux-thunk';
-import 
 
 const db = require('../../server/db');
 const Item = require('../../server/db/models/item');

@@ -7,8 +7,8 @@ const SELECT_ITEM = 'SELECT_ITEM';
 
 
 // ------ ACTION CREATORS -------
-const loadItems = items => ({ type: LOAD_ITEMS, items });
-const selectItem = (item) => ({ type: SELECT_ITEM, item });
+const loadItems = itemsList => ({ type: LOAD_ITEMS, itemsList });
+const selectItem = selectedItem => ({ type: SELECT_ITEM, selectedItem });
 
 
 // ------- INIT STATE --------
@@ -23,11 +23,11 @@ export default function (state = initState, action) {
   const newState = Object.assign({}, state )
   switch (action.type) {
     case LOAD_ITEMS:
-      newState.itemsList = action.items;
+      newState.itemsList = action.itemsList;
       break;
 
     case SELECT_ITEM:
-      newState.selectedItem = action.item;
+      newState.selectedItem = action.selectedItem;
       break;
 
     default:
