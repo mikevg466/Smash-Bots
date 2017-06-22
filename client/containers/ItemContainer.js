@@ -3,10 +3,15 @@ import PropTypes from 'prop-types';
 import SingleItem from '../components/SingleItem';
 import { connect } from 'react-redux';
 import { logout } from '../redux/user';
+import {fetchItems } from '../redux/item';
 
-class ItemContainer extends React.Component{
+export class ItemContainer extends React.Component{
   constructor(){
     super();
+  }
+
+  componentDidMount() {
+    this.props.loadItems();
   }
 
   render(){
@@ -15,7 +20,7 @@ class ItemContainer extends React.Component{
         <ul>
           {
             this.props.itemsList && this.props.itemsList.map(item => (
-              <li>
+              <li key={item.id}>
                 <SingleItem
                   selectedItem={item}
                 />
@@ -28,12 +33,14 @@ class ItemContainer extends React.Component{
   }
 }
 
-// const mapState = state => {
-//   itemsList: state.item.itemsList;
-// };
+const mapState = state => {
+return {
+  itemsList: state.item.itemsList
+}
+};
 
-// const mapDispatch = dispatch => {};
+const mapDispatch = dispatch => ({
+  loadItems: () => dispatch(fetchItems())
+});
 
-// export default connect(mapState, mapDispatch)(ItemContainer);
-
-export default ItemContainer;
+export default connect(mapState, mapDispatch)(ItemContainer);

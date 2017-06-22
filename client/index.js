@@ -7,6 +7,8 @@ import { Router, Route, browserHistory, IndexRoute, IndexRedirect } from 'react-
 import store from './store';
 import { Main, Login, Signup, UserHome, LoginHome  } from './components';
 import { me } from './redux/user';
+import ItemContainer from './containers/ItemContainer';
+
 
 const whoAmI = store.dispatch(me());
 
@@ -27,6 +29,7 @@ ReactDOM.render(
         <IndexRoute component={Main} />
           <Route onEnter={requireLogin}>
             <Route path="home" component={UserHome} />
+            <Route path="itemStore" component={ItemContainer} />
           </Route>
           <Route path="loginHome" component={ LoginHome } />
           <Route path="login" component={Login} />

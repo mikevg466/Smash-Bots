@@ -5,7 +5,7 @@ import {spy} from 'sinon';
 import chaiEnzyme from 'chai-enzyme';
 chai.use(chaiEnzyme());
 
-import ItemContainer from '../../client/containers/ItemContainer';
+import {ItemContainer} from '../../client/containers/ItemContainer';
 
 describe('Items container', () => {
 

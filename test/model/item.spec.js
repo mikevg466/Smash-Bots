@@ -19,7 +19,7 @@ describe('item model', () => {
     .then(() =>
       Item.create({
         name: 'Thor\'s Hammer',
-        graphic: 'https://openclipart.org/download/85753/Axe-001.svg',
+        graphic: 'http://orig07.deviantart.net/a821/f/2013/251/c/7/thor_hammer_mjolnir__avengers_version__by_pannaus-d6lir5n.jpg',
         price:  500
       })
     )
@@ -35,7 +35,7 @@ describe('item model', () => {
     });
     it('should have a graphic field', () => {
       expect(testItem.graphic).to.be.a('string');
-      expect(testItem.graphic).to.equal('https://openclipart.org/download/85753/Axe-001.svg');
+      expect(testItem.graphic).to.equal('http://orig07.deviantart.net/a821/f/2013/251/c/7/thor_hammer_mjolnir__avengers_version__by_pannaus-d6lir5n.jpg');
     });
     it('should have a price field', () => {
       expect(testItem.price).to.be.a('number');
@@ -47,7 +47,7 @@ describe('item model', () => {
   describe('validations', () => {
     it('Requires a name field', () => {
       const item = Item.build({
-        graphic: 'https://openclipart.org/download/85753/Axe-001.svg',
+        graphic: 'http://orig07.deviantart.net/a821/f/2013/251/c/7/thor_hammer_mjolnir__avengers_version__by_pannaus-d6lir5n.jpg',
         price:  500
       });
       return item.validate()

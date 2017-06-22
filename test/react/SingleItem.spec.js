@@ -10,7 +10,7 @@ describe('Item component', () => {
   let singleItem;
   const selectedItem = {
     name: 'Sword',
-    graphic: 'http://www.darksword-armory.com/medieval-weapon/medieval-swords/the-warmonger/',
+    graphic: 'http://store.hbo.com/imgcache/product/resized/000/499/553/catl/game-of-thrones-longclaw-letter-opener_1000.jpg?k=2f027467&pid=499553&s=catl&sn=hbo',
     price: 100
   };
 
