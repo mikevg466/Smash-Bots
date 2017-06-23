@@ -109,7 +109,7 @@ const makeSocketServer = () => {
       server.to(findRoomForClient(client)).emit('addChatMessage', msg, client.id);
     });
 
-    const broadcastDebugMsg = msg => {
+    function broadcastDebugMsg(msg) {
       server.sockets.emit('debugMessage', msg);
     }
   });
