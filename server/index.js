@@ -56,112 +56,62 @@ const listenUp = () => {
 };
 
 
+// server rooms does is always empty
+// server.sockets.adapter.rooms has rooms but also has clientID's with no way to distinguish
+// client.rooms has rooms but also it's own id also with no real way to distinguish besides
+//      looking to see if roomId === client.id
+
+// going to try puting lobby- before room uuid to be able to filter
 const makeSocketServer = () => {
-  var rooms = {};
-  var players = {};
+  var clients = {};
+
+  // create helper function to find all rooms on server adapter that starts with lobby-
+  //    this is used for every update call so helper is DRY
+  const findRoomsOnServer = () => {
+    let rooms = server.sockets.adapter.rooms ? Object.keys(server.sockets.adapter.rooms) : [];
+    rooms = rooms.filter(room => room.length > 6 && room.slice(0, 6) === 'lobby-');
+    return rooms
+  }
+
+  const findRoomForClient = client => {
+    const rooms = client.rooms ? Object.keys(client.rooms) : [];
+    const room = rooms.find(room => room.length > 6 && room.slice(0, 6) === 'lobby-');
+    return room;
+  }
 
 
-  server.on('connection', function (player) {
-      players[player.id] = {id: player.id, room: null, isHost: false, color: '#' + ('00000' + (Math.random() * 16777216 << 0).toString(16)).substr(-6)};
-      player.emit('update', rooms);
-      broadcastDebugMsg(player.id + ' has joined the server');
+  server.on('connection', function (client) {
+    client.emit('update', findRoomsOnServer());
+    broadcastDebugMsg(client.id + ' has joined the server');
 
+    // disconnect updates room list for clients but does not need to leave
+    //  as empty rooms do not appear.  Still need to look into if this leaves
+    //   any leftover data when we create actual game state in rooms
+    client.on('disconnect', function() {
+      server.sockets.emit('update', findRoomsOnServer());
+      broadcastDebugMsg(client.id + ' has disconnected from the server');
+    });
 
-      player.on('disconnect', function() {
+    // using join for both join and host
+    //   use default roomId so that if they are not joining an existing room
+    //    they are creating a new room
+    client.on('join', function(roomID = 'lobby-' + uuid.v4()) {
+      // join or create room
+      client.join(roomID);
+      server.sockets.emit('update', findRoomsOnServer());
+    });
 
-          if (players[player.id].isHost) {
-              var room = findRoomByID(player.id, rooms);
-              delete rooms[room.id];
-              server.sockets.emit('update', rooms);
-          }
+    // chatMessage uses new findRoomForClient helper method that find's the room
+    //   for the client that starts with "lobby-",  this removes the rooms that
+    //    are based on the clientId
+    client.on('chatMessage', function(msg) {
+      // find out which room the client is in
+      server.to(findRoomForClient(client)).emit('addChatMessage', msg, client.id);
+    });
 
-          broadcastDebugMsg(player.id + ' has disconnected from the server');
-          delete players[player.id];
-
-      });
-
-      player.on('join', function(roomID, callback) {
-          // join existing room
-          if (connectPlayerToRoom(roomID, player.id, false)) {
-              callback(roomID);
-          }
-      });
-
-      player.on('host', function(data, callback) {
-          // create new room ID on host
-          var newRoomID = uuid.v4();
-          if (connectPlayerToRoom(newRoomID, player.id, true)) {
-              callback(newRoomID);
-          }
-      });
-
-      player.on('chatMessage', function(msg) {
-          // find out which room the player is in
-          var room = findRoomByID(player.id, rooms);
-          console.log('Player Id', player.id);
-          console.log('Message: ', msg);
-          console.log('Room List:', rooms);
-          console.log('Room Found:', room);
-          server.sockets.in(room.id).emit('addChatMessage', msg, player.id, players[player.id].color);
-          //server.to(room.id).emit('addChatMessage', msg, player.id, players[player.id].color);
-      });
-
-      function connectPlayerToRoom(roomID, playerID, isHost) {
-          // if the player is already a host, or already connected to a room
-          if (players[playerID].isHost || players[playerID].room) {
-              return false;
-          }
-
-          player.join(roomID, function(err) {
-              if (!err) {
-
-                  players[player.id].isHost = isHost;
-                  players[player.id].room = roomID;
-                  //rooms[roomID] = new Room(roomID, playerID, isHost);
-
-                  if (isHost) {
-                      rooms[roomID] = new Room(roomID, playerID);
-                      broadcastDebugMsg(playerID + ' has created room: ' + roomID);
-                  } else {
-                      rooms[roomID].addPlayer(playerID);
-                      broadcastDebugMsg(player.id + ' has joined room: ' + roomID);
-
-                  }
-
-                  server.sockets.emit('update', rooms);
-
-              } else {
-                  // handle error message
-
-              }
-          });
-
-
-          return true;
-      }
-
-      function broadcastDebugMsg(msg) {
-          server.sockets.emit('debugMessage', msg);
-      }
-
-      function findRoomByID(playerID, rooms) {
-          var key, room;
-          for (key in rooms) {
-              if (rooms.hasOwnProperty(key)) {
-                  room = rooms[key];
-                  //if (room.hostID === hostID) {
-                  //    return room;
-                  //}
-                  console.log('Cur Room Iter', room);
-                  for (var i = 0; i < room.players.length; i++) {
-                      if (room.players[i] === playerID) {
-                          return room;
-                      }
-                  }
-              }
-          }
-          return null;
-      }
+    function broadcastDebugMsg(msg) {
+      server.sockets.emit('debugMessage', msg);
+    }
   });
 }
 
@@ -178,17 +128,3 @@ if (require.main === module) {
 } else {
   createApp(app);
 }
-
-// server.on('connection', (player) => {
-//   console.log(':) Player connected. Id:', player.id);
-//   players.push(createPlayer(player.id));
-//   console.log('players:', players.length);
-
-//   server.emit('playerNumChange', players.length);
-
-//   player.on('startGame', () => {
-//     //console.log(animateGameFn, '!!!!');
-//     scores = [];
-//     server.emit('startGame');  //  io emits to all players
-//   });
-// });
