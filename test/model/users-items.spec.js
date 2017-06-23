@@ -60,5 +60,24 @@ describe('User model', () => {
         expect(userItemsList[2].name).to.equal(testItems[2].name);
       });
     });
-  });
-});
+    
+    it('User can associate to item they have equipped as Weapon', () => {
+      return mike.addWeapon(testItems[0])
+        .then(() => User.findById(mike.id))
+        .then(user => user.getWeapon())
+        .then(weapon => {
+          expect(weapon.name).to.equal(testList[0].name);
+        })
+    });
+    
+    it('User can associate to item they have equipped as Armor', () => {
+      return mike.addArmor(testItems[1])
+        .then(() => User.findById(mike.id))
+        .then(user => user.getArmor())
+        .then(armor => {
+          expect(armor.name).to.equal(testList[1].name);
+        })
+    });
+    
+  }); // describe('Item Associations')
+}); // describe('User model')
