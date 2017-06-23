@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Game from './Game';
-const player = io();
+const client = io();
 
 export default class Lobby extends React.Component {
   constructor(props) {
@@ -10,32 +10,29 @@ export default class Lobby extends React.Component {
       rooms: [],
       showGame: false
     }
-    this.updatePlayers = this.updatePlayers.bind(this);
-    this.initGame = this.initGame.bind(this);
+    this.updateClients = this.updateClients.bind(this);
+    this.initLobby = this.initLobby.bind(this);
   }
 
-updatePlayers(){
-  player.on('update', curRoom => {
-    const roomList = Object.keys(curRoom);
+updateClients(){
+  client.on('update', curRoom => {
     this.setState({
-      rooms: roomList
+      rooms: curRoom
     })
   })
 }
 
-initGame(){
+initLobby(){
   this.setState({
     showGame: true
   })
 }
 
 componentDidMount(){
-  this.updatePlayers();
+  this.updateClients();
 }
 
   render() {
-    // this.state.rooms[0] && console.log('roomID', this.state.rooms);
-    console.log('playerId', player.id);
     return (
       <div>
         {!this.state.showGame ? (
@@ -45,14 +42,12 @@ componentDidMount(){
             {this.state.rooms && this.state.rooms.map(room => (
               <tr key={room}>
                 <td> {room} </td>
-                <td> {/*room.players.length /10*/}</td>
+                <td> {/*room.clients.length /10*/}</td>
                 <td>
                   <button
                     onClick={() => {
-                      player.emit('join', room, function(data) {
-                        //
-                      })
-                      this.initGame()
+                      client.emit('join', room)
+                      this.initLobby()
                     }}
                     >
                     Join Room
@@ -65,15 +60,14 @@ componentDidMount(){
         </table>
         <button
           onClick={() => {
-            player.emit('host', player.id, function(roomId) {
-            })
-            this.initGame()
+            client.emit('join')
+            this.initLobby()
           }}
           >
           Create Game
         </button>
         </div>
-         ) : <Game player={player} />}
+      ) : <Game client={client} />}
       </div>
     )
   }

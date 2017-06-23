@@ -19,9 +19,12 @@ export default class Game extends React.Component{
   }
 
   addChatMessage(){
-    this.props.player.on('addChatMessage', (msg, playerId, color) => {
+    this.props.client.on('addChatMessage', (msg, clientId) => {
       const messageList = this.state.messages.slice(0);
-      messageList.push(msg);
+      messageList.push({
+        msg,
+        clientId
+      });
       this.setState({
         messages: messageList
       })
@@ -36,8 +39,10 @@ export default class Game extends React.Component{
 
   handleSubmit(e){
     e.preventDefault();
-    e.target.value = '';
-    this.props.player.emit('chatMessage', this.state.inputVal);
+    this.setState({
+      inputVal: ''
+    })
+    this.props.client.emit('chatMessage', this.state.inputVal);
   }
 
   render(){
@@ -45,9 +50,9 @@ export default class Game extends React.Component{
       <div>
         {
           this.state.messages.map(message => (
-            <p key={message}>
-              playerID:
-              <span>{message}</span>
+            <p key={message.msg}>
+              {message.clientId}:
+              <span>{message.msg}</span>
             </p>
           ))
         }
@@ -59,4 +64,3 @@ export default class Game extends React.Component{
     )
   }
 }
-
