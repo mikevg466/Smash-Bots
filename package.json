@@ -49,6 +49,7 @@
     "chai": "^3.5.0",
     "chai-enzyme": "^0.7.1",
     "chai-properties": "^1.2.1",
+    "chai-spies": "^0.7.1",
     "chai-things": "^0.2.0",
     "css-loader": "^0.26.1",
     "enzyme": "^2.8.2",
