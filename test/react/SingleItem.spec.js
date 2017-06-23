@@ -1,9 +1,12 @@
 import React from 'react';
-import {expect} from 'chai';
+import chai, {expect} from 'chai';
+import spies from require('chai-spies');
 import {shallow} from 'enzyme';
 import {spy} from 'sinon';
-
 import SingleItem from '../../client/components/SingleItem';
+
+chai.use(spies);
+const spy = chai.spy(() => {});
 
 describe('Item component', () => {
 
@@ -18,6 +21,7 @@ describe('Item component', () => {
     singleItem = shallow(
       <SingleItem
         selectedItem={selectedItem}
+        handleBuy={spy}
       />
     );
   });
@@ -25,16 +29,23 @@ describe('Item component', () => {
   it('should be a div with an image object, button, and heading', () => {
     expect(singleItem.is('div')).to.equal(true);
     expect(singleItem.find('img').length).to.equal(1);
-    expect(singleItem.find('button').length).to.equal(1);
+    expect(singleItem.find('a').length).to.equal(1);
     expect(singleItem.find('h3').length).to.equal(1);
   });
   it('image should use the seletedItem\'s url', () => {
     expect(singleItem.find('img').prop('src')).to.equal(selectedItem.graphic);
   });
   it('button data should display selectedItem\'s price', () => {
-    expect(singleItem.find('button').prop('data')).to.equal(selectedItem.price);
+    expect(singleItem.find('a').prop('data')).to.equal(selectedItem.price);
   });
   it('heading should display the selectItem\'s name', () => {
     expect(singleItem.find('h3')).to.have.html('<h3>Sword</h3>');
+  });
+  it('Button should display price and have bootstrap button class', () => {
+    expect(singleItem.find('a')).to.have.html('<a class="btn btn-success">100</a>')
+  });
+  it('Button should call handleBuy prop', () => {
+    singleItem.find('a').simulate('click');
+    expect(spy).to.have.been.called();
   });
 }); // end describe ('SingleItem component');
