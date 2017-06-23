@@ -80,14 +80,14 @@ const makeSocketServer = () => {
   }
 
 
-  server.on('connection', function (client) {
+  server.on('connection', client => {
     client.emit('update', findRoomsOnServer());
     broadcastDebugMsg(client.id + ' has joined the server');
 
     // disconnect updates room list for clients but does not need to leave
     //  as empty rooms do not appear.  Still need to look into if this leaves
     //   any leftover data when we create actual game state in rooms
-    client.on('disconnect', function() {
+    client.on('disconnect', () => {
       server.sockets.emit('update', findRoomsOnServer());
       broadcastDebugMsg(client.id + ' has disconnected from the server');
     });
@@ -95,7 +95,7 @@ const makeSocketServer = () => {
     // using join for both join and host
     //   use default roomId so that if they are not joining an existing room
     //    they are creating a new room
-    client.on('join', function(roomID = 'lobby-' + uuid.v4()) {
+    client.on('join', (roomID = 'lobby-' + uuid.v4()) => {
       // join or create room
       client.join(roomID);
       server.sockets.emit('update', findRoomsOnServer());
@@ -104,12 +104,12 @@ const makeSocketServer = () => {
     // chatMessage uses new findRoomForClient helper method that find's the room
     //   for the client that starts with "lobby-",  this removes the rooms that
     //    are based on the clientId
-    client.on('chatMessage', function(msg) {
+    client.on('chatMessage', msg => {
       // find out which room the client is in
       server.to(findRoomForClient(client)).emit('addChatMessage', msg, client.id);
     });
 
-    function broadcastDebugMsg(msg) {
+    const broadcastDebugMsg = msg => {
       server.sockets.emit('debugMessage', msg);
     }
   });
