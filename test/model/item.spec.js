@@ -20,7 +20,11 @@ describe('item model', () => {
       Item.create({
         name: 'Thor\'s Hammer',
         graphic: 'http://orig07.deviantart.net/a821/f/2013/251/c/7/thor_hammer_mjolnir__avengers_version__by_pannaus-d6lir5n.jpg',
-        price:  500
+        price:  500,
+        type: 'weapon',
+        description: 'A very good hammer.',
+        power: 10,
+        unlockLevel: 5
       })
     )
     .then((item) => {
@@ -41,14 +45,35 @@ describe('item model', () => {
       expect(testItem.price).to.be.a('number');
       expect(testItem.price).to.equal(500);
     });
+    it('should have a type field', () => {
+      expect(testItem.type).to.be.a('string');
+      expect(testItem.type).to.equal('weapon');
+    });
+    it('should have a description field', () => {
+      expect(testItem.description).to.be.a('string');
+      expect(testItem.description).to.equal('A very good hammer.');
+      //consider making a text plz
+    });
+    it('should have a power field', () => {
+      expect(testItem.power).to.be.a('number');
+      expect(testItem.power).to.equal(10);
+    });
+    it('should have a unlockLevel field', () => {
+      expect(testItem.unlockLevel).to.be.a('number');
+      expect(testItem.unlockLevel).to.equal(5);
+    });
   }); // end describe 'field definitions'
 
 
   describe('validations', () => {
     it('Requires a name field', () => {
       const item = Item.build({
-        graphic: 'http://orig07.deviantart.net/a821/f/2013/251/c/7/thor_hammer_mjolnir__avengers_version__by_pannaus-d6lir5n.jpg',
-        price:  500
+        graphic: 'https://openclipart.org/download/85753/Axe-001.svg',
+        price:  200,
+        type: 'weapon',
+        description: 'A very good hammer.',
+        power: 10,
+        unlockLevel: 5
       });
       return item.validate()
         .then(err => {
@@ -62,7 +87,11 @@ describe('item model', () => {
     it('Requires a graphic field', () => {
       const item = Item.build({
         name: 'Sword',
-        price:  200
+        price:  200,
+        type: 'weapon',
+        description: 'A very good hammer.',
+        power: 10,
+        unlockLevel: 5
       });
       return item.validate()
         .then(err => {
@@ -76,13 +105,89 @@ describe('item model', () => {
     it('Requires a price field', () => {
       const item = Item.build({
         name: 'Sword',
-        graphic: 'https://openclipart.org/download/85753/Axe-001.svg'
+        graphic: 'https://openclipart.org/download/85753/Axe-001.svg',
+        type: 'weapon',
+        description: 'A very good hammer.',
+        power: 10,
+        unlockLevel: 5
       });
       return item.validate()
         .then(err => {
             expect(err).to.be.an('object');
             expect(err.errors).to.contain.a.thing.with.properties({
                 path: 'price',
+                type: 'notNull Violation'
+            });
+        });
+    });
+    it('Requires a type field', () => {
+      const item = Item.build({
+        name: 'Sword',
+        graphic: 'https://openclipart.org/download/85753/Axe-001.svg',
+        price:  200,
+        description: 'A very good hammer.',
+        power: 10,
+        unlockLevel: 5
+      });
+      return item.validate()
+        .then(err => {
+            expect(err).to.be.an('object');
+            expect(err.errors).to.contain.a.thing.with.properties({
+                path: 'type',
+                type: 'notNull Violation'
+            });
+        });
+    });
+    it('Requires a description field', () => {
+      const item = Item.build({
+        name: 'Sword',
+        graphic: 'https://openclipart.org/download/85753/Axe-001.svg',
+        price:  200,
+        type: 'weapon',
+        power: 10,
+        unlockLevel: 5
+      });
+      return item.validate()
+        .then(err => {
+            expect(err).to.be.an('object');
+            expect(err.errors).to.contain.a.thing.with.properties({
+                path: 'description',
+                type: 'notNull Violation'
+            });
+        });
+    });
+    it('Requires a power field', () => {
+      const item = Item.build({
+        name: 'Sword',
+        graphic: 'https://openclipart.org/download/85753/Axe-001.svg',
+        price:  200,
+        type: 'weapon',
+        description: 'A very good hammer.',
+        unlockLevel: 5
+      });
+      return item.validate()
+        .then(err => {
+            expect(err).to.be.an('object');
+            expect(err.errors).to.contain.a.thing.with.properties({
+                path: 'power',
+                type: 'notNull Violation'
+            });
+        });
+    });
+    it('Requires a unlockLevel field', () => {
+      const item = Item.build({
+        name: 'Sword',
+        graphic: 'https://openclipart.org/download/85753/Axe-001.svg',
+        price:  200,
+        type: 'weapon',
+        description: 'A very good hammer.',
+        power: 10
+      });
+      return item.validate()
+        .then(err => {
+            expect(err).to.be.an('object');
+            expect(err.errors).to.contain.a.thing.with.properties({
+                path: 'unlockLevel',
                 type: 'notNull Violation'
             });
         });
