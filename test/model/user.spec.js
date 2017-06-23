@@ -42,15 +42,16 @@ describe('User model', () => {
       expect(testUser.username).to.be.a('string');
       expect(testUser.username).to.equal('coolname');
     });
-    it('should have a weapon field', () => {
-      expect(testUser.weapon).to.be.a('number');
-      expect(testUser.weapon).to.equal(123);
-    });
-    it('should have a armor field', () => {
-      expect(testUser.armor).to.be.a('number');
-      expect(testUser.armor).to.equal(456);
-      //consider making a text plz
-    });
+// Should be hasOne Associations instead
+//     it('should have a weapon field', () => {
+//       expect(testUser.weapon).to.be.a('number');
+//       expect(testUser.weapon).to.equal(123);
+//     });
+//     it('should have a armor field', () => {
+//       expect(testUser.armor).to.be.a('number');
+//       expect(testUser.armor).to.equal(456);
+//       //consider making a text plz
+//     });
     it('should have a gold field', () => {
       expect(testUser.gold).to.be.a('number');
       expect(testUser.gold).to.equal(4);
