@@ -68,8 +68,12 @@ describe('item model', () => {
   describe('validations', () => {
     it('Requires a name field', () => {
       const item = Item.build({
-        graphic: 'http://orig07.deviantart.net/a821/f/2013/251/c/7/thor_hammer_mjolnir__avengers_version__by_pannaus-d6lir5n.jpg',
-        price:  500
+        graphic: 'https://openclipart.org/download/85753/Axe-001.svg',
+        price:  200,
+        type: 'weapon',
+        description: 'A very good hammer.',
+        power: 10,
+        unlockLevel: 5
       });
       return item.validate()
         .then(err => {
@@ -83,7 +87,11 @@ describe('item model', () => {
     it('Requires a graphic field', () => {
       const item = Item.build({
         name: 'Sword',
-        price:  200
+        price:  200,
+        type: 'weapon',
+        description: 'A very good hammer.',
+        power: 10,
+        unlockLevel: 5
       });
       return item.validate()
         .then(err => {
@@ -97,7 +105,11 @@ describe('item model', () => {
     it('Requires a price field', () => {
       const item = Item.build({
         name: 'Sword',
-        graphic: 'https://openclipart.org/download/85753/Axe-001.svg'
+        graphic: 'https://openclipart.org/download/85753/Axe-001.svg',
+        type: 'weapon',
+        description: 'A very good hammer.',
+        power: 10,
+        unlockLevel: 5
       });
       return item.validate()
         .then(err => {
@@ -111,7 +123,11 @@ describe('item model', () => {
     it('Requires a type field', () => {
       const item = Item.build({
         name: 'Sword',
-        graphic: 'https://openclipart.org/download/85753/Axe-001.svg'
+        graphic: 'https://openclipart.org/download/85753/Axe-001.svg',
+        price:  200,
+        description: 'A very good hammer.',
+        power: 10,
+        unlockLevel: 5
       });
       return item.validate()
         .then(err => {
@@ -125,7 +141,11 @@ describe('item model', () => {
     it('Requires a description field', () => {
       const item = Item.build({
         name: 'Sword',
-        graphic: 'https://openclipart.org/download/85753/Axe-001.svg'
+        graphic: 'https://openclipart.org/download/85753/Axe-001.svg',
+        price:  200,
+        type: 'weapon',
+        power: 10,
+        unlockLevel: 5
       });
       return item.validate()
         .then(err => {
@@ -139,7 +159,11 @@ describe('item model', () => {
     it('Requires a power field', () => {
       const item = Item.build({
         name: 'Sword',
-        graphic: 'https://openclipart.org/download/85753/Axe-001.svg'
+        graphic: 'https://openclipart.org/download/85753/Axe-001.svg',
+        price:  200,
+        type: 'weapon',
+        description: 'A very good hammer.',
+        unlockLevel: 5
       });
       return item.validate()
         .then(err => {
@@ -153,7 +177,11 @@ describe('item model', () => {
     it('Requires a unlockLevel field', () => {
       const item = Item.build({
         name: 'Sword',
-        graphic: 'https://openclipart.org/download/85753/Axe-001.svg'
+        graphic: 'https://openclipart.org/download/85753/Axe-001.svg',
+        price:  200,
+        type: 'weapon',
+        description: 'A very good hammer.',
+        power: 10
       });
       return item.validate()
         .then(err => {
