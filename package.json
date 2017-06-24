@@ -9,7 +9,7 @@
     "start-server": "nodemon server",
     "build-client": "webpack",
     "seed": "node bin/seed.js",
-    "test": "DATABASE_URL='postgres://localhost:5432/smash-bots-test' NODE_ENV=development mocha ./test/**/*.spec.js --compilers js:babel-register"
+    "test": "DATABASE_URL='postgres://localhost:5432/smash-bots-test' NODE_ENV=development mocha ./test/redux/*.spec.js --compilers js:babel-register"
   },
   "author": "",
   "license": "ISC",

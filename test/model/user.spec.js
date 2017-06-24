@@ -108,6 +108,7 @@ describe('User model', () => {
                 type: 'notNull Violation'
             });
         });
+    });
   });
 
   describe('instanceMethods', () => {
