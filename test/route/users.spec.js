@@ -5,57 +5,53 @@ const app = require('../../server');
 const User = db.model('user');
 const Item = db.model('item');
 
+const mikesEmail = 'mike@bashbots.com';
+let mike, testItems;
+const testList = [
+  {
+    name: 'Thor\'s Hammer',
+    graphic: 'http://test.com',
+    price: 500
+  },
+  {
+    name: 'Sword',
+    graphic: 'http://test2.com',
+    price: 20
+  },
+  {
+    name: 'Steel armor',
+    graphic: 'http://test3.com',
+    price: 10000
+  }
+];
+
 describe('User routes', () => {
 
-  beforeEach(() => {
-    return db.sync({ force: true });
+  beforeEach('Sync and load Database', () => {
+    return db.sync({ force: true })
+    .then(() => Promise.all([
+      User.create({
+        name: 'Mike',
+        email: mikesEmail,
+        password: 'test',
+        username: 'coolname',
+        weapon: 123,
+        armor: 345,
+        gold: 4,
+        level: 8,
+        experience: 15
+      }),
+      Item.create(testList[0]),
+      Item.create(testList[1]),
+      Item.create(testList[2])
+    ]))
+    .then(([user, itemOne, itemTwo, itemThree]) => {
+      mike = user;
+      testItems = [itemOne, itemTwo, itemThree];
+    });
   });
 
   describe('/api/users/', () => {
-
-    const mikesEmail = 'mike@bashbots.com';
-    let mike, testItems;
-    const testList = [
-      {
-        name: 'Thor\'s Hammer',
-        graphic: 'http://test.com',
-        price: 500
-      },
-      {
-        name: 'Sword',
-        graphic: 'http://test2.com',
-        price: 20
-      },
-      {
-        name: 'Steel armor',
-        graphic: 'http://test3.com',
-        price: 10000
-      }
-    ];
-
-    beforeEach(() => {
-      return Promise.all([
-        User.create({
-          name: 'Mike',
-          email: mikesEmail,
-          password: 'test',
-          username: 'coolname',
-          weapon: 123,
-          armor: 345,
-          gold: 4,
-          level: 8,
-          experience: 15
-        }),
-        Item.create(testList[0]),
-        Item.create(testList[1]),
-        Item.create(testList[2])
-      ])
-      .then(([user, itemOne, itemTwo, itemThree]) => {
-        mike = user;
-        testItems = [itemOne, itemTwo, itemThree];
-      });
-    });
-
     it('GET all users through /api/users', () => {
       return request(app)
         .get('/api/users')
@@ -65,8 +61,10 @@ describe('User routes', () => {
           expect(res.body[0].email).to.be.equal(mikesEmail);
         });
     });
+  }); // end describe('/api/users')
 
-     it('GET one user through /api/users/:userId', () => {
+  describe('/api/users/:userId', () => {
+     it('GET one user including item association through /api/users/:userId', () => {
       return request(app)
         .get('/api/users/1')
         .expect(200)
@@ -75,7 +73,8 @@ describe('User routes', () => {
         });
     });
 
-    it('GET all users\'s items through /api/users/:userId/items', () => {
+    // Is this needed? Items eager loaded with user and should be saved in redux store
+    xit('GET all users\'s items through /api/users/:userId/items', () => {
       return Promise.all([
         mike.addItem(testItems[0]),
         mike.addItem(testItems[1]),
@@ -92,7 +91,7 @@ describe('User routes', () => {
       });
     });
 
-    it('POST to purchase an item through /api/users/:userId/', () => {
+    it('POST to purchase an item through /api/users/:userId/items', () => {
       return User.findOne({ where: { email: mikesEmail }})
         .then(user => {
         return request(app)
@@ -100,11 +99,13 @@ describe('User routes', () => {
         .send(testItems[0])
         .expect(201)
         .then(res => {
-          expect(res.body.name).to.equal('Thor\'s Hammer');
+          expect(res.body.Items.some(item => item.name === 'Thor\'s Hammer')).to.equal(true);
         });
       });
     });
 
+    // Status code 201 does not give a response.  Using 200
+    //    https://developer.yahoo.com/social/rest_api_guide/http-response-codes.html
     it('PUT to update Gold through /api/users/:userId/gold', () => {
       return User.findOne({where: { email: mikesEmail}})
       .then(user => {
@@ -114,7 +115,7 @@ describe('User routes', () => {
         .send({
           gold: currentGold + 50
         })
-        .expect(202)
+        .expect(200)
         .then(res => {
           expect(res.body.gold).to.equal(currentGold + 50);
         });
@@ -130,7 +131,7 @@ describe('User routes', () => {
         .send({
           level: currentLevel + 1
         })
-        .expect(202)
+        .expect(200)
         .then(res => {
           expect(res.body.level).to.equal(currentLevel + 1);
         });
@@ -146,22 +147,25 @@ describe('User routes', () => {
         .send({
           experience: currentExperience + 200
         })
-        .expect(202)
+        .expect(200)
         .then(res => {
           expect(res.body.experience).to.equal(currentExperience + 200);
         });
       });
     });
 
-    it('PUT to update a weapon through /api/users/:userId/weapon', () => {
+    // If purchased item association is considered a POST, weapon and armor hasOne association
+    //   should be as well.  Also, purchased item sends whole item so sending whole as well
+    //    for consistency
+    it('POST to update a weapon association through /api/users/:userId/weapon', () => {
       return User.findOne({where: {email: mikesEmail}})
       .then(user => {
         return request(app)
         .put(`/api/users/${user.id}/weapon`)
         .send({
-          weapon: testItems[0].id
+          weapon: testItems[0]
         })
-        .expect(202)
+        .expect(201)
         .then(res => {
           // result is user object with items eager loaded:
           expect(res.body.weapon).to.be.an('object');
@@ -172,23 +176,23 @@ describe('User routes', () => {
       });
     });
 
-    it('PUT to update a armor through /api/users/:userId/armor', () => {
+    it('POST to update an armor association through /api/users/:userId/armor', () => {
       return User.findOne({where: {email: mikesEmail}})
       .then(user => {
         return request(app)
         .put(`/api/users/${user.id}/armor`)
         .send({
-          armor: testItems[2].id
+          armor: testItems[2]
         })
-        .expect(202)
+        .expect(201)
         .then(res => {
           // result is user object with items eager loaded:
           expect(res.body.armor).to.be.an('object');
           expect(res.body.armor).to.equal(testItems[2]);
-          expect(res.body.weapon.name).to.equal('Steel armor');
+          expect(res.body.armor.name).to.equal('Steel armor');
           expect(res.body.armor.type).to.equal('armor');
         });
       });
     });
-  }); // end describe('/api/users')
+  }); // end describe('/api/users/:userId')
 }); // end describe('User routes')
