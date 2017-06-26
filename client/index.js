@@ -8,7 +8,7 @@ import store from './store';
 import { Main, Login, Signup, UserHome, LoginHome  } from './components';
 import { me } from './redux/user';
 import ItemContainer from './containers/ItemContainer';
-import Lobby from './components/Lobby';
+import Room from './components/Room';
 
 
 const whoAmI = store.dispatch(me());
@@ -31,7 +31,7 @@ ReactDOM.render(
           <Route onEnter={requireLogin}>
             <Route path="home" component={UserHome} />
             <Route path="itemStore" component={ItemContainer} />
-            <Route path="lobby" component={ Lobby } />
+            <Route path="lobby" component={ Room } />
           </Route>
           <Route path="loginHome" component={ LoginHome } />
           <Route path="login" component={Login} />
