@@ -48,14 +48,14 @@ export default class Game extends React.Component{
   render(){
     return (
       <div>
-        {
-          this.state.messages.map(message => (
-            <p key={message.msg}>
-              {message.clientId}:
-              <span>{message.msg}</span>
-            </p>
-          ))
-        }
+          {
+            this.state.messages.map((message, idx) => (
+              <p key={idx}>
+                {message.clientId}:
+                <span>{message.msg}</span>
+              </p>
+            ))
+          }
         <form onSubmit={this.handleSubmit}>
           <input value={this.state.inputVal} onChange={this.handleChange}/>
           <button>Send</button>
@@ -64,3 +64,5 @@ export default class Game extends React.Component{
     )
   }
 }
+
+
