@@ -7,23 +7,15 @@ export default class Game extends React.Component{
     super();
     this.state = {
       inputVal: '',
-      messages: [],
-      clientsList: [],
+      messages: []
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.addChatMessage = this.addChatMessage.bind(this);
-    this.showClients = this.showClients.bind(this);
   }
 
   componentDidMount(){
     this.addChatMessage();
-    this.showClients();
-  }
-
-  showClients(){
-    console.log('heyyyyyy',this.props.client);
-
   }
 
   addChatMessage(){
@@ -58,12 +50,6 @@ export default class Game extends React.Component{
   render(){
     return (
       <div>
-        <div>
-          {
-            
-          }
-        </div>
-        <div>
           {
             this.state.messages.map(message => (
               <p key={message.msgId}>
@@ -72,7 +58,6 @@ export default class Game extends React.Component{
               </p>
             ))
           }
-        </div>
         <form onSubmit={this.handleSubmit}>
           <input value={this.state.inputVal} onChange={this.handleChange}/>
           <button>Send</button>
