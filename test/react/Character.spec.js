@@ -99,4 +99,5 @@ describe('Character container', () => {
   it('Armor select should have a defaultValue of the equippedArmor', () => {
     expect(characterComponent.find('select').at(1).prop('defaultValue')).to.equal(4);
   });
+
 }); // end describe ('Character container');
