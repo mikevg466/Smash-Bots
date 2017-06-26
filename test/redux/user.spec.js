@@ -101,18 +101,18 @@ describe('User Reducer', () => {
     })
   })// end describe('EQUIP_ARMOR')
 
-  describe('LOAD_PURCHASED', () => {
-    it('sets the purchsed armor and weapon', () => {
-      testStore.dispatch({
-        type: 'LOAD_PURCHASED',
-        purchasedItems: [testItemList[0],testItemList[1]]
-      })
-      const newState = testStore.getState().user;
-      expect(newState.purchasedItems).to.be.an('array')
-      expect(newState.purchasedItems).to.be.a.lengthOf(2)
-      expect(newState.purchasedItems).to.deep.equal(testItemList);
-    })
-  })// end describe('LOAD_PURCHASED')
+//   describe('LOAD_PURCHASED', () => {
+//     it('sets the purchsed armor and weapon', () => {
+//       testStore.dispatch({
+//         type: 'LOAD_PURCHASED',
+//         purchasedItems: [testItemList[0],testItemList[1]]
+//       })
+//       const newState = testStore.getState().user;
+//       expect(newState.purchasedItems).to.be.an('array')
+//       expect(newState.purchasedItems).to.be.a.lengthOf(2)
+//       expect(newState.purchasedItems).to.deep.equal(testItemList);
+//     })
+//   })// end describe('LOAD_PURCHASED')
 
   describe('PURCHASE_ITEM', () => {
     it('adds an item to purchasedItem array', () => {
