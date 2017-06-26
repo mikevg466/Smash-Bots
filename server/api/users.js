@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const User = require('../db/models/user');
+const Item = require('../db/models/item');
 
 module.exports = router;
 
@@ -41,6 +42,15 @@ router.post('/', (req, res, next) => {
 });
 
 
+/****-----   Get Single User    -----*****/
+router.get('/:fullUserId', (req, res, next) => {
+  User.findById(req.params.fullUserId, { include: [{ all: true }] })
+    .then(user => res.status(200).json(user))
+    .catch(next);
+})
+
+
+
 /****-----   Delete User    -----*****/
 router.delete('/:userId', (req, res, next) => {
   req.user.destroy()
@@ -59,3 +69,50 @@ router.get('/name/:userId', (req, res, next) => {
 router.get('/email/:userId', (req, res, next) => {
   res.status(200).json(req.user.email);
 });
+
+/****-----   Item associations    -----*****/
+router.post('/:userId/items', (req, res, next) => {
+  Item.findById(req.body.id)
+    .then(item => req.user.addItem(item))
+    .then(() => User.findById(req.user.id, { include: [{ all: true }] }))
+    .then(user => res.status(201).json(user))
+    .catch(next);
+});
+
+router.post('/:userId/weapon', (req, res, next) => {
+  Item.findById(req.body.id)
+    .then(item => req.user.addWeapon(item))
+    .then(() => User.findById(req.user.id, { include: [{ all: true }] }))
+    .then(user => res.status(201).json(user))
+    .catch(next);
+});
+
+router.post('/:userId/armor', (req, res, next) => {
+  Item.findById(req.body.id)
+    .then(item => req.user.addArmor(item))
+    .then(() => User.findById(req.user.id, { include: [{ all: true }] }))
+    .then(user => res.status(201).json(user))
+    .catch(next);
+});
+
+/****-----   Update User Attributes    -----*****/
+router.put('/:userId/gold', (req, res, next) => {
+  req.user.update({ gold: req.body.gold })
+    .then(() => User.findById(req.user.id))
+    .then(user => res.status(200).json(user))
+    .catch(next);
+});
+
+router.put('/:userId/level', (req, res, next) => {
+  req.user.update({ level: req.body.level })
+    .then(() => User.findById(req.user.id))
+    .then(user => res.status(200).json(user))
+    .catch(next);
+})
+
+router.put('/:userId/experience', (req, res, next) => {
+  req.user.update({ experience: req.body.experience })
+    .then(() => User.findById(req.user.id))
+    .then(user => res.status(200).json(user))
+    .catch(next);
+})
