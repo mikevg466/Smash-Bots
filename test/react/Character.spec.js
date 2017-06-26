@@ -93,7 +93,6 @@ describe('Character container', () => {
   })
 
   it('Weapon select should have a defaultValue of the equippedWeapon', () => {
-  
     expect(characterComponent.find('select').at(0).prop('defaultValue')).to.equal(1);
   });
 
