@@ -4,17 +4,11 @@ import { browserHistory } from 'react-router';
 //------- ACTIONS -------
 const GET_USER = 'GET_USER';
 const REMOVE_USER = 'REMOVE_USER';
-const EQUIP_WEAPON = 'EQUIP_WEAPON';
-const EQUIP_ARMOR = 'EQUIP_ARMOR';
-const PURCHASE_ITEM = 'PURCHASE_ITEM';
 
 // ------ ACTION CREATORS -------
 
 const getUser = user => ({ type: GET_USER, user });
 const removeUser = () => ({ type: REMOVE_USER });
-const equip_Weapon = weapon => ({ type: EQUIP_WEAPON, weapon });
-const equip_Armor = armor => ({ type: EQUIP_ARMOR, armor });
-const purchase_Item = item => ({ type: PURCHASE_ITEM, item });
 
 
 // ------- INIT STATE --------
@@ -39,15 +33,6 @@ export default function (state = defaultUser, action) {
       return action.user;
     case REMOVE_USER:
       return defaultUser;
-    case EQUIP_WEAPON:
-      newState.equippedWeapon = action.weapon;
-      return newState;
-    case EQUIP_ARMOR:
-      newState.equippedArmor = action.armor;
-      return newState;
-    case 'PURCHASE_ITEM':
-      newState.purchasedItems.push(action.item);
-      return newState;
     default:
       return newState;
   }
@@ -82,32 +67,32 @@ export const logout = () =>
 
 export const fetchUser = user =>
   dispatch =>
-    axios.get(`/users/${user.id}`)
+    axios.get(`/api/users/${user.id}`)
       .then(res => {
         dispatch(getUser(res.data));
       })
       .catch(console.error.bind(console));
 
-export const equipWeapon = weapon =>
+export const equipWeapon = (user, weapon) =>
   dispatch =>
-    axios.get(`/items/${weapon.id}`)
+    axios.post(`/api/users/${user.id}/items`, weapon)
       .then(res => {
-        dispatch(equip_Weapon(res.data));
+        dispatch(getUser(res.data));
       })
       .catch(console.error.bind(console));
 
-export const equipArmor = armor =>
+export const equipArmor = (user, armor) =>
   dispatch =>
-    axios.get(`/items/${armor.id}`)
+    axios.post(`/api/users/${user.id}/armor`, armor)
       .then(res => {
-        dispatch(equip_Armor(res.data));
+        dispatch(getUser(res.data));
       })
       .catch(console.error.bind(console));
 
-export const purchaseItem = item =>
+export const purchaseItem = (user, item) =>
   dispatch =>
-    axios.get(`/items/${item.id}`)
+    axios.post(`/api/users/${user.id}/items`, item)
       .then(res => {
-        dispatch(purchase_Item(res.data));
+        dispatch(getUser(res.data));
       })
       .catch(console.error.bind(console));
