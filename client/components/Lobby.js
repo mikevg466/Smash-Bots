@@ -1,73 +1,82 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import Game from './Game';
-const client = io();
+import PhaserGame from './PhaserGame';
 
-export default class Lobby extends React.Component {
-  constructor(props) {
-    super(props)
+// Component //
+
+export default class Lobby extends React.Component{
+  constructor(){
+    super();
     this.state = {
-      rooms: [],
-      showGame: false
+      inputVal: '',
+      messages: [],
+      isGamePlaying: false
     }
-    this.updateClients = this.updateClients.bind(this);
-    this.initLobby = this.initLobby.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.addChatMessage = this.addChatMessage.bind(this);
+    this.startGame = this.startGame.bind(this);
   }
 
-updateClients(){
-  client.on('update', curRoom => {
+  componentDidMount(){
+    this.addChatMessage();
+  }
+
+  startGame(){
     this.setState({
-      rooms: curRoom
+      isGamePlaying: true
+    });
+  }
+
+  addChatMessage(){
+    this.props.client.on('addChatMessage', (msg, clientId) => {
+      const messageList = this.state.messages.slice(0);
+      messageList.push({
+        msg,
+        clientId
+      });
+      this.setState({
+        messages: messageList
+      })
+    });
+  }
+
+  handleChange(e){
+    this.setState({
+      inputVal: e.target.value
+    });
+  }
+
+  handleSubmit(e){
+    e.preventDefault();
+    this.setState({
+      inputVal: ''
     })
-  })
-}
+    this.props.client.emit('chatMessage', this.state.inputVal);
+  }
 
-initLobby(){
-  this.setState({
-    showGame: true
-  })
-}
-
-componentDidMount(){
-  this.updateClients();
-}
-
-  render() {
+  render(){
     return (
       <div>
-        {!this.state.showGame ? (
+      {this.state.isGamePlaying ?
+        <PhaserGame /> :
         <div>
-        <table>
-          <tbody>
-            {this.state.rooms && this.state.rooms.map(room => (
-              <tr key={room}>
-                <td> {room} </td>
-                <td> {/*room.clients.length /10*/}</td>
-                <td>
-                  <button
-                    onClick={() => {
-                      client.emit('join', room)
-                      this.initLobby()
-                    }}
-                    >
-                    Join Room
-                  </button>
-                </td>
-              </tr>
+          {
+            this.state.messages.map(message => (
+              <p key={message.msg}>
+                {message.clientId}:
+                <span>{message.msg}</span>
+              </p>
             ))
-            }
-          </tbody>
-        </table>
-        <button
-          onClick={() => {
-            client.emit('join')
-            this.initLobby()
-          }}
-          >
-          Create Game
-        </button>
+          }
+          <form onSubmit={this.handleSubmit}>
+            <input value={this.state.inputVal} onChange={this.handleChange}/>
+            <button>Send</button>
+          </form>
+          <button
+            onClick= {this.startGame}
+          >Start Game</button>
         </div>
-      ) : <Game client={client} />}
+      }
       </div>
     )
   }
