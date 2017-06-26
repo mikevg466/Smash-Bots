@@ -1,6 +1,6 @@
 import React from 'react';
 import chai, {expect} from 'chai';
-import spies from require('chai-spies');
+import spies from 'chai-spies';
 import {shallow} from 'enzyme';
 import {spy} from 'sinon';
 import Character from '../../client/containers/Character';
@@ -93,10 +93,12 @@ describe('Character container', () => {
   })
 
   it('Weapon select should have a defaultValue of the equippedWeapon', () => {
-    expect(characterComponent.find('select').at(0).prop('defaultValue')).to.equal(1));
+  
+    expect(characterComponent.find('select').at(0).prop('defaultValue')).to.equal(1);
   });
 
   it('Armor select should have a defaultValue of the equippedArmor', () => {
-    expect(characterComponent.find('select').at(1).prop('defaultValue')).to.equal(4));
+    expect(characterComponent.find('select').at(1).prop('defaultValue')).to.equal(4);
   });
+
 }); // end describe ('Character container');

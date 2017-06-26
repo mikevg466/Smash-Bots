@@ -13,6 +13,10 @@ const User = db.define('user', {
   name: {
     type: Sequelize.STRING(32)
   },
+  username: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
   type: {
     type: Sequelize.ENUM('ADMIN','BASIC'),
     defaultValue: 'BASIC'
@@ -23,7 +27,8 @@ const User = db.define('user', {
     allowNull: false
   },
   password: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
+    allowNull: false
   },
   salt: {
     type: Sequelize.STRING
@@ -37,6 +42,17 @@ const User = db.define('user', {
   password_reset: {
     type: Sequelize.BOOLEAN,
     defaultValue: false
+  },
+  gold: {
+    type: Sequelize.INTEGER
+  },
+  level: {
+    type: Sequelize.INTEGER,
+    defaultValue: 1
+  },
+  experience: {
+    type: Sequelize.NUMBER,
+    defaultValue: 0
   }
 }, {
   instanceMethods: {

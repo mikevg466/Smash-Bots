@@ -66,18 +66,18 @@ describe('User Reducer', () => {
     });
   }); // end describe('LOAD_USER')
 
-//   describe('LOAD_EQUIPPED', () => {
-//     it('sets the equipped armor and weapon', () => {
-//       testStore.dispatch({
-//         type: 'LOAD_EQUIPPED',
-//         equippedWeapon: testItemList[0],
-//         equippedArmor: testItemList[1]
-//       })
-//       const newState = testStore.getState().user;
-//       expect(newState.equippedWeapon).to.equal(testItemList[0]);
-//       expect(newState.equippedArmor).to.equal(testItemList[1])
-//     })
-//   })// end describe('LOAD_EQUIPPED')
+  describe('LOAD_EQUIPPED', () => {
+    it('sets the equipped armor and weapon', () => {
+      testStore.dispatch({
+        type: 'LOAD_EQUIPPED',
+        equippedWeapon: testItemList[0],
+        equippedArmor: testItemList[1]
+      })
+      const newState = testStore.getState().user;
+      expect(newState.equippedWeapon).to.deep.equal(testItemList[0]);
+      expect(newState.equippedArmor).to.deep.equal(testItemList[1])
+    })
+  })// end describe('LOAD_EQUIPPED')
 
   describe('EQUIP_WEAPON', () => {
     it('equips a weapon for a user', () => {
@@ -86,7 +86,7 @@ describe('User Reducer', () => {
         equippedWeapon: testItemList[0]
       })
       const newState = testStore.getState().user;
-      expect(newState.equippedWeapon).to.equal(testItemList[0]);
+      expect(newState.equippedWeapon).to.deep.equal(testItemList[0]);
     })
   })// end describe('EQUIP_WEAPON')
 
@@ -97,22 +97,22 @@ describe('User Reducer', () => {
         equippedArmor: testItemList[1]
       })
       const newState = testStore.getState().user;
-      expect(newState.equippedArmor).to.equal(testItemList[1]);
+      expect(newState.equippedArmor).to.deep.equal(testItemList[1]);
     })
   })// end describe('EQUIP_ARMOR')
 
-//   describe('LOAD_PURCHASED', () => {
-//     it('sets the purchsed armor and weapon', () => {
-//       testStore.dispatch({
-//         type: 'LOAD_PURCHASED',
-//         purchasedItems: [testItemList[0],testItemList[1]]
-//       })
-//       const newState = testStore.getState().user;
-//       expect(newState.purchasedItems).to.be.an('array')
-//       expect(newState.purchasedItems).to.be.a.lengthOf(2)
-//       expect(newState.purchasedItems).to.deep.equal(testItemList);
-//     })
-//   })// end describe('LOAD_PURCHASED')
+  describe('LOAD_PURCHASED', () => {
+    it('sets the purchsed armor and weapon', () => {
+      testStore.dispatch({
+        type: 'LOAD_PURCHASED',
+        purchasedItems: [testItemList[0],testItemList[1]]
+      })
+      const newState = testStore.getState().user;
+      expect(newState.purchasedItems).to.be.an('array')
+      expect(newState.purchasedItems).to.be.a.lengthOf(2)
+      expect(newState.purchasedItems).to.deep.equal(testItemList);
+    })
+  })// end describe('LOAD_PURCHASED')
 
   describe('PURCHASE_ITEM', () => {
     it('adds an item to purchasedItem array', () => {
