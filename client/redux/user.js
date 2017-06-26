@@ -3,7 +3,6 @@ import { browserHistory } from 'react-router';
 
 //------- ACTIONS -------
 const GET_USER = 'GET_USER';
-const LOAD_USER = 'LOAD_USER';
 const REMOVE_USER = 'REMOVE_USER';
 const EQUIP_WEAPON = 'EQUIP_WEAPON';
 const EQUIP_ARMOR = 'EQUIP_ARMOR';
@@ -12,7 +11,6 @@ const PURCHASE_ITEM = 'PURCHASE_ITEM';
 // ------ ACTION CREATORS -------
 
 const getUser = user => ({ type: GET_USER, user });
-const loadUser = user => ({ type: LOAD_USER, user });
 const removeUser = () => ({ type: REMOVE_USER });
 const equip_Weapon = weapon => ({ type: EQUIP_WEAPON, weapon });
 const equip_Armor = armor => ({ type: EQUIP_ARMOR, armor });
@@ -38,8 +36,6 @@ export default function (state = defaultUser, action) {
   const newState = Object.assign({}, state );
   switch (action.type) {
     case GET_USER:
-      return action.user;
-    case LOAD_USER:
       return action.user;
     case REMOVE_USER:
       return defaultUser;
@@ -88,7 +84,7 @@ export const fetchUser = user =>
   dispatch =>
     axios.get(`/users/${user.id}`)
       .then(res => {
-        dispatch(loadUser(res.data));
+        dispatch(getUser(res.data));
       })
       .catch(console.error.bind(console));
 
