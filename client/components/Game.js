@@ -20,10 +20,8 @@ export default class Game extends React.Component{
 
   addChatMessage(){
     this.props.client.on('addChatMessage', (msg, clientId) => {
-      const msgId = this.state.messages.length
       const messageList = this.state.messages.slice(0);
       messageList.push({
-        msgId,
         msg,
         clientId
       });
@@ -51,8 +49,8 @@ export default class Game extends React.Component{
     return (
       <div>
           {
-            this.state.messages.map(message => (
-              <p key={message.msgId}>
+            this.state.messages.map((message, idx) => (
+              <p key={idx}>
                 {message.clientId}:
                 <span>{message.msg}</span>
               </p>
