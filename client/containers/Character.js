@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import store from '../store';
 import {equipWeapon, equipArmor} from '../redux/user';
 
 //TO DO: Make sure equipWeapon/equipArmor functions are named properly
@@ -9,27 +8,18 @@ export class Character extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-        equippedWeapon: this.props.user.equippedWeapon.id,
-        equippedArmor: this.props.user.equippedArmor.id,
+            equippedWeapon: {},
+            equippedArmor: {},
         }
         this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-
     }
 
     handleChange(event) {
         this.setState({[event.target.id]: event.target.value});
     }
 
-    handleSubmit(event){
-        event.preventDefault();
-        store.dispatch(equipWeapon(this.state.equippedWeapon));
-        store.dispatch(equipArmor(this.state.equippedArmor));
-    }
-
-
     render() {
-        return (<form onSubmit={this.handleSubmit}>
+        return (<form>
               <div>
                 <label>Choose Weapon:</label>
                 <div>
@@ -65,16 +55,27 @@ export class Character extends React.Component {
                   </select>
                 </div>
               </div>
+                <a 
+                    onClick={(e) => this.props.handleSubmit(e, this.state.equippedWeapon, this.state.equippedArmor)}
+                    className="btn btn-success">Buy
+                </a>
                 <button type="submit" className="btn btn-success">Submit</button>
                 </form>)
     }
   }
   
 const mapState = state => {
-return {
-  user: state.user
-}
+    return {
+      user: state.user
+    }
 };
+const mapDispatch = dispatch => ({
+   handleSubmit: (e, weapon, armor) => {
+       e.preventDefault();
+       dispatch(equipWeapon(weapon));
+       dispatch(equipArmor(armor));
+   }
+});
 
 
 export default connect(mapState)(Character);
