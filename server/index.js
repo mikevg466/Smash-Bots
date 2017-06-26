@@ -27,6 +27,7 @@ passport.deserializeUser((id, done) =>
 const createApp = () => app
   .use(morgan('dev'))
   .use(express.static(path.join(__dirname, '..', 'public')))
+  .use('/phaser', express.static(path.join(__dirname, '..', 'node_modules/phaser-ce/build')))
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: true }))
   .use(session({
@@ -61,7 +62,7 @@ const listenUp = () => {
 // client.rooms has rooms but also it's own id also with no real way to distinguish besides
 //      looking to see if roomId === client.id
 
-// example: 
+// example:
 // server.sockets.adapter.rooms = {
 //    123812903: 123812903,
 //    654654742: 654654742,
