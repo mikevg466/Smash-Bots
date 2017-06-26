@@ -66,18 +66,18 @@ describe('User Reducer', () => {
     });
   }); // end describe('LOAD_USER')
 
-  describe('LOAD_EQUIPPED', () => {
-    it('sets the equipped armor and weapon', () => {
-      testStore.dispatch({
-        type: 'LOAD_EQUIPPED',
-        equippedWeapon: testItemList[0],
-        equippedArmor: testItemList[1]
-      })
-      const newState = testStore.getState().user;
-      expect(newState.equippedWeapon).to.deep.equal(testItemList[0]);
-      expect(newState.equippedArmor).to.deep.equal(testItemList[1])
-    })
-  })// end describe('LOAD_EQUIPPED')
+//   describe('LOAD_EQUIPPED', () => {
+//     it('sets the equipped armor and weapon', () => {
+//       testStore.dispatch({
+//         type: 'LOAD_EQUIPPED',
+//         equippedWeapon: testItemList[0],
+//         equippedArmor: testItemList[1]
+//       })
+//       const newState = testStore.getState().user;
+//       expect(newState.equippedWeapon).to.deep.equal(testItemList[0]);
+//       expect(newState.equippedArmor).to.deep.equal(testItemList[1])
+//     })
+//   })// end describe('LOAD_EQUIPPED')
 
   describe('EQUIP_WEAPON', () => {
     it('equips a weapon for a user', () => {
