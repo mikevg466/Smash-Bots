@@ -4,11 +4,23 @@ import PropTypes from 'prop-types';
 const SingleItem = props => {
 
   const { graphic, name, price } = props.selectedItem;
+  const item = props.selectedItem;
+  const user = props.user;
+  const handleBuy = props.handleBuy;
 
   return (
     <div>
       <img src={graphic} />
-      <button data={price} />
+      {
+        user.gold >= item.price ?
+          <a
+            onClick={() => handleBuy(user, item)}
+            className="btn btn-success">{price}
+          </a> :
+          <a
+            className="btn disabled">{price}
+          </a>
+      }
       <h3>{name}</h3>
     </div>
   )

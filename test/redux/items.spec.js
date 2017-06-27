@@ -15,12 +15,20 @@ describe('Items Reducer', () => {
   const testItemsList = [
     { name: 'Sword',
       graphic: 'http://www.darksword-armory.com/medieval-weapon/medieval-swords/the-warmonger/',
-      price: 100
+      price: 100,
+      type: 'weapon',
+      description: 'I am very sharp',
+      power: 4,
+      unlockLevel: 2
     },
     {
       name: 'Axe',
       graphic: 'https://openclipart.org/download/85753/Axe-001.svg',
-      price: 200
+      price: 200,
+      type: 'weapon',
+      description: 'I am mighty',
+      power: 5,
+      unlockLevel: 4
     }
   ];
 
