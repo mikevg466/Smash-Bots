@@ -44,7 +44,7 @@ router.post('/', (req, res, next) => {
 
 /****-----   Get Single User    -----*****/
 router.get('/:fullUserId', (req, res, next) => {
-  User.findById(req.params.fullUserId, { include: [{ model: Item }, { all: true }] })
+  User.findById(req.params.fullUserId, { include: [{ model: Item }, { include: [{ model: Item }, { model: Item, as: 'weapon' }, { model: Item, as: 'armor' }] })
     .then(user => res.status(200).json(user))
     .catch(next);
 })
@@ -74,7 +74,7 @@ router.get('/email/:userId', (req, res, next) => {
 router.post('/:userId/items', (req, res, next) => {
   Item.findById(req.body.id)
     .then(item => req.user.addItem(item))
-    .then(() => User.findById(req.user.id, { include: [{ model: Item }, { all: true }] }))
+    .then(() => User.findById(req.user.id, { include: [{ model: Item }, { include: [{ model: Item }, { model: Item, as: 'weapon' }, { model: Item, as: 'armor' }] }))
     .then(user => res.status(201).json(user))
     .catch(next);
 });
