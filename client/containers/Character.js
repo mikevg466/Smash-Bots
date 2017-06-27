@@ -2,8 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {equipWeapon, equipArmor} from '../redux/user';
 
-//TO DO: Make sure equipWeapon/equipArmor functions are named properly
-
 export class Character extends React.Component {
     constructor(props) {
         super(props);
@@ -19,7 +17,10 @@ export class Character extends React.Component {
     }
 
     render() {
-        return (<form>
+        console.log('what is this', this.props.user)
+        return (
+      <div> 
+        <form>
               <div>
                 <label>Choose Weapon:</label>
                 <div>
@@ -60,7 +61,8 @@ export class Character extends React.Component {
                     className="btn btn-success">Buy
                 </a>
                 <button type="submit" className="btn btn-success">Submit</button>
-                </form>)
+        </form>
+      </div>)
     }
   }
   
@@ -78,4 +80,4 @@ const mapDispatch = dispatch => ({
 });
 
 
-export default connect(mapState)(Character);
+export default connect(mapState, mapDispatch)(Character);

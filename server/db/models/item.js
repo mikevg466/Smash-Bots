@@ -13,8 +13,23 @@ const Item = db.define('item', {
   price: {
     type: Sequelize.INTEGER,
     allowNull: false
-  }
-},
-{ });
+  },
+  type: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  description: {
+    type: Sequelize.TEXT,
+    allowNull: false
+  },
+  power: {
+    type: Sequelize.INTEGER,
+    allowNull: false
+  },
+  unlockLevel: {
+    type: Sequelize.INTEGER,
+    allowNull: false
+  },
+});
 
 module.exports = Item;

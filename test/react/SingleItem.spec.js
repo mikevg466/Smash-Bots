@@ -2,7 +2,6 @@ import React from 'react';
 import chai, {expect} from 'chai';
 import spies from 'chai-spies';
 import {shallow} from 'enzyme';
-import {spy} from 'sinon';
 import SingleItem from '../../client/components/SingleItem';
 
 chai.use(spies);

@@ -3,59 +3,62 @@ import chai, {expect} from 'chai';
 import spies from 'chai-spies';
 import {shallow} from 'enzyme';
 import {spy} from 'sinon';
-import Character from '../../client/containers/Character';
+import { Character } from '../../client/containers/Character';
 
 chai.use(spies);
 const spyWeaponChange = chai.spy(() => {});
 const spyArmorChange = chai.spy(() => {});
 const spyHandleSubmit = chai.spy(() => {});
 
-const weaponList = [
+const itemList = [
   {
     id: 1,
     name: 'Sword',
     graphic: 'http://www.darksword-armory.com/medieval-weapon/medieval-swords/the-warmonger/',
-    price: 100
+    price: 100,
+    type: 'weapon'
   },
   {
     id: 2,
     name: 'Axe',
     graphic: 'https://openclipart.org/download/85753/Axe-001.svg',
-    price: 200
-  }
-];
-
-const armorList = [
+    price: 200,
+    type: 'weapon'
+  },
   {
     id: 3,
     name: 'Helmet',
     graphic: 'http://www.darksword-armory.com/medieval-weapon/medieval-swords/the-warmonger/',
-    price: 100
+    price: 100,
+    type: 'armor'
   },
   {
     id: 4,
     name: 'Shield',
     graphic: 'https://openclipart.org/download/85753/Axe-001.svg',
-    price: 200
+    price: 200,
+    type: 'armor'
   }
 ]
 
-const equippedWeapon = weaponList[0];
-const equippedArmor = armorList[1];
+const equippedWeapon = itemList[0];
+const equippedArmor = itemList[3];
 
+const testUser = {
+  equippedWeapon: equippedWeapon,
+  equippedArmor: equippedArmor,
+  purchasedItems: itemList,
+  handleWeaponChange: spyWeaponChange,
+  handleArmorChange: spyArmorChange,
+  handleSubmit: spyHandleSubmit
+}
 
 describe('Character container', () => {
-
+  let characterComponent;
   beforeEach('Create container', () => {
     characterComponent = shallow(
       <Character
-        weaponList={ weaponList }
-        armorList={ armorList }
-        equippedWeapon={ equippedWeapon }
-        equippedArmor={ equippedArmor }
-        handleWeaponChange={ spyWeaponChange }
-        handleArmorChange={ spyArmorChange }
-        handleSubmit={ spyHandleSubmit }
+        user={testUser}
       />
     );
   });
