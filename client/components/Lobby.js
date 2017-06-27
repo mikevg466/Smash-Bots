@@ -57,7 +57,6 @@ export default class Lobby extends React.Component{
   }
 
   render(){
-    console.log("the state", this.state)
     return (
       <div>
       {this.state.isGamePlaying ?
