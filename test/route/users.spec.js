@@ -177,10 +177,8 @@ describe('User routes', () => {
         .send(testItems[0])
         .expect(201)
         .then(res => {
-          console.log("=======>", res.body)
           // result is user object with items eager loaded:
           expect(res.body.weapon).to.be.an('object');
-          // expect(res.body.weapon).to.deep.equal(testItems[0]);
           expect(res.body.weapon.name).to.equal('Thor\'s Hammer');
           expect(res.body.weapon.type).to.equal('weapon');
         });
@@ -197,7 +195,6 @@ describe('User routes', () => {
         .then(res => {
           // result is user object with items eager loaded:
           expect(res.body.armor).to.be.an('object');
-          // expect(res.body.armor).to.equal(testItems[2]);
           expect(res.body.armor.name).to.equal('Steel armor');
           expect(res.body.armor.type).to.equal('armor');
         });
