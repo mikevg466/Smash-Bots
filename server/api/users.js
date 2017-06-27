@@ -44,7 +44,7 @@ router.post('/', (req, res, next) => {
 
 /****-----   Get Single User    -----*****/
 router.get('/:fullUserId', (req, res, next) => {
-  User.findById(req.params.fullUserId, { include: [{ all: true }] })
+  User.findById(req.params.fullUserId, { include: [{ model: Item }, { all: true }] })
     .then(user => res.status(200).json(user))
     .catch(next);
 })
@@ -74,23 +74,28 @@ router.get('/email/:userId', (req, res, next) => {
 router.post('/:userId/items', (req, res, next) => {
   Item.findById(req.body.id)
     .then(item => req.user.addItem(item))
-    .then(() => User.findById(req.user.id, { include: [{ all: true }] }))
+    .then(() => User.findById(req.user.id, { include: [{ model: Item }, { all: true }] }))
     .then(user => res.status(201).json(user))
     .catch(next);
 });
 
 router.post('/:userId/weapon', (req, res, next) => {
+  console.log('req body id', req.body);
   Item.findById(req.body.id)
-    .then(item => req.user.addWeapon(item))
-    .then(() => User.findById(req.user.id, { include: [{ all: true }] }))
+    .then(item => req.user.setWeapon(item))
+    // .then(item => console.log("=======>", item))
+    // .then(() => req.user.getWeapon())
+    // .then(() => User.findById(req.user.id))
+    .then(() => User.findById(req.user.id, { include: [{ model: Item }, { model: Item, as: 'weapon' }, { model: Item, as: 'armor' }] }))
+    // .then(user => console.log(user))
     .then(user => res.status(201).json(user))
     .catch(next);
 });
 
 router.post('/:userId/armor', (req, res, next) => {
   Item.findById(req.body.id)
-    .then(item => req.user.addArmor(item))
-    .then(() => User.findById(req.user.id, { include: [{ all: true }] }))
+    .then(item => req.user.setArmor(item))
+    .then(() => User.findById(req.user.id, { include: [{ model: Item }, { model: Item, as: 'weapon' }, { model: Item, as: 'armor' }] }))
     .then(user => res.status(201).json(user))
     .catch(next);
 });

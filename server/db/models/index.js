@@ -2,11 +2,12 @@ const db = require('../db');
 const User = require('./user');
 const Item = require('./item');
 
-User.hasOne(Item, { as: 'weapon' });
-User.belongsToMany(Item, { through: 'purchased_items' });
-Item.belongsToMany(User, { through: 'purchased_items' });
+User.belongsTo(Item, { as: 'weapon' });
+User.belongsTo(Item, { as: 'armor' });
 
-User.hasOne(Item, { as: 'armor' });
+User.belongsToMany(Item, { through: 'purchased_items' });
+
+
 
 
 module.exports = {

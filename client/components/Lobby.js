@@ -1,5 +1,6 @@
 import React from 'react';
 import PhaserGame from './PhaserGame';
+import {runGame} from '../game/phaser-example'
 
 // Component //
 
@@ -25,6 +26,7 @@ export default class Lobby extends React.Component{
     this.setState({
       isGamePlaying: true
     });
+    runGame();
   }
 
   addChatMessage(){
@@ -55,6 +57,7 @@ export default class Lobby extends React.Component{
   }
 
   render(){
+    console.log("the state", this.state)
     return (
       <div>
       {this.state.isGamePlaying ?
