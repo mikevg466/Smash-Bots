@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update });
 
 function preload() {
@@ -6,6 +7,16 @@ function preload() {
     game.load.image('atari', 'assets/sprites/block.png');
     game.load.image('background', 'assets/games/starstruck/background2.png');
     game.load.spritesheet('dude', 'assets/games/starstruck/dude.png', 32, 48);
+=======
+var game = new Phaser.Game(2000, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update });
+
+function preload() {
+
+    game.load.atlasJSONArray('smashbot', 'ourAssets/basic_movement_no_weapon.png', 'ourAssets/basic_movement_no_weapon.json');
+    game.load.image('atari', 'assets/sprites/block.png');
+    game.load.image('background', 'assets/games/starstruck/background2.png');
+    game.load.spritesheet('dude', 'ourAssets/basic_movement_no_weapon.png', 32, 48);
+>>>>>>> 2c6ed025275b3575f91fe896e2c279f6dfbc7216
 
 }
 
@@ -20,7 +31,11 @@ var yAxis = p2.vec2.fromValues(0, 1);
 
 function create() {
 
+<<<<<<< HEAD
     var bg = game.add.tileSprite(0, 0, 800, 600, 'background');
+=======
+    var bg = game.add.tileSprite(0, 0, 2000, 600, 'background');
+>>>>>>> 2c6ed025275b3575f91fe896e2c279f6dfbc7216
 
     //  Enable p2 physics
     game.physics.startSystem(Phaser.Physics.P2JS);
@@ -30,10 +45,17 @@ function create() {
     game.physics.p2.world.setGlobalStiffness(1e5);
 
     //  Add a sprite
+<<<<<<< HEAD
     player = game.add.sprite(200, 200, 'dude');
     player.animations.add('left', [0, 1, 2, 3], 10, true);
     player.animations.add('turn', [4], 20, true);
     player.animations.add('right', [5, 6, 7, 8], 10, true);
+=======
+    player = game.add.sprite(200, 200, 'smashbot');
+    player.animations.add('left', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27], 60, true);
+    player.animations.add('turn', [14], 20, true);
+    player.animations.add('right', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27], 60, true);
+>>>>>>> 2c6ed025275b3575f91fe896e2c279f6dfbc7216
 
     //  Enable if for physics. This creates a default rectangular body.
     game.physics.p2.enable(player);

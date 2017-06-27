@@ -7,7 +7,7 @@ const db = require('../../server/db');
 const User = require('../../server/db/models/user');
 const Item = require('../../server/db/models/item');
 
-const testUser = { 
+const testUser = {
   username: 'deathbots',
   email: 'deathbots@bots.com',
   password: 'bots',
@@ -16,7 +16,7 @@ const testUser = {
   exp: 5000
 };
 
-const testItemList = [{ 
+const testItemList = [{
     name: 'Sword',
     graphic: 'http://www.darksword-armory.com/medieval-weapon/medieval-swords/the-warmonger/',
     price: 100
@@ -55,8 +55,8 @@ describe('User Reducer', () => {
 
   describe('LOAD_USER', () => {
     it('sets the user to the input user', () => {
-      testStore.dispatch({ 
-        type: 'LOAD_USER', 
+      testStore.dispatch({
+        type: 'LOAD_USER',
         user: testUser,
       });
       const newState = testStore.getState().user;
@@ -74,8 +74,8 @@ describe('User Reducer', () => {
 //         equippedArmor: testItemList[1]
 //       })
 //       const newState = testStore.getState().user;
-//       expect(newState.equippedWeapon).to.equal(testItemList[0]);
-//       expect(newState.equippedArmor).to.equal(testItemList[1])
+//       expect(newState.equippedWeapon).to.deep.equal(testItemList[0]);
+//       expect(newState.equippedArmor).to.deep.equal(testItemList[1])
 //     })
 //   })// end describe('LOAD_EQUIPPED')
 
@@ -83,10 +83,10 @@ describe('User Reducer', () => {
     it('equips a weapon for a user', () => {
       testStore.dispatch({
         type: 'EQUIP_WEAPON',
-        equippedWeapon: testItemList[0]
+        weapon: testItemList[0]
       })
       const newState = testStore.getState().user;
-      expect(newState.equippedWeapon).to.equal(testItemList[0]);
+      expect(newState.equippedWeapon).to.deep.equal(testItemList[0]);
     })
   })// end describe('EQUIP_WEAPON')
 
@@ -94,10 +94,10 @@ describe('User Reducer', () => {
     it('equips a armor for a user', () => {
       testStore.dispatch({
         type: 'EQUIP_ARMOR',
-        equippedArmor: testItemList[1]
+        armor: testItemList[1]
       })
       const newState = testStore.getState().user;
-      expect(newState.equippedArmor).to.equal(testItemList[1]);
+      expect(newState.equippedArmor).to.deep.equal(testItemList[1]);
     })
   })// end describe('EQUIP_ARMOR')
 
@@ -114,6 +114,9 @@ describe('User Reducer', () => {
 //     })
 //   })// end describe('LOAD_PURCHASED')
 
+// if we eager load items,
+// purchase item will associate User and Item IDs on join table and on the next load of character, the character object will include item in the items array.
+// user's gold will also need to decrease when purchasing item.
   describe('PURCHASE_ITEM', () => {
     it('adds an item to purchasedItem array', () => {
       testStore.dispatch({
