@@ -52,7 +52,7 @@ const User = db.define('user', {
     defaultValue: 1
   },
   experience: {
-    type: Sequelize.NUMBER,
+    type: Sequelize.INTEGER,
     defaultValue: 0
   }
 }, {

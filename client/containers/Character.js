@@ -2,8 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {equipWeapon, equipArmor} from '../redux/user';
 
-//TO DO: Make sure equipWeapon/equipArmor functions are named properly
-
 export class Character extends React.Component {
     constructor(props) {
         super(props);
@@ -14,25 +12,34 @@ export class Character extends React.Component {
         this.handleChange = this.handleChange.bind(this);
     }
 
+    componentWillMount() {
+      this.setState({
+        equippedWeapon: this.props.user.equippedWeapon,
+        equippedArmor: this.props.user.equippedArmor
+      });
+    }
+
     handleChange(event) {
         this.setState({[event.target.id]: event.target.value});
     }
 
     render() {
-        return (<form>
+        return (
+      <div> 
+        <form>
               <div>
                 <label>Choose Weapon:</label>
                 <div>
-                  <select id="equippedWeapon" value="this.state.equippedWeapon" onChange={this.handleChange}>
+                  <select id="equippedWeapon" value={this.state.equippedWeapon} onChange={this.handleChange}>
                     {this.props.user.purchasedItems &&
-                    this.props.user.purchasedItems.map((item) => {
-                      if (item.type === 'weapon') {
-                      return (<option
-                              key={item.id}
-                              value= {item.id}>
-                              {item.name}
-                              </option>);
-                      }}
+                    this.props.user.purchasedItems
+                      .filter(item => item.type === 'weapon')
+                      .map((item) => (
+                        <option
+                          key={item.id}
+                          value= {item}>
+                          {item.name}
+                        </option>)
                       )
                     }
                   </select>
@@ -41,13 +48,13 @@ export class Character extends React.Component {
               <div>
                 <label>Choose Armor:</label>
                 <div>
-                  <select id="equippedArmor" value="this.state.equippedArmor" onChange={this.handleChange}>
+                  <select id="equippedArmor" value={this.state.equippedArmor} onChange={this.handleChange}>
                     {this.props.user.purchasedItems &&
                     this.props.user.purchasedItems.map((item) => {
                       if (item.type === 'armor') {
                       return (<option
                                 key={item.id}
-                                value= {item.id}>
+                                value= {item}>
                               {item.name}
                             </option>);
                         }})
@@ -57,10 +64,10 @@ export class Character extends React.Component {
               </div>
                 <a 
                     onClick={(e) => this.props.handleSubmit(e, this.state.equippedWeapon, this.state.equippedArmor)}
-                    className="btn btn-success">Buy
+                    className="btn btn-success">Equip
                 </a>
-                <button type="submit" className="btn btn-success">Submit</button>
-                </form>)
+        </form>
+      </div>)
     }
   }
   
@@ -78,4 +85,4 @@ const mapDispatch = dispatch => ({
 });
 
 
-export default connect(mapState)(Character);
+export default connect(mapState, mapDispatch)(Character);

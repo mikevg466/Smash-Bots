@@ -1,5 +1,8 @@
 
-var game = new Phaser.Game(2000, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update });
+let game
+export function runGame() {
+ game = new Phaser.Game(2000, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update });
+}
 
 function preload() {
 
@@ -50,6 +53,7 @@ function create() {
     game.physics.p2.setWorldMaterial(worldMaterial, true, true, true, true);
 
     //  A stack of boxes - you'll stick to these
+    //TODO: set anchor after 59
     for (var i = 1; i < 4; i++)
     {
         var box = game.add.sprite(300, 645 - (95 * i), 'atari');

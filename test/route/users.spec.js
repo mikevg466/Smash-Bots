@@ -11,17 +11,29 @@ const testList = [
   {
     name: 'Thor\'s Hammer',
     graphic: 'http://test.com',
-    price: 500
+    price: 500,
+    type: 'weapon',
+    description: 'THOR SLAM',
+    power: 10,
+    unlockLevel: 20
   },
   {
     name: 'Sword',
     graphic: 'http://test2.com',
-    price: 20
+    price: 20,
+    type: 'weapon',
+    description: 'I am very sharp',
+    power: 4,
+    unlockLevel: 2
   },
   {
     name: 'Steel armor',
     graphic: 'http://test3.com',
-    price: 10000
+    price: 10000,
+    type: 'armor',
+    description: 'I am literally the man of steel',
+    power: 4,
+    unlockLevel: 3
   }
 ];
 
@@ -35,8 +47,6 @@ describe('User routes', () => {
         email: mikesEmail,
         password: 'test',
         username: 'coolname',
-        weapon: 123,
-        armor: 345,
         gold: 4,
         level: 8,
         experience: 15
@@ -95,11 +105,11 @@ describe('User routes', () => {
       return User.findOne({ where: { email: mikesEmail }})
         .then(user => {
         return request(app)
-        .post('/api/users/' + user.id)
+        .post(`/api/users/${user.id}/items`)
         .send(testItems[0])
         .expect(201)
         .then(res => {
-          expect(res.body.Items.some(item => item.name === 'Thor\'s Hammer')).to.equal(true);
+          expect(res.body.items.some(item => item.name === 'Thor\'s Hammer')).to.equal(true);
         });
       });
     });
@@ -157,19 +167,18 @@ describe('User routes', () => {
     // If purchased item association is considered a POST, weapon and armor hasOne association
     //   should be as well.  Also, purchased item sends whole item so sending whole as well
     //    for consistency
+
+    
     it('POST to update a weapon association through /api/users/:userId/weapon', () => {
       return User.findOne({where: {email: mikesEmail}})
       .then(user => {
         return request(app)
-        .put(`/api/users/${user.id}/weapon`)
-        .send({
-          weapon: testItems[0]
-        })
+        .post(`/api/users/${user.id}/weapon`)
+        .send(testItems[0])
         .expect(201)
         .then(res => {
           // result is user object with items eager loaded:
           expect(res.body.weapon).to.be.an('object');
-          expect(res.body.weapon).to.equal(testItems[0]);
           expect(res.body.weapon.name).to.equal('Thor\'s Hammer');
           expect(res.body.weapon.type).to.equal('weapon');
         });
@@ -180,15 +189,12 @@ describe('User routes', () => {
       return User.findOne({where: {email: mikesEmail}})
       .then(user => {
         return request(app)
-        .put(`/api/users/${user.id}/armor`)
-        .send({
-          armor: testItems[2]
-        })
+        .post(`/api/users/${user.id}/armor`)
+        .send(testItems[2])
         .expect(201)
         .then(res => {
           // result is user object with items eager loaded:
           expect(res.body.armor).to.be.an('object');
-          expect(res.body.armor).to.equal(testItems[2]);
           expect(res.body.armor.name).to.equal('Steel armor');
           expect(res.body.armor.type).to.equal('armor');
         });
