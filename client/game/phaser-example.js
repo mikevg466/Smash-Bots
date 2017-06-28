@@ -1,5 +1,5 @@
 
-var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, 'phaser-example', { preload: preload, create: create, update: update });
 
 function preload() {
 
@@ -28,6 +28,7 @@ function create() {
     // var bounds = new Phaser.Rectangle(100, 100, 400, 400);
     //  Enable p2 physics
     game.physics.startSystem(Phaser.Physics.P2JS);
+    // game.physics.startSystem(Phaser.Physics.ARCADE)
 
     game.physics.p2.gravity.y = 350;
     game.physics.p2.world.defaultContactMaterial.friction = 0.3;
@@ -39,6 +40,7 @@ function create() {
     player.animations.add('left', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27], 60, true);
     player.animations.add('turn', [14], 20, true);
     player.animations.add('right', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27], 60, true);
+    player.scale.setTo(0.75, 0.75);
 
     sayer = game.add.sprite(100, 100, 'smashbot');
     sayer.animations.add('left', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27], 60, true);
@@ -94,8 +96,13 @@ function create() {
 
     var text = game.add.text(20, 20, 'move with arrow, space to jump', { fill: '#ffffff' });
 
-    player.body.collideWorldBounds = true;
 
+    player.body.collideWorldBounds = false;
+    player.checkWorldBounds = true;
+    player.outOfBoundsKill = true;
+    player.events.onKilled.add(function(){
+        player.reset(200, 200);
+    });
     // game.physics.p2.checkCollision.bottom = false;
     // game.physics.p2.checkCollision.top    = false;
     cursors = game.input.keyboard.createCursorKeys();
