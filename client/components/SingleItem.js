@@ -7,19 +7,25 @@ const SingleItem = props => {
   const item = props.selectedItem;
   const user = props.user;
   const handleBuy = props.handleBuy;
-
   return (
     <div>
       <img src={graphic} />
       {
-        user.gold >= item.price ?
+        user.purchasedItems.some(curItem => curItem.id === item.id) ?
           <a
-            onClick={() => handleBuy(user, item)}
-            className="btn btn-success">{price}
-          </a> :
-          <a
-            className="btn disabled">{price}
+            className="btn btn-success disabled">{price}
           </a>
+            :
+          (user.gold >= item.price ?
+            <a
+              onClick={() => handleBuy(item)}
+              className="btn btn-success">{price}
+            </a>
+             :
+            <a
+              className="btn btn-warning disabled">{price}
+            </a>
+          )
       }
       <h3>{name}</h3>
     </div>

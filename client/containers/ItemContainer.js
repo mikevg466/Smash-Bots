@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import SingleItem from '../components/SingleItem';
 import { connect } from 'react-redux';
-import { logout } from '../redux/user';
-import {fetchItems, purchaseItem } from '../redux/item';
+import { logout, purchaseItem } from '../redux/user';
+import { fetchItems } from '../redux/item';
 
 export class ItemContainer extends React.Component{
   constructor(){

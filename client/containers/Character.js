@@ -10,6 +10,7 @@ export class Character extends React.Component {
             equippedArmor: {},
         }
         this.handleChange = this.handleChange.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
     }
 
     componentWillMount() {
@@ -20,27 +21,37 @@ export class Character extends React.Component {
     }
 
     handleChange(event) {
-        this.setState({[event.target.id]: event.target.value});
+      console.log(event.target.id);
+      this.setState({
+        [event.target.id]: this.props.user.purchasedItems
+          .find(item => Number(item.id) === Number(event.target.value))
+      });
+    }
+
+    onSubmit(){
+      this.props.handleSubmit(this.props.user, this.state.equippedWeapon, this.state.equippedArmor)
     }
 
     render() {
-        return (
-      <div> 
+      console.log('weapon', this.props.user.equippedWeapon);
+      return (
+      <div>
         <form>
               <div>
                 <label>Choose Weapon:</label>
                 <div>
-                  <select id="equippedWeapon" value={this.state.equippedWeapon} onChange={this.handleChange}>
+                  <input type="text" value={ this.state.equippedWeapon.name }/>
+                  <select id="equippedWeapon" defaultValue={this.state.equippedWeapon.id} onChange={this.handleChange}>
                     {this.props.user.purchasedItems &&
                     this.props.user.purchasedItems
                       .filter(item => item.type === 'weapon')
                       .map((item) => (
                         <option
                           key={item.id}
-                          value= {item}>
-                          {item.name}
-                        </option>)
-                      )
+                          value= {item.id}>
+                            {item.name}
+                        </option>
+                      ))
                     }
                   </select>
                 </div>
@@ -48,39 +59,41 @@ export class Character extends React.Component {
               <div>
                 <label>Choose Armor:</label>
                 <div>
-                  <select id="equippedArmor" value={this.state.equippedArmor} onChange={this.handleChange}>
+                  <select id="equippedArmor" value={this.state.equippedArmor.id} onChange={this.handleChange}>
                     {this.props.user.purchasedItems &&
-                    this.props.user.purchasedItems.map((item) => {
-                      if (item.type === 'armor') {
-                      return (<option
-                                key={item.id}
-                                value= {item}>
-                              {item.name}
-                            </option>);
-                        }})
-                      }
+                    this.props.user.purchasedItems
+                      .filter(item => item.type === 'armor')
+                      .map((item) => (
+                        <option
+                          key={item.id}
+                          value= {item.id}>
+                            {item.name}
+                        </option>
+                      ))
+                    }
                   </select>
                 </div>
               </div>
-                <a 
-                    onClick={(e) => this.props.handleSubmit(e, this.state.equippedWeapon, this.state.equippedArmor)}
-                    className="btn btn-success">Equip
+                <a
+                  onClick={this.onSubmit}
+                  className="btn btn-success">Equip
                 </a>
         </form>
       </div>)
     }
   }
-  
+
 const mapState = state => {
     return {
       user: state.user
     }
 };
 const mapDispatch = dispatch => ({
-   handleSubmit: (e, weapon, armor) => {
-       e.preventDefault();
-       dispatch(equipWeapon(weapon));
-       dispatch(equipArmor(armor));
+   handleSubmit: (user, weapon, armor) => {
+    console.log('weapon', weapon);
+    console.log('armor', armor);
+    weapon.id && dispatch(equipWeapon(user, weapon));
+    armor.id && dispatch(equipArmor(user, armor));
    }
 });
 

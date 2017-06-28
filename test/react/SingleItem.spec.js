@@ -11,12 +11,21 @@ describe('Item component', () => {
 
   let singleItem;
   const selectedItem = {
+    id: 1,
     name: 'Sword',
     graphic: 'http://store.hbo.com/imgcache/product/resized/000/499/553/catl/game-of-thrones-longclaw-letter-opener_1000.jpg?k=2f027467&pid=499553&s=catl&sn=hbo',
     price: 100
   };
   const user = {
-    gold: 500
+    gold: 500,
+    purchasedItems: [
+      {
+        id: 2,
+        name: 'Axe',
+        graphic: 'http://store.hbo.com/imgcache/product/resized/000/499/553/catl/game-of-thrones-longclaw-letter-opener_1000.jpg?k=2f027467&pid=499553&s=catl&sn=hbo',
+        price: 100
+      }
+    ]
   };
 
   beforeEach('Create component', () => {

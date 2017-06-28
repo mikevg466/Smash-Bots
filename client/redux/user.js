@@ -13,6 +13,7 @@ const removeUser = () => ({ type: REMOVE_USER });
 
 // ------- INIT STATE --------
 const defaultUser = {
+  id: 0,
   username: '',
   email: '',
   password: '',
@@ -30,12 +31,17 @@ export default function (state = defaultUser, action) {
   const newState = Object.assign({}, state );
   switch (action.type) {
     case GET_USER:
-      return action.user;
+      Object.keys(newState).forEach(key => {
+        if(key === 'purchasedItems') newState[key] = action.user.items || newState[key];
+        else newState[key] = action.user[key] || newState[key];
+      });
+      break;
     case REMOVE_USER:
       return defaultUser;
     default:
-      return newState;
+      break;
   }
+  return newState;
 }
 
 
@@ -75,8 +81,9 @@ export const fetchUser = user =>
 
 export const equipWeapon = (user, weapon) =>
   dispatch =>
-    axios.post(`/api/users/${user.id}/items`, weapon)
+    axios.post(`/api/users/${user.id}/weapon`, weapon)
       .then(res => {
+        console.log(res.data);
         dispatch(getUser(res.data));
       })
       .catch(console.error.bind(console));
@@ -90,9 +97,12 @@ export const equipArmor = (user, armor) =>
       .catch(console.error.bind(console));
 
 export const purchaseItem = (user, item) =>
-  dispatch =>
-    axios.post(`/api/users/${user.id}/items`, item)
-      .then(res => {
-        dispatch(getUser(res.data));
-      })
-      .catch(console.error.bind(console));
+  dispatch => {
+    if(user.gold >= item.price) {
+      return axios.post(`/api/users/${user.id}/items`, item)
+        .then(res => {
+          dispatch(getUser(res.data));
+        })
+        .catch(console.error.bind(console));
+    }
+  }
