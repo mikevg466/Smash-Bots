@@ -44,7 +44,7 @@ router.post('/', (req, res, next) => {
 
 /****-----   Get Single User    -----*****/
 router.get('/:fullUserId', (req, res, next) => {
-  User.findById(req.params.fullUserId, { include: [{ model: Item }, { include: [{ model: Item }, { model: Item, as: 'weapon' }, { model: Item, as: 'armor' }] })
+  User.findById(req.params.fullUserId, { include: [{ model: Item }, { model: Item, as: 'weapon' }, { model: Item, as: 'armor' }] })
     .then(user => res.status(200).json(user))
     .catch(next);
 })
@@ -73,21 +73,19 @@ router.get('/email/:userId', (req, res, next) => {
 /****-----   Item associations    -----*****/
 router.post('/:userId/items', (req, res, next) => {
   Item.findById(req.body.id)
-    .then(item => req.user.addItem(item))
-    .then(() => User.findById(req.user.id, { include: [{ model: Item }, { include: [{ model: Item }, { model: Item, as: 'weapon' }, { model: Item, as: 'armor' }] }))
+    .then(item => Promise.all([
+      req.user.update({ gold: req.user.gold - item.price }),
+      req.user.addItem(item)
+    ]))
+    .then(() => User.findById(req.user.id, { include: [{ model: Item }, { model: Item, as: 'weapon' }, { model: Item, as: 'armor' }] }))
     .then(user => res.status(201).json(user))
     .catch(next);
 });
 
 router.post('/:userId/weapon', (req, res, next) => {
-  console.log('req body id', req.body);
   Item.findById(req.body.id)
     .then(item => req.user.setWeapon(item))
-    // .then(item => console.log("=======>", item))
-    // .then(() => req.user.getWeapon())
-    // .then(() => User.findById(req.user.id))
     .then(() => User.findById(req.user.id, { include: [{ model: Item }, { model: Item, as: 'weapon' }, { model: Item, as: 'armor' }] }))
-    // .then(user => console.log(user))
     .then(user => res.status(201).json(user))
     .catch(next);
 });

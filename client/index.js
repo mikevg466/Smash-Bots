@@ -10,6 +10,7 @@ import { me } from './redux/user';
 import ItemContainer from './containers/ItemContainer';
 import Character from './containers/Character';
 import Room from './components/Room';
+import { fetchUser } from './redux/user';
 
 
 const whoAmI = store.dispatch(me());
@@ -18,9 +19,16 @@ const requireLogin = (nextRouterState, replace, next) =>
   whoAmI
     .then(() => {
       const { user } = store.getState();
-      if (!user.id) replace('/loginHome');
-      next();
+      if (!user.id){
+        replace('/loginHome');
+        next();
+      }
+      return user;
     })
+    .then((user) => {
+      return store.dispatch(fetchUser(user))
+    })
+    .then(() => next())
     .catch(err => console.log(err));
 
 

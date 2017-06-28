@@ -18,4 +18,14 @@ body {
     margin: 1em;
     display: inline-block;
   }
+
+  .cloudyImage {
+    -webkit-filter: blur(5px) grayscale(75%); /* Safari 6.0 - 9.0 */
+    filter: blur(2px) grayscale(75%);
+  }
+
+  .vcenter {
+    position: relative;
+    transform: translateY(100%);
+  }
 }
