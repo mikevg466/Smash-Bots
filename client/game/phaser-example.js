@@ -1,5 +1,5 @@
 
-var game = new Phaser.Game(2000, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update });
 
 function preload() {
 
@@ -12,23 +12,27 @@ function preload() {
 
 var sprite;
 
+var sayer
 var player;
 var facing = 'left';
 var jumpTimer = 0;
 var cursors;
 var jumpButton;
+var secondJumpButton;
 var yAxis = p2.vec2.fromValues(0, 1);
 
 function create() {
 
     var bg = game.add.tileSprite(0, 0, 2000, 600, 'background');
 
+    var bounds = new Phaser.Rectangle(100, 100, 400, 400);
     //  Enable p2 physics
     game.physics.startSystem(Phaser.Physics.P2JS);
 
     game.physics.p2.gravity.y = 350;
     game.physics.p2.world.defaultContactMaterial.friction = 0.3;
     game.physics.p2.world.setGlobalStiffness(1e5);
+    
 
     //  Add a sprite
     player = game.add.sprite(200, 200, 'smashbot');
@@ -36,13 +40,26 @@ function create() {
     player.animations.add('turn', [14], 20, true);
     player.animations.add('right', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27], 60, true);
 
+    sayer = game.add.sprite(100, 100, 'smashbot');
+    sayer.animations.add('left', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27], 60, true);
+    sayer.animations.add('turn', [14], 20, true);
+    sayer.animations.add('right', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27], 60, true);
+
     //  Enable if for physics. This creates a default rectangular body.
     game.physics.p2.enable(player);
+    game.physics.p2.enable(sayer);
 
     player.body.fixedRotation = true;
     player.body.damping = 0.5;
+    
+
+    sayer.body.fixedRotation = true;
+    sayer.body.damping = 0.5;
 
     var spriteMaterial = game.physics.p2.createMaterial('spriteMaterial', player.body);
+    var spriteMaterial2 = game.physics.p2.createMaterial('spriteMaterial', sayer.body);
+
+
     var worldMaterial = game.physics.p2.createMaterial('worldMaterial');
     var boxMaterial = game.physics.p2.createMaterial('worldMaterial');
 
@@ -62,7 +79,7 @@ function create() {
     //  Here is the contact material. It's a combination of 2 materials, so whenever shapes with
     //  those 2 materials collide it uses the following settings.
 
-    var groundPlayerCM = game.physics.p2.createContactMaterial(spriteMaterial, worldMaterial, { friction: 0.0 });
+    var groundPlayerCM = game.physics.p2.createContactMaterial(spriteMaterial, spriteMaterial2, worldMaterial, { friction: 0.0 });
     var groundBoxesCM = game.physics.p2.createContactMaterial(worldMaterial, boxMaterial, { friction: 0.6 });
 
     //  Here are some more options you can set:
@@ -77,8 +94,14 @@ function create() {
 
     var text = game.add.text(20, 20, 'move with arrow, space to jump', { fill: '#ffffff' });
 
+    player.body.collideWorldBounds = false;
+
+    // game.physics.p2.checkCollision.bottom = false;
+    // game.physics.p2.checkCollision.top    = false;
     cursors = game.input.keyboard.createCursorKeys();
     jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+
+    secondJumpButton = game.input.keyboard.addKey(Phaser.Keyboard.F);
 
 }
 
@@ -130,6 +153,12 @@ function update() {
         player.body.moveUp(300);
         jumpTimer = game.time.now + 750;
     }
+    
+    if (secondJumpButton.isDown && game.time.now > jumpTimer && checkIfCanJump2())
+    {
+        sayer.body.moveUp(300);
+        jumpTimer = game.time.now + 750;
+    }
 
 }
 
@@ -146,6 +175,34 @@ function checkIfCanJump() {
             var d = p2.vec2.dot(c.normalA, yAxis);
 
             if (c.bodyA === player.body.data)
+            {
+                d *= -1;
+            }
+
+            if (d > 0.5)
+            {
+                result = true;
+            }
+        }
+    }
+
+    return result;
+
+}
+
+function checkIfCanJump2() {
+
+    var result = false;
+
+    for (var i=0; i < game.physics.p2.world.narrowphase.contactEquations.length; i++)
+    {
+        var c = game.physics.p2.world.narrowphase.contactEquations[i];
+
+        if (c.bodyA === sayer.body.data || c.bodyB === sayer.body.data)
+        {
+            var d = p2.vec2.dot(c.normalA, yAxis);
+
+            if (c.bodyA === sayer.body.data)
             {
                 d *= -1;
             }
