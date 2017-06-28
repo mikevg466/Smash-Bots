@@ -7,6 +7,7 @@ const passport = require('passport');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const db = require('./db');
 const store = new SequelizeStore({ db });
+const serverReduxStore = require('./store');   // ****
 const PORT = process.env.PORT || 2407;
 const app = express();
 const socketio = require('socket.io');
@@ -104,12 +105,16 @@ const makeSocketServer = () => {
     client.on('disconnect', () => {
       server.sockets.emit('update', findRoomsOnServer());
       broadcastDebugMsg(client.id + ' has disconnected from the server');
+      // * maybe use socket.leave? *
     });
 
     // using join for both join and host
     //   use default roomId so that if they are not joining an existing room
     //    they are creating a new room
     client.on('join', (roomID = 'room-' + uuid.v4()) => {
+      // put new state to ReduxStore **
+      console.log(serverReduxStore)
+
       // join or create room
       client.join(roomID);
       server.sockets.emit('update', findRoomsOnServer());

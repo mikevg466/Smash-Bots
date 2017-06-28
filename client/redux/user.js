@@ -55,6 +55,7 @@ export const auth = (email, password, username, method) =>
   dispatch =>
     axios.post(`/auth/${method}`, { email, password, username })
       .then(res => {
+        console.log(res.data)
         dispatch(getUser(res.data));
         browserHistory.push('/');
       })
