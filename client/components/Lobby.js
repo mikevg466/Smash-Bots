@@ -1,6 +1,7 @@
 import React from 'react';
 import PhaserGame from './PhaserGame';
-import {runGame} from '../game/phaser-example'
+import { runGame } from '../game/phaser-example'
+import { recieveMessage } from '../redux/lobby';
 
 // Component //
 
@@ -9,8 +10,6 @@ export default class Lobby extends React.Component{
     super();
     this.state = {
       inputVal: '',
-      messages: [],
-      isGamePlaying: false
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -23,15 +22,22 @@ export default class Lobby extends React.Component{
   }
 
   startGame(){
-    this.setState({
-      isGamePlaying: true
-    });
+
+
+  }
+
+  initGame(){
+    this.props.client.on('initGame', state => {
+
+    })
     runGame();
   }
 
   addChatMessage(){
     this.props.client.on('addChatMessage', (msg, clientId) => {
-      const messageList = this.state.messages.slice(0);
+      this.props.onRecieveMessage({ msg, clientId });
+
+
       messageList.push({
         msg,
         clientId
@@ -57,9 +63,10 @@ export default class Lobby extends React.Component{
   }
 
   render(){
+    const isGamePlaying = this.props.isGamePlaying;
     return (
       <div>
-      {this.state.isGamePlaying ?
+      {isGamePlaying ?
         <PhaserGame /> :
         <div>
           {
@@ -83,3 +90,16 @@ export default class Lobby extends React.Component{
     )
   }
 }
+
+const mapState = ({ user, game, lobby }) => ({
+  weapon: user.weapon,
+  armor: user.armor,
+  isGamePlaying: game.isGamePlaying,
+  messages: lobby.messages
+});
+
+const mapDispatch = dispatch => ({
+  onRecieveMessage: () => dispatch(recieveMessage())
+})
+
+export const Login = connect(mapState, mapDispatch)(AuthForm);
