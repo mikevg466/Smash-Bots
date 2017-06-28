@@ -20,9 +20,9 @@ const defaultUser = {
   gold: 0,
   level: 0,
   exp: 0,
-  purchasedItems: [],
-  equippedWeapon: {},
-  equippedArmor: {}
+  items: [],
+  weapon: {},
+  armor: {}
 };
 
 
@@ -32,8 +32,7 @@ export default function (state = defaultUser, action) {
   switch (action.type) {
     case GET_USER:
       Object.keys(newState).forEach(key => {
-        if(key === 'purchasedItems') newState[key] = action.user.items || newState[key];
-        else newState[key] = action.user[key] || newState[key];
+        newState[key] = action.user[key] || newState[key];
       });
       break;
     case REMOVE_USER:

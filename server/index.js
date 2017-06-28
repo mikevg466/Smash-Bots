@@ -27,6 +27,7 @@ passport.deserializeUser((id, done) =>
 const createApp = () => app
   .use(morgan('dev'))
   .use(express.static(path.join(__dirname, '..', 'public')))
+  .use('/bootstrap', express.static(path.join(__dirname, '..', 'node_modules/bootstrap/dist')))
   .use('/phaser', express.static(path.join(__dirname, '..', 'node_modules/phaser-ce/build')))
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: true }))

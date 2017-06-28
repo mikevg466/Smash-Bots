@@ -6,8 +6,8 @@ export class Character extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            equippedWeapon: {},
-            equippedArmor: {},
+            weapon: {},
+            armor: {},
         }
         this.handleChange = this.handleChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
@@ -15,35 +15,32 @@ export class Character extends React.Component {
 
     componentWillMount() {
       this.setState({
-        equippedWeapon: this.props.user.equippedWeapon,
-        equippedArmor: this.props.user.equippedArmor
+        weapon: this.props.user.weapon,
+        armor: this.props.user.armor
       });
     }
 
     handleChange(event) {
-      console.log(event.target.id);
       this.setState({
-        [event.target.id]: this.props.user.purchasedItems
+        [event.target.id]: this.props.user.items
           .find(item => Number(item.id) === Number(event.target.value))
       });
     }
 
     onSubmit(){
-      this.props.handleSubmit(this.props.user, this.state.equippedWeapon, this.state.equippedArmor)
+      this.props.handleSubmit(this.props.user, this.state.weapon, this.state.armor)
     }
 
     render() {
-      console.log('weapon', this.props.user.equippedWeapon);
       return (
       <div>
         <form>
               <div>
                 <label>Choose Weapon:</label>
                 <div>
-                  <input type="text" value={ this.state.equippedWeapon.name }/>
-                  <select id="equippedWeapon" defaultValue={this.state.equippedWeapon.id} onChange={this.handleChange}>
-                    {this.props.user.purchasedItems &&
-                    this.props.user.purchasedItems
+                  <select id="weapon" defaultValue={this.state.weapon.id} onChange={this.handleChange}>
+                    {this.props.user.items &&
+                    this.props.user.items
                       .filter(item => item.type === 'weapon')
                       .map((item) => (
                         <option
@@ -59,9 +56,9 @@ export class Character extends React.Component {
               <div>
                 <label>Choose Armor:</label>
                 <div>
-                  <select id="equippedArmor" value={this.state.equippedArmor.id} onChange={this.handleChange}>
-                    {this.props.user.purchasedItems &&
-                    this.props.user.purchasedItems
+                  <select id="armor" value={this.state.armor.id} onChange={this.handleChange}>
+                    {this.props.user.items &&
+                    this.props.user.items
                       .filter(item => item.type === 'armor')
                       .map((item) => (
                         <option
@@ -90,8 +87,6 @@ const mapState = state => {
 };
 const mapDispatch = dispatch => ({
    handleSubmit: (user, weapon, armor) => {
-    console.log('weapon', weapon);
-    console.log('armor', armor);
     weapon.id && dispatch(equipWeapon(user, weapon));
     armor.id && dispatch(equipArmor(user, armor));
    }
