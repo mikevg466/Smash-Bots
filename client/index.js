@@ -26,7 +26,6 @@ const requireLogin = (nextRouterState, replace, next) =>
       return user;
     })
     .then((user) => {
-      console.log('user', user);
       return store.dispatch(fetchUser(user))
     })
     .then(() => next())
