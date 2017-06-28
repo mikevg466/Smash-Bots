@@ -13,10 +13,10 @@ const User = db.define('user', {
   name: {
     type: Sequelize.STRING(32)
   },
-  // username: {
-  //   type: Sequelize.STRING,
-  //   allowNull: false
-  // },
+  username: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
   type: {
     type: Sequelize.ENUM('ADMIN','BASIC'),
     defaultValue: 'BASIC'

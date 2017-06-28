@@ -44,17 +44,7 @@ router.post('/', (req, res, next) => {
 
 /****-----   Get Single User    -----*****/
 router.get('/:fullUserId', (req, res, next) => {
-<<<<<<< Updated upstream
   User.findById(req.params.fullUserId, { include: [{ model: Item }, { model: Item, as: 'weapon' }, { model: Item, as: 'armor' }] })
-=======
-  User.findById(req.params.fullUserId, 
-    { include: 
-      [
-        { model: Item }, 
-        { include: [{ model: Item }, { model: Item, as: 'weapon' }, { model: Item, as: 'armor' }]}
-      ]
-    })
->>>>>>> Stashed changes
     .then(user => res.status(200).json(user))
     .catch(next);
 })
@@ -83,22 +73,11 @@ router.get('/email/:userId', (req, res, next) => {
 /****-----   Item associations    -----*****/
 router.post('/:userId/items', (req, res, next) => {
   Item.findById(req.body.id)
-<<<<<<< Updated upstream
     .then(item => Promise.all([
       req.user.update({ gold: req.user.gold - item.price }),
       req.user.addItem(item)
     ]))
     .then(() => User.findById(req.user.id, { include: [{ model: Item }, { model: Item, as: 'weapon' }, { model: Item, as: 'armor' }] }))
-=======
-    .then(item => req.user.addItem(item))
-    .then(() => User.findById(req.user.id, 
-        { include: 
-          [
-            { model: Item }, 
-            { include: [{ model: Item }, { model: Item, as: 'weapon' }, { model: Item, as: 'armor' }] }
-          ]
-        }))
->>>>>>> Stashed changes
     .then(user => res.status(201).json(user))
     .catch(next);
 });

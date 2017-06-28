@@ -25,7 +25,9 @@ module.exports = function (state = initialState, action) {
   const newState = Object.assign({}, state );
   switch (action.type) {
     case ADD_USER:
-      newState.currentUsers = newState.currentUsers.slice(0).push(action.user)
+      const updatedCurrentUsers = newState.currentUsers.slice(0);
+      updatedCurrentUsers.push(action.user);
+      newState.currentUsers = updatedCurrentUsers
       break;
     case REMOVE_USER:
       newState.currentUsers = newState.currentUsers.slice(0).splice(newState.currentUsers.indexOf(action.user),1)

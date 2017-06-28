@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Lobby from './Lobby';
+import { connect } from 'react-redux'
+import store from '../store'
 const client = io();
 
 export default class Room extends React.Component {
@@ -30,9 +32,11 @@ initLobby(){
 
 componentDidMount(){
   this.updateClients();
+  //get the client weapon,armor set it to const
 }
 
   render() {
+    console.log(store.getState())
     return (
       <div>
         {!this.state.showLobby ? (
@@ -46,7 +50,7 @@ componentDidMount(){
                 <td>
                   <button
                     onClick={() => {
-                      client.emit('join', room)
+                      client.emit('join', room, this.props.weapon, this.props.armor)
                       this.initLobby()
                     }}
                     >
@@ -72,3 +76,10 @@ componentDidMount(){
     )
   }
 }
+
+const mapUserState = ({ user }) => ({
+  weapon: user.weapon,
+  armor: user.armor
+});
+
+export const userGameState = connect(mapUserState)(Room);
