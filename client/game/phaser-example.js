@@ -1,5 +1,5 @@
 
-var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update });
 
 function preload() {
 
@@ -25,7 +25,7 @@ function create() {
 
     var bg = game.add.tileSprite(0, 0, 2000, 600, 'background');
 
-    var bounds = new Phaser.Rectangle(100, 100, 400, 400);
+    // var bounds = new Phaser.Rectangle(100, 100, 400, 400);
     //  Enable p2 physics
     game.physics.startSystem(Phaser.Physics.P2JS);
 
@@ -35,7 +35,7 @@ function create() {
     
 
     //  Add a sprite
-    player = game.add.sprite(200, 200, 'smashbot');
+    player = game.add.sprite(500, 500, 'smashbot');
     player.animations.add('left', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27], 60, true);
     player.animations.add('turn', [14], 20, true);
     player.animations.add('right', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27], 60, true);
@@ -94,7 +94,7 @@ function create() {
 
     var text = game.add.text(20, 20, 'move with arrow, space to jump', { fill: '#ffffff' });
 
-    player.body.collideWorldBounds = false;
+    player.body.collideWorldBounds = true;
 
     // game.physics.p2.checkCollision.bottom = false;
     // game.physics.p2.checkCollision.top    = false;
@@ -109,7 +109,7 @@ function update() {
 
     if (cursors.left.isDown)
     {
-        player.body.moveLeft(200);
+        player.body.moveLeft(500);
 
         if (facing != 'left')
         {
@@ -119,7 +119,7 @@ function update() {
     }
     else if (cursors.right.isDown)
     {
-        player.body.moveRight(200);
+        player.body.moveRight(500);
 
         if (facing != 'right')
         {
