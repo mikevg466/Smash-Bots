@@ -18,7 +18,7 @@ describe('Item component', () => {
   };
   const user = {
     gold: 500,
-    purchasedItems: [
+    items: [
       {
         id: 2,
         name: 'Axe',

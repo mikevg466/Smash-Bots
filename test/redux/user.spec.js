@@ -35,15 +35,16 @@ describe('User Reducer', () => {
 
   it('has expected initial state', () => {
     expect(testStore.getState().user).to.be.deep.equal({
+      id: 0,
       username: '',
       email: '',
       password: '',
       gold: 0,
       level: 0,
       exp: 0,
-      purchasedItems: [],
-      equippedWeapon: {},
-      equippedArmor: {},
+      items: [],
+      weapon: {},
+      armor: {},
     });
   });
 
@@ -70,12 +71,12 @@ describe('User Reducer', () => {
 //     it('sets the equipped armor and weapon', () => {
 //       testStore.dispatch({
 //         type: 'LOAD_EQUIPPED',
-//         equippedWeapon: testItemList[0],
-//         equippedArmor: testItemList[1]
+//         weapon: testItemList[0],
+//         armor: testItemList[1]
 //       })
 //       const newState = testStore.getState().user;
-//       expect(newState.equippedWeapon).to.deep.equal(testItemList[0]);
-//       expect(newState.equippedArmor).to.deep.equal(testItemList[1])
+//       expect(newState.weapon).to.deep.equal(testItemList[0]);
+//       expect(newState.armor).to.deep.equal(testItemList[1])
 //     })
 //   })// end describe('LOAD_EQUIPPED')
 
@@ -86,7 +87,7 @@ describe('User Reducer', () => {
   //       weapon: testItemList[0]
   //     })
   //     const newState = testStore.getState().user;
-  //     expect(newState.equippedWeapon).to.deep.equal(testItemList[0]);
+  //     expect(newState.weapon).to.deep.equal(testItemList[0]);
   //   })
   // })// end describe('EQUIP_WEAPON')
 
@@ -97,7 +98,7 @@ describe('User Reducer', () => {
   //       armor: testItemList[1]
   //     })
   //     const newState = testStore.getState().user;
-  //     expect(newState.equippedArmor).to.deep.equal(testItemList[1]);
+  //     expect(newState.armor).to.deep.equal(testItemList[1]);
   //   })
   // })// end describe('EQUIP_ARMOR')
 
@@ -105,12 +106,12 @@ describe('User Reducer', () => {
 //     it('sets the purchsed armor and weapon', () => {
 //       testStore.dispatch({
 //         type: 'LOAD_PURCHASED',
-//         purchasedItems: [testItemList[0],testItemList[1]]
+//         items: [testItemList[0],testItemList[1]]
 //       })
 //       const newState = testStore.getState().user;
-//       expect(newState.purchasedItems).to.be.an('array')
-//       expect(newState.purchasedItems).to.be.a.lengthOf(2)
-//       expect(newState.purchasedItems).to.deep.equal(testItemList);
+//       expect(newState.items).to.be.an('array')
+//       expect(newState.items).to.be.a.lengthOf(2)
+//       expect(newState.items).to.deep.equal(testItemList);
 //     })
 //   })// end describe('LOAD_PURCHASED')
 
@@ -124,9 +125,9 @@ describe('User Reducer', () => {
   //       item: testItemList[0]
   //     })
   //     const newState = testStore.getState().user;
-  //     expect(newState.purchasedItems).to.be.an('array')
-  //     expect(newState.purchasedItems).to.be.a.lengthOf(1)
-  //     expect(newState.purchasedItems[0]).to.deep.equal(testItemList[0])
+  //     expect(newState.items).to.be.an('array')
+  //     expect(newState.items).to.be.a.lengthOf(1)
+  //     expect(newState.items[0]).to.deep.equal(testItemList[0])
   //   })
   // }) // end describe('PURCHASE_ITEM')
 

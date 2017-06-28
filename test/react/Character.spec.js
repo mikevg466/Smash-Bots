@@ -41,13 +41,13 @@ const itemList = [
   }
 ]
 
-const equippedWeapon = itemList[0];
-const equippedArmor = itemList[3];
+const weapon = itemList[0];
+const armor = itemList[3];
 
 const testUser = {
-  equippedWeapon: equippedWeapon,
-  equippedArmor: equippedArmor,
-  purchasedItems: itemList,
+  weapon: weapon,
+  armor: armor,
+  items: itemList,
   handleWeaponChange: spyWeaponChange,
   handleArmorChange: spyArmorChange,
   handleSubmit: spyHandleSubmit
@@ -71,14 +71,13 @@ describe('Character container', () => {
   });
 
   it('Weapon select should have the weaponList items for options and each option should have a value of the item id', () => {
-    console.log("========>", characterComponent.find('option').at(1))
-    expect(characterComponent.find('option').at(0)).to.have.html('<option value="' + itemList[0] + '">Sword</option>')
-    expect(characterComponent.find('option').at(1)).to.have.html('<option value="' + itemList[1] + '">Axe</option>')
+    expect(characterComponent.find('option').at(0)).to.have.html('<option value="1">Sword</option>')
+    expect(characterComponent.find('option').at(1)).to.have.html('<option value="2">Axe</option>')
   });
 
   it('Armor select should have the armorList items for options and each option should have a value of the item id', () => {
-    expect(characterComponent.find('option').at(2)).to.have.html('<option value="' + itemList[2] + '">Helmet</option>')
-    expect(characterComponent.find('option').at(3)).to.have.html('<option value="' + itemList[3] + '">Shield</option>')
+    expect(characterComponent.find('option').at(2)).to.have.html('<option value="3">Helmet</option>')
+    expect(characterComponent.find('option').at(3)).to.have.html('<option value="4">Shield</option>')
   });
 
   // it('Select weapon should update state with handleChange', () => {
@@ -96,11 +95,11 @@ describe('Character container', () => {
   //   expect(spyHandleSubmit).to.have.been.called();
   // })
 
-  // it('Weapon select should have a defaultValue of the equippedWeapon', () => {
+  // it('Weapon select should have a defaultValue of the weapon', () => {
   //   expect(characterComponent.find('select').at(0).prop('defaultValue')).to.equal(1);
   // });
 
-  // it('Armor select should have a defaultValue of the equippedArmor', () => {
+  // it('Armor select should have a defaultValue of the armor', () => {
   //   expect(characterComponent.find('select').at(1).prop('defaultValue')).to.equal(4);
   // });
 
