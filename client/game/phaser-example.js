@@ -11,8 +11,7 @@ function preload() {
 }
 
 var sprite;
-
-var sayer
+var sayer;
 var player;
 var facing = 'left';
 var jumpTimer = 0;
@@ -34,9 +33,11 @@ function create() {
     game.physics.p2.world.defaultContactMaterial.friction = 0.3;
     game.physics.p2.world.setGlobalStiffness(1e5);
     
+    var playerCollisionGroup = game.physics.p2.createCollisionGroup();
+    game.physics.p2.updateBoundsCollisionGroup();
 
     //  Add a sprite
-    player = game.add.sprite(500, 500, 'smashbot');
+    player = game.add.sprite(200, 200, 'smashbot');
     player.animations.add('left', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27], 60, true);
     player.animations.add('turn', [14], 20, true);
     player.animations.add('right', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27], 60, true);
@@ -51,10 +52,23 @@ function create() {
     game.physics.p2.enable(player);
     game.physics.p2.enable(sayer);
 
+      //logic to ensure player death offstage
+    player.body.collideWorldBounds = false;
+    // game.physics.p2.checkCollision.down = false;
+    player.checkWorldBounds = true;
+    player.outOfBoundsKill = true;
+    player.events.onKilled.add(function(){
+        player.reset(200, 200);
+    }, this);
+    
+    player.body.setCollisionGroup(playerCollisionGroup);
+    sayer.body.setCollisionGroup(playerCollisionGroup);
+    player.body.collides([playerCollisionGroup]);
+    sayer.body.collides([playerCollisionGroup]);
+
     player.body.fixedRotation = true;
     player.body.damping = 0.5;
     
-
     sayer.body.fixedRotation = true;
     sayer.body.damping = 0.5;
 
@@ -97,14 +111,6 @@ function create() {
     var text = game.add.text(20, 20, 'move with arrow, space to jump', { fill: '#ffffff' });
 
 
-    player.body.collideWorldBounds = false;
-    player.checkWorldBounds = true;
-    player.outOfBoundsKill = true;
-    player.events.onKilled.add(function(){
-        player.reset(200, 200);
-    });
-    // game.physics.p2.checkCollision.bottom = false;
-    // game.physics.p2.checkCollision.top    = false;
     cursors = game.input.keyboard.createCursorKeys();
     jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
