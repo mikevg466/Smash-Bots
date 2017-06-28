@@ -53,7 +53,18 @@ socketServer.makeSocketServer = server => {
     // using join for both join and host
     //   use default roomId so that if they are not joining an existing room
     //    they are creating a new room
-    client.on('join', (roomID = 'room-' + uuid.v4()) => {
+    client.on('join', (roomID = 'room-' + uuid.v4(), userWeapon, userArmor) => {
+      // put new state to ReduxStore **
+      serverReduxStore.dispatch({
+        type: 'ADD_USER',
+        user: {
+              id: client.id,
+              userWeapon,
+              userArmor
+              }
+      })
+      console.log('========>',serverReduxStore.getState().users.currentUsers)
+
       // join or create room
       client.join(roomID);
       server.sockets.emit('update', findRoomsOnServer());

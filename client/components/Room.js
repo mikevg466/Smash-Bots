@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import store from '../store'
 const client = io();
 
-export default class Room extends React.Component {
+export class Room extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -36,7 +36,7 @@ componentDidMount(){
 }
 
   render() {
-    console.log(store.getState())
+    console.log('props',this.props)
     return (
       <div>
         {!this.state.showLobby ? (
@@ -82,4 +82,4 @@ const mapUserState = ({ user }) => ({
   armor: user.armor
 });
 
-export const userGameState = connect(mapUserState)(Room);
+export default connect(mapUserState)(Room);
