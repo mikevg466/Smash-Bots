@@ -7,9 +7,11 @@ function preload() {
     game.load.image('atari', 'assets/sprites/block.png');
     game.load.image('background', 'assets/games/starstruck/background2.png');
     game.load.spritesheet('dude', 'ourAssets/basic_movement_no_weapon.png', 32, 48);
+    game.load.image('bullet', 'assets/sprites/bullet.png');
 
 }
 
+var weapon;
 var sprite;
 var sayer;
 var player;
@@ -19,10 +21,12 @@ var cursors;
 var jumpButton;
 var secondJumpButton;
 var yAxis = p2.vec2.fromValues(0, 1);
+var fireButton
 
 function create() {
 
     var bg = game.add.tileSprite(0, 0, 2000, 600, 'background');
+
 
     // var bounds = new Phaser.Rectangle(100, 100, 400, 400);
     //  Enable p2 physics
@@ -42,6 +46,15 @@ function create() {
     player.animations.add('turn', [14], 20, true);
     player.animations.add('right', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27], 60, true);
     player.scale.setTo(0.75, 0.75);
+
+    // add bullets 
+    weapon = game.add.weapon(100, 'smashbot')
+    weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+    weapon.bulletAngleOffset = 0;
+    weapon.bulletSpeed = 2000;
+    weapon.fireRate = 60;
+    weapon.bulletAngleVariance = 20;
+    weapon.trackSprite(player, 0, 0, true);
 
     sayer = game.add.sprite(100, 100, 'smashbot');
     sayer.animations.add('left', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27], 60, true);
@@ -113,7 +126,7 @@ function create() {
 
     cursors = game.input.keyboard.createCursorKeys();
     jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-
+    fireButton = game.input.keyboard.addKey(Phaser.Keyboard.Q);
     secondJumpButton = game.input.keyboard.addKey(Phaser.Keyboard.F);
 
 }
@@ -165,6 +178,10 @@ function update() {
     {
         player.body.moveUp(300);
         jumpTimer = game.time.now + 750;
+    }
+
+    if (fireButton.isDown) {
+        weapon.fire();
     }
     
     if (secondJumpButton.isDown && game.time.now > jumpTimer && checkIfCanJump2())
