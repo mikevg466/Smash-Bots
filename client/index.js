@@ -8,7 +8,9 @@ import store from './store';
 import { Main, Login, Signup, UserHome, LoginHome  } from './components';
 import { me } from './redux/user';
 import ItemContainer from './containers/ItemContainer';
+import Character from './containers/Character';
 import Room from './components/Room';
+import { fetchUser } from './redux/user';
 
 
 const whoAmI = store.dispatch(me());
@@ -17,10 +19,17 @@ const requireLogin = (nextRouterState, replace, next) =>
   whoAmI
     .then(() => {
       const { user } = store.getState();
-      if (!user.id) replace('/loginHome');
-      next();
+      if (!user.id){
+        replace('/loginHome');
+        next();
+      }
+      return user;
     })
-    .catch(err => console.log(err));
+    .then((user) => {
+      return store.dispatch(fetchUser(user))
+    })
+    .then(() => next())
+    .catch(console.error.bind(console));
 
 
 ReactDOM.render(
@@ -31,6 +40,7 @@ ReactDOM.render(
           <Route onEnter={requireLogin}>
             <Route path="home" component={UserHome} />
             <Route path="itemStore" component={ItemContainer} />
+            <Route path="character" component={Character} />
             <Route path="lobby" component={ Room } />
           </Route>
           <Route path="loginHome" component={ LoginHome } />

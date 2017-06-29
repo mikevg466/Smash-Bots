@@ -34,10 +34,6 @@ describe('User model', () => {
       expect(testUser.email).to.be.a('string');
       expect(testUser.email).to.equal('mike@mikey.michael');
     });
-    it('should have a password field', () => {
-      expect(testUser.password).to.be.a('string');
-      expect(testUser.password).to.equal('password');
-    });
     it('should have a username field', () => {
       expect(testUser.username).to.be.a('string');
       expect(testUser.username).to.equal('coolname');
@@ -108,6 +104,7 @@ describe('User model', () => {
                 type: 'notNull Violation'
             });
         });
+    });
   });
 
   describe('instanceMethods', () => {
@@ -119,7 +116,9 @@ describe('User model', () => {
       beforeEach(() => {
         return User.create({
           email: 'cody@puppybook.com',
-          password: 'bones'
+          password: 'bones',
+          username: 'cody'
+
         })
           .then(user => {
             cody = user;

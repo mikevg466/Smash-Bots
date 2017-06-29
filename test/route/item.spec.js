@@ -9,17 +9,29 @@ const testItemList = [
   {
     name: 'Thor\'s Hammer',
     graphic: 'http://test.com',
-    price: 500
+    price: 500,
+    type: 'weapon',
+    description: 'THOR SLAM',
+    power: 10,
+    unlockLevel: 20
   },
   {
     name: 'Sword',
     graphic: 'http://test2.com',
-    price: 20
+    price: 20,
+    type: 'weapon',
+    description: 'I am very sharp',
+    power: 4,
+    unlockLevel: 2
   },
   {
     name: 'Axe',
     graphic: 'http://test3.com',
-    price: 10000
+    price: 10000,
+    type: 'weapon',
+    description: 'AND MY AXE',
+    power: 4,
+    unlockLevel: 2
   }
 ];
 

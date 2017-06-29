@@ -1,7 +1,10 @@
 import Slayer from './player'
 import InputManager from './InputManager'
 
-var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, 'phaser-example', { preload: preload, create: create, update: update });
+let game
+export function runGame() {
+ game = new Phaser.Game(2000, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update });
+}
 
 function preload() {
 
@@ -89,6 +92,7 @@ function create() {
     game.physics.p2.setWorldMaterial(worldMaterial, true, true, true, true);
 
     //  A stack of boxes - you'll stick to these
+    //TODO: set anchor after 59
     for (var i = 1; i < 4; i++)
     {
         var box = game.add.sprite(300, 645 - (95 * i), 'atari');
@@ -107,8 +111,7 @@ function create() {
     //  Here are some more options you can set:
 
     // contactMaterial.friction = 0.0;     // Friction to use in the contact of these two materials.
-    // contactMaterial.restitution = 0.0;  // Restitution (i.e. how bouncy it is!) to use in the contact of these two materials.
-    // contactMaterial.stiffness = 1e3;    // Stiffness of the resulting ContactEquation that this ContactMaterial generate.
+    // contactMaterial.restitution = 0.0;  // Restitution (i.e. how bouncy it is!) to use in the contactChecking tests626actMaterial generate.
     // contactMaterial.relaxation = 0;     // Relaxation of the resulting ContactEquation that this ContactMaterial generate.
     // contactMaterial.frictionStiffness = 1e7;    // Stiffness of the resulting FrictionEquation that this ContactMaterial generate.
     // contactMaterial.frictionRelaxation = 3;     // Relaxation of the resulting FrictionEquation that this ContactMaterial generate.
