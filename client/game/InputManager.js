@@ -26,8 +26,7 @@ var InputManager = { //game = this.game, option = {......}
     player: null,
 
     //METHODS
-    init: function(game, player){ 
-        console.log("who me", player)
+    init: function(game, player){
         this.context = game;
         this.player = player;
     },
