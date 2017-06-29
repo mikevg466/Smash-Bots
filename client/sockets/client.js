@@ -1,21 +1,30 @@
 export const client = io();
 
-// ------ LISTENERS -------
-export const onInitGame = callbackFunc =>
-  client.on('initGame', state => {
-    callbackFunc(state);
-  });
 
+// ------ LISTENERS -------
 export const onAddChatMessage = callbackFunc =>
   client.on('addChatMessage', (msg, clientId) => {
-    console.log('HERE');
-    console.log(msg);
     callbackFunc(msg, clientId);
   });
 
 export const onUpdate = callbackFunc =>
   client.on('update', curRooms => {
     callbackFunc(curRooms);
+  });
+
+export const onPlayerAssignment = callbackFunc =>
+  client.on('playerAssignment', (playerNumber) => {
+    callbackFunc(playerNumber);
+  });
+
+export const onInitGame = callbackFunc =>
+  client.on('initGame', () => {
+    callbackFunc();
+  });
+
+export const onInitPlayers = callbackFunc =>
+  client.on('initPlayers', (players) => {
+    callbackFunc
   });
 
 
@@ -26,3 +35,6 @@ export const emitChatMessage = message =>
 
 export const emitJoin = (room, weapon, armor) =>
   client.emit('join', room, weapon, armor);
+
+export const emitStartGame = () =>
+  client.emit('startGame');

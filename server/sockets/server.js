@@ -64,7 +64,6 @@ socketServer.makeSocketServer = server => {
               userArmor
               }
       })
-      console.log('========>',serverReduxStore.getState().users.currentUsers)
 
       // join or create room
       client.join(curRoomId);

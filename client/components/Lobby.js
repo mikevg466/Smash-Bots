@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PhaserGame from './PhaserGame';
-import { runGame } from '../game/phaser-example'
 import { recieveMessage } from '../redux/lobby';
-import { onInitGame, emitChatMessage, onAddChatMessage } from '../sockets/client';
+import { processInitPlayers, setPlayer, startGame } from '../redux/game';
+import { emitChatMessage, emitStartGame, onInitGame, onAddChatMessage, onInitPlayers, onPlayerAssignment } from '../sockets/client';
 
 // Component //
 
@@ -16,26 +16,22 @@ export class Lobby extends React.Component{
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.startGame = this.startGame.bind(this);
-    this.initGame = this.initGame.bind(this);
     this.processMessage = this.processMessage.bind(this);
   }
 
   componentDidMount(){
     onAddChatMessage(this.processMessage);
+    onInitPlayers(this.props.handleInitPlayers);
+    onPlayerAssignment(this.props.handlePlayerAssignment);
+    onInitGame(this.props.handleStartGame);
   }
 
   startGame(){
-
-  }
-
-  initGame(){
-    // TODO: add recieve Game state to redux and put as callback here
-    onInitGame();
-    runGame();
+    emitStartGame();
   }
 
   processMessage(msg, clientId){
-    this.props.onRecieveMessage({ msg, clientId });
+    this.props.handleMessage({ msg, clientId });
   }
 
   handleChange(e){
@@ -89,7 +85,10 @@ const mapState = ({ user, game, lobby }) => ({
 });
 
 const mapDispatch = dispatch => ({
-  onRecieveMessage: message => dispatch(recieveMessage(message))
+  handleMessage: message => dispatch(recieveMessage(message)),
+  handleInitPlayers: players => dispatch(processInitPlayers(players)),
+  handlePlayerAssignment: playerNumber => dispatch(setPlayer(playerNumber)),
+  handleStartGame: () => dispatch(startGame())
 })
 
 export default connect(mapState, mapDispatch)(Lobby);

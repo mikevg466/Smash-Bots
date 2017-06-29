@@ -29,7 +29,7 @@ const requireLogin = (nextRouterState, replace, next) =>
       return store.dispatch(fetchUser(user))
     })
     .then(() => next())
-    .catch(err => console.log(err));
+    .catch(console.error.bind(console));
 
 
 ReactDOM.render(
