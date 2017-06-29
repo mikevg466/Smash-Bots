@@ -38,6 +38,7 @@ socketServer.makeSocketServer = server => {
   }
 
 
+
   server.on('connection', client => {
     client.emit('update', findRoomsOnServer());
     broadcastDebugMsg(client.id + ' has joined the server');
@@ -46,6 +47,12 @@ socketServer.makeSocketServer = server => {
     //  as empty rooms do not appear.  Still need to look into if this leaves
     //   any leftover data when we create actual game state in rooms
     client.on('disconnect', () => {
+      serverReduxStore.dispatch({
+        type: 'REMOVE_PLAYER',
+        player: {
+          id: client.id
+        }
+      })
       server.sockets.emit('update', findRoomsOnServer());
       broadcastDebugMsg(client.id + ' has disconnected from the server');
     });
@@ -53,22 +60,89 @@ socketServer.makeSocketServer = server => {
     // using join for both join and host
     //   use default roomId so that if they are not joining an existing room
     //    they are creating a new room
-    client.on('join', (roomID = 'room-' + uuid.v4(), userWeapon, userArmor) => {
+    client.on('join', (roomID = 'room-' + uuid.v4(), playerWeapon, playerArmor) => {
       // put new state to ReduxStore **
       serverReduxStore.dispatch({
-        type: 'ADD_USER',
-        user: {
-              id: client.id,
-              userWeapon,
-              userArmor
-              }
+        type: 'ADD_PLAYER',
+        player: {
+          id: client.id,
+          playerWeapon,
+          playerArmor
+        }
       })
-      console.log('========>',serverReduxStore.getState().users.currentUsers)
+
+      //    delete this later:=======>  -----------------------------
+      var playerExample = {
+        number: [1,2,3,4],
+        xPos: [-100, 100, -300, 300],
+        yPos: 0,
+        health: 100,
+        weaponGraphic: ['spite1','sprite2', 'sprite3', 'sprite4'],
+        characterGraphic: ['spite1','sprite2', 'sprite3', 'sprite4']
+      }
+      const inGameDataPlayers = serverReduxStore.getState().game.players.map((player,index) => {
+        player.number = index+1
+        player.xPos = playerExample.xPos[index]
+        player.yPos = playerExample.yPos
+        player.health = playerExample.health
+        player.characterGraphic = playerExample.characterGraphic[index]
+        player.weaponGraphic = playerExample.weaponGraphic[index]
+        return player
+      })
+      console.log(inGameDataPlayers)
+      // ^^^^^ delete this later ^^^^   ----------------------------
 
       // join or create room
       client.join(roomID);
       server.sockets.emit('update', findRoomsOnServer());
     });
+
+
+      // -assign Player information to players
+      // -add updated player to store
+      // -emit updated players to clients
+      // const playersAmount = serverReduxStore.getState().users.players.length
+
+    client.on('startGame', () => {
+      var playerExample = {
+        health: 100,
+        weaponGraphic: ['spite1','sprite2', 'sprite3', 'sprite4'],
+        characterGraphic: ['spite1','sprite2', 'sprite3', 'sprite4']
+      }
+      const inGameDataPlayers = serverReduxStore.getState().game.players.map((player,index) => {
+        player.number = index+1
+        player.health = playerExample.health
+        player.characterGraphic = playerExample.characterGraphic[index]
+        player.weaponGraphic = playerExample.weaponGraphic[index]
+        return player
+      })
+      serverReduxStore.dispatch({
+        type: 'UPDATE_PLAYERS',
+        players: inGameDataPlayers
+      })
+      server.sockets.emit('initPlayers', inGameDataPlayers)
+
+      inGameDataPlayers.forEach(player => {
+        server.to(player.id).emit('playerAssignment', player.number)
+      })
+
+      server.sockets.emit('initGame')
+
+    })
+
+    client.on('clientStateChange', (clientState) => {
+      // update global state
+      serverReduxStore.dispatch({
+        type: 'UPDATE_PLAYER',
+        player: clientState
+      })
+
+    })
+
+    // server.sockets.emit('globalStateChange', () => {   //Throttle?
+    //   // send global state to everyone constantly
+    // })
+
 
     // chatMessage uses new findRoomForClient helper method that find's the room
     //   for the client that starts with "lobby-",  this removes the rooms that

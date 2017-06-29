@@ -1,37 +1,65 @@
 const axios = require('axios');
 
 //------- ACTIONS -------
-const ADD_USER = 'ADD_USER';          // when user connects to room
-const REMOVE_USER = 'REMOVE_USER';    // when user disconnects from room
-const LOAD_USERS = 'LOAD_USERS';      // initial load of all users
-const UPDATE_USER = 'UPDATE_USER';    // update a user during game
+const ADD_PLAYER = 'ADD_PLAYER';          // when PLAYER connects to room
+const REMOVE_PLAYER = 'REMOVE_PLAYER';    // when PLAYER disconnects from room
+const LOAD_PLAYERS = 'LOAD_PLAYERS';      // initial load of all PLAYERs
+const UPDATE_PLAYER = 'UPDATE_PLAYER';    // update a PLAYER during game
+const UPDATE_PLAYERS = 'UPDATE_PLAYERS';  
 
 // ------ ACTION CREATORS -------
 
-const addUser = user => ({ type: ADD_USER, user });
-const removeUser = () => ({ type: REMOVE_USER });
-const loadUsers = () => ({ type: LOAD_USERS });
-const updateUser = user => ({ type: UPDATE_USER});
+const addPlayer = player => ({ type: ADD_PLAYER, player });
+const removePlayer = (player) => ({ type: REMOVE_PLAYER, player });
+const loadPlayers = () => ({ type: LOAD_PLAYERS });
+const updatePlayer = player => ({ type: UPDATE_PLAYER, player});
+const updatePlayers = players => ({ type: UPDATE_PLAYERS, players});
 
 
 // ------- INIT STATE --------
 const initialState = {
-  currentUsers: []
+  isPlaying: false,
+  players: []
 }
 
 
 // ------- REDUCERS ------------
 module.exports = function (state = initialState, action) {
   const newState = Object.assign({}, state );
+  
+  function getPlayerIndex(arr=newState.players){
+    var playerIndex;
+    arr.forEach((player,index) => {
+      if(player.id === action.player.id){
+        playerIndex = index
+      }
+    })
+    return playerIndex
+  }
+
   switch (action.type) {
-    case ADD_USER:
-      const updatedCurrentUsers = newState.currentUsers.slice(0);
-      updatedCurrentUsers.push(action.user);
-      newState.currentUsers = updatedCurrentUsers
+
+    case ADD_PLAYER:
+      const playersArrCopy = newState.players.slice(0)
+      playersArrCopy.push(action.player);
+      newState.players = playersArrCopy
       break;
-    case REMOVE_USER:
-      newState.currentUsers = newState.currentUsers.slice(0).splice(newState.currentUsers.indexOf(action.user),1)
+
+    case REMOVE_PLAYER:
+      const playerRemovedArr = newState.players.slice(0).splice(getPlayerIndex(),1)
+      newState.players = playerRemovedArr
       break;
+
+    case UPDATE_PLAYER:
+      const playerUpdatedArr = newState.players.slice(0).splice(getPlayerIndex(),1, action.player)
+      newState.players = playerUpdatedArr
+      break;
+
+    case UPDATE_PLAYERS:
+      const newPlayersArr = action.players
+      newState.players = newPlayersArr;
+      break;
+
     default:
       return newState;
   }
