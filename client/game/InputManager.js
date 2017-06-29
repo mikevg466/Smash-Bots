@@ -11,7 +11,7 @@ var InputManager = { //game = this.game, option = {......}
             keys: ["RIGHT"],
             state: 0,
             },
-        atack:{
+        attack:{
             keys:["F"],
             state: 0,
             timeCount: 0,
