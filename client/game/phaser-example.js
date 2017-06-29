@@ -9,6 +9,7 @@ function preload() {
     game.load.spritesheet('dude', 'ourAssets/basic_movement_no_weapon.png', 32, 48);
     game.load.image('bullet', 'assets/sprites/bullet.png');
 
+
 }
 
 var weapon;
@@ -20,6 +21,7 @@ var jumpTimer = 0;
 var cursors;
 var jumpButton;
 var secondJumpButton;
+var LEFT
 var yAxis = p2.vec2.fromValues(0, 1);
 var fireButton
 
@@ -37,6 +39,7 @@ function create() {
     game.physics.p2.world.defaultContactMaterial.friction = 0.3;
     game.physics.p2.world.setGlobalStiffness(1e5);
     
+    
     var playerCollisionGroup = game.physics.p2.createCollisionGroup();
     game.physics.p2.updateBoundsCollisionGroup();
 
@@ -48,10 +51,10 @@ function create() {
     player.scale.setTo(0.75, 0.75);
 
     // add bullets 
-    weapon = game.add.weapon(100, 'smashbot')
+    weapon = game.add.weapon(2000, 'bullet')
     weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
     weapon.bulletAngleOffset = 0;
-    weapon.bulletSpeed = 2000;
+    weapon.bulletSpeed = 5000;
     weapon.fireRate = 60;
     weapon.bulletAngleVariance = 20;
     weapon.trackSprite(player, 0, 0, true);
@@ -64,9 +67,11 @@ function create() {
     //  Enable if for physics. This creates a default rectangular body.
     game.physics.p2.enable(player);
     game.physics.p2.enable(sayer);
+    
 
       //logic to ensure player death offstage
     player.body.collideWorldBounds = false;
+    // player.body.setBoundsToWorld() 
     // game.physics.p2.checkCollision.down = false;
     player.checkWorldBounds = true;
     player.outOfBoundsKill = true;
@@ -125,6 +130,7 @@ function create() {
 
 
     cursors = game.input.keyboard.createCursorKeys();
+    LEFT = game.input.keyboard.addKey(Phaser.Keyboard.LEFT)
     jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     fireButton = game.input.keyboard.addKey(Phaser.Keyboard.Q);
     secondJumpButton = game.input.keyboard.addKey(Phaser.Keyboard.F);
@@ -133,7 +139,7 @@ function create() {
 
 function update() {
 
-    if (cursors.left.isDown)
+    if (LEFT.isDown)
     {
         player.body.moveLeft(500);
 
