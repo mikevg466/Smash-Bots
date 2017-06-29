@@ -1,9 +1,9 @@
-var Player = function(game, spriteName){ //game = context
+var Player = function(game, spriteName, xcoord, ycoord){ //game = context
 
     // var pos = this.getRandomResetPosition();
 
     //Sprite
-    this.sprite = game.add.sprite(600, 600, spriteName);
+    this.sprite = game.add.sprite(xcoord, ycoord, spriteName);
     
     //Size and Physics
 
@@ -22,9 +22,15 @@ var Player = function(game, spriteName){ //game = context
     //World Collision + Death Logic
     this.sprite.body.collideWorldBounds = false;
     this.sprite.checkWorldBounds = true;
+    this.sprite.outOfBoundsKill = true;
     this.sprite.events.onKilled.add(function(){
-        this.sprite.reset(600, 600)
+        this.sprite.reset(xcoord, ycoord);
+        // this.sprite.gravity();
     }, this);
+    // game.physics.p2.gravity.y = 350;
+    // this.sprite.body.gravity.y= 500
+    
+    // var spriteMaterial = game.physics.p2.createMaterial('spriteMaterial', this.sprite.body);
 
     // this.weapon = new Weapon(game, 'smashbot', this);
     // this.attackTime = 2000;
@@ -36,17 +42,17 @@ var Player = function(game, spriteName){ //game = context
         left: false,
         right: true,
     }
-
-    this.init();
+    // this.sprite.body.fo.y = 300;
+    // this.gravity();
 }
 
-Player.prototype.init = function(){
-    this.gravity();
-}
+// Player.prototype.init = function(){
+//     this.gravity();
+// }
 
-Player.prototype.addChild = function(sprite){
-    this.sprite.addChild(sprite);
-}
+// Player.prototype.addChild = function(sprite){
+//     this.sprite.addChild(sprite);
+// }
 
 
 Player.prototype.setDirection = function(direction){ //left, right, up, down
@@ -109,16 +115,13 @@ Player.prototype.jump = function(){
 //     this.weapon.update();
 // }
 
-Player.prototype.onFloor = function(){
-    return this.sprite.body.onFloor();
-}
+// Player.prototype.onFloor = function(){
+//     return this.sprite.body.onFloor();
+// }
 
 Player.prototype.stop = function(){
     this.sprite.body.velocity.x = 0;
-}
-
-Player.prototype.gravity = function(){ //'default', 'slow' or num value
-    this.sprite.body.gravity.y = 350;
+    this.sprite.animations.stop();
 }
 
 Player.prototype.getPosition = function(){
@@ -142,3 +145,5 @@ Player.prototype.getPosition = function(){
 //     var num = Math.floor(Math.random() * resuPosition.length);
 //     return resuPosition[num];
 // }
+
+export default Player;

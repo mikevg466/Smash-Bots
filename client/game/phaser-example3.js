@@ -1,5 +1,3 @@
-import Slayer from './player'
-import InputManager from './InputManager'
 
 var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, 'phaser-example', { preload: preload, create: create, update: update });
 
@@ -25,41 +23,42 @@ var jumpButton;
 var secondJumpButton;
 var LEFT
 var yAxis = p2.vec2.fromValues(0, 1);
-var fireButton;
-var slayer;
-
+var fireButton
+var players = []
 
 function create() {
 
     var bg = game.add.tileSprite(0, 0, 2000, 600, 'background');
 
-    
 
     // var bounds = new Phaser.Rectangle(100, 100, 400, 400);
     //  Enable p2 physics
     game.physics.startSystem(Phaser.Physics.P2JS);
+    // game.physics.startSystem(Phaser.Physics.ARCADE)
 
     game.physics.p2.gravity.y = 350;
     game.physics.p2.world.defaultContactMaterial.friction = 0.3;
     game.physics.p2.world.setGlobalStiffness(1e5);
-
+    
+    
     var playerCollisionGroup = game.physics.p2.createCollisionGroup();
     game.physics.p2.updateBoundsCollisionGroup();
-    
-    // var playerCollisionGroup = game.physics.p2.createCollisionGroup();
-    game.physics.p2.updateBoundsCollisionGroup();
-    
-    slayer = new Slayer (game, 'smashbot', 0, 0);
-    console.log('create slayer', slayer)
-    InputManager.init(this, slayer);
- 
-    weapon = game.add.weapon(2000, 'smashbot')
+
+    //  Add a sprite
+    player = game.add.sprite(200, 200, 'smashbot');
+    player.animations.add('left', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27], 60, true);
+    player.animations.add('turn', [14], 20, true);
+    player.animations.add('right', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27], 60, true);
+    player.scale.setTo(0.75, 0.75);
+
+    // add bullets 
+    weapon = game.add.weapon(2000, 'bullet')
     weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
     weapon.bulletAngleOffset = 0;
-    weapon.bulletSpeed = 200;
+    weapon.bulletSpeed = 5000;
     weapon.fireRate = 60;
     weapon.bulletAngleVariance = 20;
-    weapon.trackSprite(slayer.sprite, 0, 0, true);
+    weapon.trackSprite(player, 0, 0, true);
 
     sayer = game.add.sprite(100, 100, 'smashbot');
     sayer.animations.add('left', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27], 60, true);
@@ -67,20 +66,35 @@ function create() {
     sayer.animations.add('right', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27], 60, true);
 
     //  Enable if for physics. This creates a default rectangular body.
+    game.physics.p2.enable(player);
     game.physics.p2.enable(sayer);
+    
+
+      //logic to ensure player death offstage
+    player.body.collideWorldBounds = false;
+    // player.body.setBoundsToWorld() 
+    // game.physics.p2.checkCollision.down = false;
+    player.checkWorldBounds = true;
+    player.outOfBoundsKill = true;
+    player.events.onKilled.add(function(){
+        player.reset(200, 200);
+
+    }, this);
+    
+    player.body.setCollisionGroup(playerCollisionGroup);
+    sayer.body.setCollisionGroup(playerCollisionGroup);
+    player.body.collides([playerCollisionGroup]);
+    sayer.body.collides([playerCollisionGroup]);
+
+    player.body.fixedRotation = true;
+    player.body.damping = 0.5;
     
     sayer.body.fixedRotation = true;
     sayer.body.damping = 0.5;
 
-    slayer.sprite.body.setCollisionGroup(playerCollisionGroup);
-    sayer.body.setCollisionGroup(playerCollisionGroup);
-    slayer.sprite.body.collides([playerCollisionGroup]);
-    sayer.body.collides([playerCollisionGroup]);
+    var spriteMaterial = game.physics.p2.createMaterial('spriteMaterial', player.body);
+    var spriteMaterial2 = game.physics.p2.createMaterial('spriteMaterial', sayer.body);
 
-
-
-    // var spriteMaterial = game.physics.p2.createMaterial('spriteMaterial', player.body);
-    // var spriteMaterial2 = game.physics.p2.createMaterial('spriteMaterial', sayer.body);
 
     var worldMaterial = game.physics.p2.createMaterial('worldMaterial');
     var boxMaterial = game.physics.p2.createMaterial('worldMaterial');
@@ -101,8 +115,8 @@ function create() {
     //  Here is the contact material. It's a combination of 2 materials, so whenever shapes with
     //  those 2 materials collide it uses the following settings.
 
-    // var groundPlayerCM = game.physics.p2.createContactMaterial(spriteMaterial, spriteMaterial2, worldMaterial, { friction: 0.0 });
-    // var groundBoxesCM = game.physics.p2.createContactMaterial(worldMaterial, boxMaterial, { friction: 0.6 });
+    var groundPlayerCM = game.physics.p2.createContactMaterial(spriteMaterial, spriteMaterial2, worldMaterial, { friction: 0.0 });
+    var groundBoxesCM = game.physics.p2.createContactMaterial(worldMaterial, boxMaterial, { friction: 0.6 });
 
     //  Here are some more options you can set:
 
@@ -117,29 +131,66 @@ function create() {
     var text = game.add.text(20, 20, 'move with arrow, space to jump', { fill: '#ffffff' });
 
 
-
+    cursors = game.input.keyboard.createCursorKeys();
+    LEFT = game.input.keyboard.addKey(Phaser.Keyboard.LEFT)
     jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     fireButton = game.input.keyboard.addKey(Phaser.Keyboard.Q);
     secondJumpButton = game.input.keyboard.addKey(Phaser.Keyboard.F);
-      
 
 }
 
 function update() {
 
-    InputManager.update();
-    if (fireButton.isDown) {
-        weapon.fire();
-    }
+    if (LEFT.isDown)
+    {
+        player.body.moveLeft(500);
 
+        if (facing != 'left')
+        {
+            player.animations.play('left');
+            facing = 'left';
+        }
+    }
+    else if (cursors.right.isDown)
+    {
+        player.body.moveRight(500);
+
+        if (facing != 'right')
+        {
+            player.animations.play('right');
+            facing = 'right';
+        }
+    }
+    else
+    {
+        player.body.velocity.x = 0;
+
+        if (facing != 'idle')
+        {
+            player.animations.stop();
+
+            if (facing == 'left')
+            {
+                player.frame = 0;
+            }
+            else
+            {
+                player.frame = 5;
+            }
+
+            facing = 'idle';
+        }
+    }
 
     if (jumpButton.isDown && game.time.now > jumpTimer && checkIfCanJump())
     {
-        slayer.sprite.body.moveUp(300);
+        player.body.moveUp(300);
         jumpTimer = game.time.now + 750;
     }
 
-   
+    if (fireButton.isDown) {
+        weapon.fire();
+    }
     
     if (secondJumpButton.isDown && game.time.now > jumpTimer && checkIfCanJump2())
     {
@@ -147,61 +198,60 @@ function update() {
         jumpTimer = game.time.now + 750;
     }
 
+}
 
+function checkIfCanJump() {
 
-    function checkIfCanJump() {
+    var result = false;
 
-        var result = false;
+    for (var i=0; i < game.physics.p2.world.narrowphase.contactEquations.length; i++)
+    {
+        var c = game.physics.p2.world.narrowphase.contactEquations[i];
 
-        for (var i=0; i < game.physics.p2.world.narrowphase.contactEquations.length; i++)
+        if (c.bodyA === player.body.data || c.bodyB === player.body.data)
         {
-            var c = game.physics.p2.world.narrowphase.contactEquations[i];
+            var d = p2.vec2.dot(c.normalA, yAxis);
 
-            if (c.bodyA === slayer.sprite.body.data || c.bodyB === slayer.sprite.body.data)
+            if (c.bodyA === player.body.data)
             {
-                var d = p2.vec2.dot(c.normalA, yAxis);
+                d *= -1;
+            }
 
-                if (c.bodyA === slayer.sprite.body.data)
-                {
-                    d *= -1;
-                }
-
-                if (d > 0.5)
-                {
-                    result = true;
-                }
+            if (d > 0.5)
+            {
+                result = true;
             }
         }
-
-        return result;
-
     }
 
-    function checkIfCanJump2() {
+    return result;
 
-        var result = false;
+}
 
-        for (var i=0; i < game.physics.p2.world.narrowphase.contactEquations.length; i++)
+function checkIfCanJump2() {
+
+    var result = false;
+
+    for (var i=0; i < game.physics.p2.world.narrowphase.contactEquations.length; i++)
+    {
+        var c = game.physics.p2.world.narrowphase.contactEquations[i];
+
+        if (c.bodyA === sayer.body.data || c.bodyB === sayer.body.data)
         {
-            var c = game.physics.p2.world.narrowphase.contactEquations[i];
+            var d = p2.vec2.dot(c.normalA, yAxis);
 
-            if (c.bodyA === sayer.body.data || c.bodyB === sayer.body.data)
+            if (c.bodyA === sayer.body.data)
             {
-                var d = p2.vec2.dot(c.normalA, yAxis);
+                d *= -1;
+            }
 
-                if (c.bodyA === sayer.body.data)
-                {
-                    d *= -1;
-                }
-
-                if (d > 0.5)
-                {
-                    result = true;
-                }
+            if (d > 0.5)
+            {
+                result = true;
             }
         }
-
-        return result;
     }
+
+    return result;
 
 }
