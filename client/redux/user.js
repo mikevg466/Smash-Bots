@@ -10,9 +10,8 @@ const REMOVE_USER = 'REMOVE_USER';
 const getUser = user => ({ type: GET_USER, user });
 const removeUser = () => ({ type: REMOVE_USER });
 
-
 // ------- INIT STATE --------
-const defaultUser = {
+const initState = {
   id: 0,
   username: '',
   email: '',
@@ -27,16 +26,20 @@ const defaultUser = {
 
 
 // ------- REDUCERS ------------
-export default function (state = defaultUser, action) {
+export default function (state = initState, action) {
   const newState = Object.assign({}, state );
   switch (action.type) {
+
     case GET_USER:
-      Object.keys(newState).forEach(key => {
-        newState[key] = action.user[key] || newState[key];
-      });
+      if(action.user)
+        Object.keys(newState).forEach(key => {
+          newState[key] = action.user[key] || newState[key];
+        });
       break;
+
     case REMOVE_USER:
-      return defaultUser;
+      return initState;
+
     default:
       break;
   }
@@ -48,7 +51,7 @@ export default function (state = defaultUser, action) {
 export const me = () =>
   dispatch =>
     axios.get('/auth/me')
-      .then(res => dispatch(getUser(res.data || defaultUser)))
+      .then(res => dispatch(getUser(res.data || initState)))
       .catch(console.error.bind(console));
 
 export const auth = (email, password, username, method) =>
@@ -82,7 +85,6 @@ export const equipWeapon = (user, weapon) =>
   dispatch =>
     axios.post(`/api/users/${user.id}/weapon`, weapon)
       .then(res => {
-        console.log(res.data);
         dispatch(getUser(res.data));
       })
       .catch(console.error.bind(console));
