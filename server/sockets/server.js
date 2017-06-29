@@ -60,7 +60,8 @@ socketServer.makeSocketServer = server => {
     // using join for both join and host
     //   use default roomId so that if they are not joining an existing room
     //    they are creating a new room
-    client.on('join', (roomID = 'room-' + uuid.v4(), playerWeapon, playerArmor) => {
+    client.on('join', (roomId, playerWeapon, playerArmor) => {
+      const curRoomId = roomId || 'room-' + uuid.v4();
       // put new state to ReduxStore **
       serverReduxStore.dispatch({
         type: 'ADD_PLAYER',
@@ -71,29 +72,8 @@ socketServer.makeSocketServer = server => {
         }
       })
 
-      //    delete this later:=======>  -----------------------------
-      var playerExample = {
-        number: [1,2,3,4],
-        xPos: [-100, 100, -300, 300],
-        yPos: 0,
-        health: 100,
-        weaponGraphic: ['spite1','sprite2', 'sprite3', 'sprite4'],
-        characterGraphic: ['spite1','sprite2', 'sprite3', 'sprite4']
-      }
-      const inGameDataPlayers = serverReduxStore.getState().game.players.map((player,index) => {
-        player.number = index+1
-        player.xPos = playerExample.xPos[index]
-        player.yPos = playerExample.yPos
-        player.health = playerExample.health
-        player.characterGraphic = playerExample.characterGraphic[index]
-        player.weaponGraphic = playerExample.weaponGraphic[index]
-        return player
-      })
-      console.log(inGameDataPlayers)
-      // ^^^^^ delete this later ^^^^   ----------------------------
-
       // join or create room
-      client.join(roomID);
+      client.join(curRoomId);
       server.sockets.emit('update', findRoomsOnServer());
     });
 

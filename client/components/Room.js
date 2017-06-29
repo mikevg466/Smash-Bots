@@ -1,42 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Lobby from './Lobby';
-import { connect } from 'react-redux'
-import store from '../store'
-const client = io();
+import { connect } from 'react-redux';
+import store from '../store';
+import { enterLobby, loadRooms } from '../redux/lobby';
+import { endGame } from '../redux/game';
+import { onUpdate, emitJoin } from '../sockets/client';
 
 export class Room extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      rooms: [],
       showLobby: false
     }
-    this.updateClients = this.updateClients.bind(this);
     this.initLobby = this.initLobby.bind(this);
   }
 
-updateClients(){
-  client.on('update', curRoom => {
-    this.setState({
-      rooms: curRoom
-    })
-  })
-}
-
 initLobby(){
+  this.props.onEnterLobby();
+  this.props.disableGame();
   this.setState({
     showLobby: true
-  })
+  });
 }
 
 componentDidMount(){
-  this.updateClients();
-  //get the client weapon,armor set it to const
+
+  onUpdate(this.props.onLoadRooms);
 }
 
   render() {
-    console.log('props',this.props)
     return (
       <div>
         {!this.state.showLobby ? (
@@ -50,7 +43,7 @@ componentDidMount(){
                 <td>
                   <button
                     onClick={() => {
-                      client.emit('join', room, this.props.weapon, this.props.armor)
+                      emitJoin(room, this.props.weapon, this.props.armor)
                       this.initLobby()
                     }}
                     >
@@ -64,22 +57,30 @@ componentDidMount(){
         </table>
         <button
           onClick={() => {
-            client.emit('join')
+            emitJoin(null, this.props.weapon, this.props.armor)
             this.initLobby()
           }}
           >
           Create Lobby
         </button>
         </div>
-      ) : <Lobby client={client} />}
+      ) : <Lobby />
+        }
       </div>
     )
   }
 }
 
-const mapUserState = ({ user }) => ({
+const mapUserState = ({ user, lobby }) => ({
   weapon: user.weapon,
-  armor: user.armor
+  armor: user.armor,
+  rooms: lobby.rooms
 });
 
-export default connect(mapUserState)(Room);
+const mapDispatch = dispatch => ({
+  onEnterLobby: () => dispatch(enterLobby()),
+  disableGame: () => dispatch(endGame()),
+  onLoadRooms: rooms => dispatch(loadRooms(rooms))
+})
+
+export default connect(mapUserState, mapDispatch)(Room);

@@ -1,45 +1,37 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PhaserGame from './PhaserGame';
-import {runGame} from '../game/phaser-example'
+import { recieveMessage } from '../redux/lobby';
+import { processInitPlayers, setPlayer, startGame } from '../redux/game';
+import { emitChatMessage, emitStartGame, onInitGame, onAddChatMessage, onInitPlayers, onPlayerAssignment } from '../sockets/client';
 
 // Component //
 
-export default class Lobby extends React.Component{
+export class Lobby extends React.Component{
   constructor(){
     super();
     this.state = {
       inputVal: '',
-      messages: [],
-      isGamePlaying: false
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.addChatMessage = this.addChatMessage.bind(this);
     this.startGame = this.startGame.bind(this);
+    this.processMessage = this.processMessage.bind(this);
   }
 
   componentDidMount(){
-    this.addChatMessage();
+    onAddChatMessage(this.processMessage);
+    onInitPlayers(this.props.handleInitPlayers);
+    onPlayerAssignment(this.props.handlePlayerAssignment);
+    onInitGame(this.props.handleStartGame);
   }
 
   startGame(){
-    this.setState({
-      isGamePlaying: true
-    });
-    runGame();
+    emitStartGame();
   }
 
-  addChatMessage(){
-    this.props.client.on('addChatMessage', (msg, clientId) => {
-      const messageList = this.state.messages.slice(0);
-      messageList.push({
-        msg,
-        clientId
-      });
-      this.setState({
-        messages: messageList
-      })
-    });
+  processMessage(msg, clientId){
+    this.props.handleMessage({ msg, clientId });
   }
 
   handleChange(e){
@@ -53,18 +45,19 @@ export default class Lobby extends React.Component{
     this.setState({
       inputVal: ''
     })
-    this.props.client.emit('chatMessage', this.state.inputVal);
+    emitChatMessage(this.state.inputVal);
   }
 
   render(){
+    const isGamePlaying = this.props.isGamePlaying;
     return (
       <div>
-      {this.state.isGamePlaying ?
+      {isGamePlaying ?
         <PhaserGame /> :
         <div>
           {
-            this.state.messages.map(message => (
-              <p key={message.msg}>
+            this.props.messages.map((message, idx) => (
+              <p key={idx}>
                 {message.clientId}:
                 <span>{message.msg}</span>
               </p>
@@ -83,3 +76,19 @@ export default class Lobby extends React.Component{
     )
   }
 }
+
+const mapState = ({ user, game, lobby }) => ({
+  weapon: user.weapon,
+  armor: user.armor,
+  isGamePlaying: game.isGamePlaying,
+  messages: lobby.messages
+});
+
+const mapDispatch = dispatch => ({
+  handleMessage: message => dispatch(recieveMessage(message)),
+  handleInitPlayers: players => dispatch(processInitPlayers(players)),
+  handlePlayerAssignment: playerNumber => dispatch(setPlayer(playerNumber)),
+  handleStartGame: () => dispatch(startGame())
+})
+
+export default connect(mapState, mapDispatch)(Lobby);
