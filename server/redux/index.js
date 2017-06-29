@@ -1,6 +1,6 @@
 const combineReducers = require('redux').combineReducers;
-const users = require('./users');
+const game = require('./game');
 
 module.exports = combineReducers({
-   users,
+   game,
   });
