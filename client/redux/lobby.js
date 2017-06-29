@@ -4,9 +4,9 @@ const LOAD_ROOMS = 'LOAD_ROOMS';
 const RECIEVE_MESSAGE = 'RECIEVE_MESSAGE';
 
 // ------ ACTION CREATORS -------
-const enterLobby = () => ({ type: ENTER_LOBBY });
-const loadRooms = rooms => ({ type: LOAD_ROOMS, rooms });
-const recieveMessage = message => ({ type: RECIEVE_MESSAGE, message });
+export const enterLobby = () => ({ type: ENTER_LOBBY });
+export const loadRooms = rooms => ({ type: LOAD_ROOMS, rooms });
+export const recieveMessage = message => ({ type: RECIEVE_MESSAGE, message });
 
 // ------- INIT STATE --------
 const initState = {

@@ -3,8 +3,8 @@ const START_GAME = 'START_GAME';
 const END_GAME = 'END_GAME';
 
 // ------ ACTION CREATORS -------
-const startGame = () => ({ type: START_GAME });
-const endGame = () => ({ type: END_GAME });
+export const startGame = () => ({ type: START_GAME });
+export const endGame = () => ({ type: END_GAME });
 
 // ------- INIT STATE --------
 const initState = {

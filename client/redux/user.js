@@ -31,9 +31,10 @@ export default function (state = initState, action) {
   switch (action.type) {
 
     case GET_USER:
-      Object.keys(newState).forEach(key => {
-        newState[key] = action.user[key] || newState[key];
-      });
+      if(action.user)
+        Object.keys(newState).forEach(key => {
+          newState[key] = action.user[key] || newState[key];
+        });
       break;
 
     case REMOVE_USER:

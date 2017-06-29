@@ -1,11 +1,13 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PhaserGame from './PhaserGame';
 import { runGame } from '../game/phaser-example'
 import { recieveMessage } from '../redux/lobby';
+import { onInitGame, emitChatMessage, onAddChatMessage } from '../sockets/client';
 
 // Component //
 
-export default class Lobby extends React.Component{
+export class Lobby extends React.Component{
   constructor(){
     super();
     this.state = {
@@ -13,39 +15,27 @@ export default class Lobby extends React.Component{
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.addChatMessage = this.addChatMessage.bind(this);
     this.startGame = this.startGame.bind(this);
+    this.initGame = this.initGame.bind(this);
+    this.processMessage = this.processMessage.bind(this);
   }
 
   componentDidMount(){
-    this.addChatMessage();
+    onAddChatMessage(this.processMessage);
   }
 
   startGame(){
 
-
   }
 
   initGame(){
-    this.props.client.on('initGame', state => {
-
-    })
+    // TODO: add recieve Game state to redux and put as callback here
+    onInitGame();
     runGame();
   }
 
-  addChatMessage(){
-    this.props.client.on('addChatMessage', (msg, clientId) => {
-      this.props.onRecieveMessage({ msg, clientId });
-
-
-      messageList.push({
-        msg,
-        clientId
-      });
-      this.setState({
-        messages: messageList
-      })
-    });
+  processMessage(msg, clientId){
+    this.props.onRecieveMessage({ msg, clientId });
   }
 
   handleChange(e){
@@ -59,7 +49,7 @@ export default class Lobby extends React.Component{
     this.setState({
       inputVal: ''
     })
-    this.props.client.emit('chatMessage', this.state.inputVal);
+    emitChatMessage(this.state.inputVal);
   }
 
   render(){
@@ -70,8 +60,8 @@ export default class Lobby extends React.Component{
         <PhaserGame /> :
         <div>
           {
-            this.state.messages.map(message => (
-              <p key={message.msg}>
+            this.props.messages.map((message, idx) => (
+              <p key={idx}>
                 {message.clientId}:
                 <span>{message.msg}</span>
               </p>
@@ -99,7 +89,7 @@ const mapState = ({ user, game, lobby }) => ({
 });
 
 const mapDispatch = dispatch => ({
-  onRecieveMessage: () => dispatch(recieveMessage())
+  onRecieveMessage: message => dispatch(recieveMessage(message))
 })
 
-export const Login = connect(mapState, mapDispatch)(AuthForm);
+export default connect(mapState, mapDispatch)(Lobby);
