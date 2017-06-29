@@ -26,16 +26,6 @@ const initialState = {
 // ------- REDUCERS ------------
 module.exports = function (state = initialState, action) {
   const newState = Object.assign({}, state );
-  
-  function getPlayerIndex(arr=newState.players){
-    var playerIndex;
-    arr.forEach((player,index) => {
-      if(player.id === action.player.id){
-        playerIndex = index
-      }
-    })
-    return playerIndex
-  }
 
   switch (action.type) {
 
@@ -46,12 +36,22 @@ module.exports = function (state = initialState, action) {
       break;
 
     case REMOVE_PLAYER:
-      const playerRemovedArr = newState.players.slice(0).splice(getPlayerIndex(),1)
+      const playerRemovedArr = newState.players
+        .slice(0)
+        .splice(
+          newState.players.findIndex(player => player.id === action.player.id),
+          1
+        )
       newState.players = playerRemovedArr
       break;
 
     case UPDATE_PLAYER:
-      const playerUpdatedArr = newState.players.slice(0).splice(getPlayerIndex(),1, action.player)
+      const playerUpdatedArr = newState.players
+        .slice(0)
+        .splice(
+          newState.players.findIndex(player => player.id === action.player.id),
+          1, action.player
+        )
       newState.players = playerUpdatedArr
       break;
 
@@ -68,60 +68,3 @@ module.exports = function (state = initialState, action) {
 
 
 // -------- DISPATCHERS -----------
-
-// const me = () =>
-//   dispatch =>
-//     axios.get('/auth/me')
-//       .then(res => dispatch(getUser(res.data || defaultUser)))
-//       .catch(console.error.bind(console));
-
-// export const auth = (email, password, username, method) =>
-//   dispatch =>
-//     axios.post(`/auth/${method}`, { email, password, username })
-//       .then(res => {
-//         dispatch(getUser(res.data));
-//         browserHistory.push('/');
-//       })
-//       .catch(error =>
-//         dispatch(getUser({ error })));
-
-// export const logout = () =>
-//   dispatch =>
-//     axios.post('/auth/logout')
-//       .then(res => {
-//         dispatch(removeUser());
-//         browserHistory.push('/login');
-//       })
-//       .catch(console.error.bind(console));
-
-// export const fetchUser = user =>
-//   dispatch =>
-//     axios.get(`/api/users/${user.id}`)
-//       .then(res => {
-//         dispatch(getUser(res.data));
-//       })
-//       .catch(console.error.bind(console));
-
-// export const equipWeapon = (user, weapon) =>
-//   dispatch =>
-//     axios.post(`/api/users/${user.id}/items`, weapon)
-//       .then(res => {
-//         dispatch(getUser(res.data));
-//       })
-//       .catch(console.error.bind(console));
-
-// export const equipArmor = (user, armor) =>
-//   dispatch =>
-//     axios.post(`/api/users/${user.id}/armor`, armor)
-//       .then(res => {
-//         dispatch(getUser(res.data));
-//       })
-//       .catch(console.error.bind(console));
-
-// export const purchaseItem = (user, item) =>
-//   dispatch =>
-//     axios.post(`/api/users/${user.id}/items`, item)
-//       .then(res => {
-//         dispatch(getUser(res.data));
-//       })
-//       .catch(console.error.bind(console));
