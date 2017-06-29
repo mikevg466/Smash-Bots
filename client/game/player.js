@@ -44,12 +44,25 @@ Player.prototype.init = function(){
     this.gravity();
 }
 
-// Player.prototype.update = function(){
-//     this.weapon.update();
-// }
-
 Player.prototype.addChild = function(sprite){
     this.sprite.addChild(sprite);
+}
+
+
+Player.prototype.setDirection = function(direction){ //left, right, up, down
+    switch(direction){
+        case 'left':
+            this.direction.left = true;
+            this.direction.right = false;
+            this.sprite.scale.x = -1;
+            break;
+
+        case 'right':
+            this.direction.right = true;
+            this.direction.left = false;
+            this.sprite.scale.x = 1;
+            break;
+    }
 }
 
 Player.prototype.move = function(direction){ //direction: left | right
@@ -75,14 +88,25 @@ Player.prototype.move = function(direction){ //direction: left | right
 }
 
 Player.prototype.jump = function(){
-    this.sprite.body.velocity.y = -320;
-    AudioManager.jump.play();
+    this.sprite.body.moveUp(300)
 }
+
+// Player.prototype.getDirection = function(){
+//     for(var key in this.direction){
+//         if(this.direction[key]){
+//             return key;
+//         }
+//     }
+//     return null;
+// }
 
 // Player.prototype.attack = function(){
 //     //animation
 //     this.weapon.attack(this.getDirection());
 //     AudioManager.sword.play();
+// }
+// Player.prototype.update = function(){
+//     this.weapon.update();
 // }
 
 Player.prototype.onFloor = function(){
@@ -98,53 +122,15 @@ Player.prototype.gravity = function(){ //'default', 'slow' or num value
 }
 
 Player.prototype.getPosition = function(){
-    return {x:this.sprite.x ,y:this.sprite.y}
+    return {x: this.sprite.x ,y: this.sprite.y}
 }
 
-Player.prototype.getDirection = function(){
-    for(var key in this.direction){
-        if(this.direction[key]){
-            return key;
-        }
-    }
-    return null;
-}
-
-Player.prototype.setDirection = function(direction){ //left, right, up, down
-    switch(direction){
-        case 'left':
-            this.direction.left = true;
-            this.direction.right = false;
-            this.sprite.scale.x = -1;
-            break;
-
-        case 'right':
-            this.direction.right = true;
-            this.direction.left = false;
-            this.sprite.scale.x = 1;
-            break;
-
-        case 'up':
-            this.direction.up = true;
-            this.direction.down = false;
-            break;
-
-        case 'down':
-            this.direction.down = true;
-            this.direction.up = false;
-            break;
-        case 'stop':
-            this.direction.down = false;
-            this.direction.up = false;
-    }
-}
-
-Player.prototype.kill = function(){
-    this.sprite.kill();
-    var pos = this.getRandomResetPosition();
-    this.sprite.reset(pos.x, pos.y);
-    AudioManager.death.play();
-}
+// Player.prototype.kill = function(){
+//     this.sprite.kill();
+//     var pos = this.getRandomResetPosition();
+//     this.sprite.reset(pos.x, pos.y);
+//     // AudioManager.death.play();
+// }
 
 // Player.prototype.getRandomResetPosition = function(){
 //     var resuPosition = [{x:30, y:30},
