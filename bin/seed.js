@@ -7,7 +7,8 @@ const data = {
   item: [
     {
     name: 'Thor\'s Hammer',
-    graphic: 'http://orig07.deviantart.net/a821/f/2013/251/c/7/thor_hammer_mjolnir__avengers_version__by_pannaus-d6lir5n.jpg',
+    graphic: 'ourAssets/weapons/hammer_thors.png',
+    image: 'http://orig07.deviantart.net/a821/f/2013/251/c/7/thor_hammer_mjolnir__avengers_version__by_pannaus-d6lir5n.jpg',
     price: 500,
     type: 'weapon',
     description: 'I shoot thunder at my foes',
@@ -17,7 +18,8 @@ const data = {
   },
   {
     name: 'Sword',
-    graphic: 'http://store.hbo.com/imgcache/product/resized/000/499/553/catl/game-of-thrones-longclaw-letter-opener_1000.jpg?k=2f027467&pid=499553&s=catl&sn=hbo',
+    graphic: 'ourAssets/weapons/hammer_thors.png',
+    image: 'http://store.hbo.com/imgcache/product/resized/000/499/553/catl/game-of-thrones-longclaw-letter-opener_1000.jpg?k=2f027467&pid=499553&s=catl&sn=hbo',
     price: 20,
     type: 'weapon',
     description: 'Very Sharp',
@@ -26,7 +28,8 @@ const data = {
   },
   {
     name: 'Axe',
-    graphic: 'https://openclipart.org/download/85753/Axe-001.svg',
+    graphic: 'ourAssets/weapons/hammer_thors.png',
+    image: 'https://openclipart.org/download/85753/Axe-001.svg',
     price: 10000,
     type: 'weapon',
     description: 'You have my hammer',

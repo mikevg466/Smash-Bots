@@ -14,7 +14,8 @@ describe('Items Reducer', () => {
 
   const testItemsList = [
     { name: 'Sword',
-      graphic: 'http://www.darksword-armory.com/medieval-weapon/medieval-swords/the-warmonger/',
+      graphic: 'ourAssets/weapons/hammer_thors.png',
+      image: 'http://www.darksword-armory.com/medieval-weapon/medieval-swords/the-warmonger/',
       price: 100,
       type: 'weapon',
       description: 'I am very sharp',
@@ -23,7 +24,8 @@ describe('Items Reducer', () => {
     },
     {
       name: 'Axe',
-      graphic: 'https://openclipart.org/download/85753/Axe-001.svg',
+      graphic: 'ourAssets/weapons/hammer_thors.png',
+      image: 'https://openclipart.org/download/85753/Axe-001.svg',
       price: 200,
       type: 'weapon',
       description: 'I am mighty',

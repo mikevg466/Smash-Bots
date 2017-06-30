@@ -18,12 +18,14 @@ const testUser = {
 
 const testItemList = [{
     name: 'Sword',
-    graphic: 'http://www.darksword-armory.com/medieval-weapon/medieval-swords/the-warmonger/',
+    graphic: 'ourAssets/weapons/hammer_thors.png',
+    image: 'http://www.darksword-armory.com/medieval-weapon/medieval-swords/the-warmonger/',
     price: 100,
   },
   {
     name: 'Helmet',
-    graphic: 'https://openclipart.org/download/85753/Axe-001.svg',
+    graphic: 'ourAssets/weapons/hammer_thors.png',
+    image: 'https://openclipart.org/download/85753/Axe-001.svg',
     price: 200
   }]
 
@@ -109,13 +111,7 @@ describe('User Reducer', () => {
 //         items: [testItemList[0],testItemList[1]]
 //       })
 //       const newState = testStore.getState().user;
-//       expect(newState.items).to.be.an('array')
-//       expect(newState.items).to.be.a.lengthOf(2)
-//       expect(newState.items).to.deep.equal(testItemList);
-//     })
-//   })// end describe('LOAD_PURCHASED')
-
-// if we eager load items,
+//       expect(newState.items).to.be.an('array')graphic
 // purchase item will associate User and Item IDs on join table and on the next load of character, the character object will include item in the items array.
 // user's gold will also need to decrease when purchasing item.
   // describe('PURCHASE_ITEM', () => {

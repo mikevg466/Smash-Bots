@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 
 const CloudyItem = props => {
 
-  const { graphic } = props.selectedItem;
+  const { image } = props.selectedItem;
 
   return (
     <div className="thumbnail text-center">
-      <img className="cloudyImage img-responsive" src={graphic} />
+      <img className="cloudyImage img-responsive" src={image} />
     </div>
   )
 }

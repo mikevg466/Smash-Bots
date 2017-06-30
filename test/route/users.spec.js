@@ -10,7 +10,8 @@ let mike, testItems;
 const testList = [
   {
     name: 'Thor\'s Hammer',
-    graphic: 'http://test.com',
+    graphic: 'ourAssets/weapons/hammer_thors.png',
+    image: 'http://test.com',
     price: 500,
     type: 'weapon',
     description: 'THOR SLAM',
@@ -19,7 +20,8 @@ const testList = [
   },
   {
     name: 'Sword',
-    graphic: 'http://test2.com',
+    graphic: 'ourAssets/weapons/hammer_thors.png',
+    image: 'http://test2.com',
     price: 20,
     type: 'weapon',
     description: 'I am very sharp',
@@ -28,7 +30,8 @@ const testList = [
   },
   {
     name: 'Steel armor',
-    graphic: 'http://test3.com',
+    graphic: 'ourAssets/weapons/hammer_thors.png',
+    image: 'http://test3.com',
     price: 10000,
     type: 'armor',
     description: 'I am literally the man of steel',
@@ -168,7 +171,7 @@ describe('User routes', () => {
     //   should be as well.  Also, purchased item sends whole item so sending whole as well
     //    for consistency
 
-    
+
     it('POST to update a weapon association through /api/users/:userId/weapon', () => {
       return User.findOne({where: {email: mikesEmail}})
       .then(user => {

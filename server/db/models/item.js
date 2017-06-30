@@ -6,6 +6,10 @@ const Item = db.define('item', {
     type: Sequelize.STRING(32),
     allowNull: false
   },
+  image: {
+    type: Sequelize.TEXT,
+    allowNull: false
+  },
   graphic: {
     type: Sequelize.TEXT,
     allowNull: false
