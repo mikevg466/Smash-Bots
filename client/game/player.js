@@ -12,10 +12,11 @@ var Player = function(game, spriteName, xcoord, ycoord){ //game = context
     // this.sprite.scale.setTo(0.75, 0.75)
     this.sprite.anchor.setTo(0.5, 0.5);
     game.physics.p2.enable(this.sprite, true);
+    this.sprite.body.clearShapes();
     this.sprite.body.loadPolygon('physicsData', 'smashbot000');
     this.sprite.body.fixedRotation = true;
     this.sprite.body.damping = 0.5;
-    
+    // this.sprite.body.loadPolygon('physicsData', 'hammer_thors_all');
     //Animations
     this.sprite.animations.add('left', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27], 60, true);
     this.sprite.animations.add('turn', [14], 20, true);
@@ -129,7 +130,7 @@ Player.prototype.stop = function(){
 }
 
 Player.prototype.getPosition = function(){
-    return {x: this.sprite.x ,y: this.sprite.y}
+    return {x: this.sprite.x , y: this.sprite.y}
 }
 
 // Player.prototype.kill = function(){
