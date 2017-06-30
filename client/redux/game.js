@@ -65,17 +65,6 @@ export default function (state = initState, action) {
       newState.remotePlayers = action.remotePlayers;
       break;
 
-    case SET_PLAYER:
-      // const updatedPlayers = newState.players.map(player => {
-      //   if(player.number === action.playerNumber) player.isPlayer = true;
-      //   return player;
-      // });
-      // newState.players = updatedPlayers;
-      const playersObjCopy = Object.assign({}, newState.players);
-      playersObjCopy[action.playerNumber].isPlayer = true
-      newState.players = playersObjCopy
-      break;
-
     case UPDATE_PLAYERS_STATE:
       const updatedPlayer = Object.assign({}, action.localPlayer);
       updatedPlayer.health = action.localPlayer.health;
