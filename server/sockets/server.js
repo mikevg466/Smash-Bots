@@ -104,8 +104,6 @@ socketServer.makeSocketServer = server => {
         players: clientsAsPlayers
       })
 
-      console.log('====================>>>>>',serverReduxStore.getState().game.players)
-
       for(let playerNumberKey in clientsAsPlayers){
         server.to(clientsAsPlayers[playerNumberKey].id).emit('playerAssignment', +playerNumberKey)
       }
