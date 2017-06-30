@@ -14,6 +14,7 @@ function preload() {
     game.load.image('background', 'assets/games/starstruck/background2.png');
     // game.load.spritesheet('dude', 'ourAssets/basic_movement_no_weapon.png', 32, 48);
     game.load.image('bullet', 'assets/sprites/bullet.png');
+    // ourAssets/weapons/hammer_thors.png
     game.load.image('weapon', store.getState().game.localPlayer.weaponGraphic)
     game.load.image('thorHammer', 'ourAssets/weapons/hammer_thors.png');
     game.load.physics('physicsData', 'ourAssets/smashbot/physics_data_smashbot.json');
