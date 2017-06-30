@@ -38,7 +38,9 @@ socketServer.makeSocketServer = server => {
   }
 
   server.on('connection', client => {
-    client.emit('update', findRoomsOnServer());
+    client.on('roomMounted', ()=>{
+      server.sockets.emit('update', findRoomsOnServer())
+    })
     broadcastDebugMsg(client.id + ' has joined the server');
 
     // disconnect updates room list for clients but does not need to leave
@@ -70,15 +72,11 @@ socketServer.makeSocketServer = server => {
           clientArmor
         }
       })
-      // =========================================== delete this later ================
-      console.log(serverReduxStore.getState().lobby.clients)
-      // =============================^^^^^^^^^^^^^^ delete this later ^^^^^^^^^^^^^^^^=====
 
       // join or create room
       client.join(curRoomId);
       server.sockets.emit('update', findRoomsOnServer());
     });
-
 
       // -assign Player information to players
       // -add updated player to store
@@ -86,25 +84,26 @@ socketServer.makeSocketServer = server => {
       // const playersAmount = serverReduxStore.getState().users.players.length
 
     client.on('startGame', () => {
-      var playerExample = {
-        health: 100,
-        weaponGraphic: ['spite1','sprite2', 'sprite3', 'sprite4'],
-        characterGraphic: ['spite1','sprite2', 'sprite3', 'sprite4']
-      }
-      
+      const weaponGraphic = ['spite1','sprite2', 'sprite3', 'sprite4']
+      const characterGraphic = ['spite1','sprite2', 'sprite3', 'sprite4']
       const clientsAsPlayers = {}
-      serverReduxStore.getState().lobby.clients.forEach((player,index) => {
-        player.number = index+1
-        player.health = playerExample.health
-        player.characterGraphic = playerExample.characterGraphic[index]
-        player.weaponGraphic = playerExample.weaponGraphic[index]
-        clientsAsPlayers[player.number] = player
+
+      serverReduxStore.getState().lobby.clients.forEach((client,index) => {
+        // first add player info's to clients
+        client.number = index+1
+        client.health = 100
+        client.characterGraphic = characterGraphic[index]
+        client.weaponGraphic = weaponGraphic[index]
+
+        clientsAsPlayers[client.number] = client
       })
       serverReduxStore.dispatch({
         type: 'ADD_PLAYERS',
         players: clientsAsPlayers
       })
       server.sockets.emit('initPlayers', clientsAsPlayers)
+
+      console.log('start game server state',serverReduxStore.getState())
 
       for(playerNumberKey in clientsAsPlayers){
         server.to(clientsAsPlayers[playerNumberKey].id).emit('playerAssignment', +playerNumberKey)
@@ -120,13 +119,11 @@ socketServer.makeSocketServer = server => {
         type: 'UPDATE_PLAYER',
         player: playerState
       })
-
     })
 
     // server.sockets.emit('globalStateChange', () => {   //Throttle?
     //   // send global state to everyone constantly
     // })
-
 
     // chatMessage uses new findRoomForClient helper method that find's the room
     //   for the client that starts with "lobby-",  this removes the rooms that

@@ -5,13 +5,14 @@ import { connect } from 'react-redux';
 import store from '../store';
 import { enterLobby, loadRooms } from '../redux/lobby';
 import { endGame } from '../redux/game';
-import { onUpdate, emitJoin } from '../sockets/client';
+import { onUpdate, emitJoin, emitRoomMounted } from '../sockets/client';
 
 export class Room extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      showLobby: false
+      showLobby: false,
+
     }
     this.initLobby = this.initLobby.bind(this);
   }
@@ -25,8 +26,8 @@ initLobby(){
 }
 
 componentDidMount(){
-
-  onUpdate(this.props.onLoadRooms);
+  onUpdate(this.props.onLoadRooms)
+  emitRoomMounted()
 }
 
   render() {
@@ -36,7 +37,7 @@ componentDidMount(){
         <div>
         <table>
           <tbody>
-            {this.state.rooms && this.state.rooms.map(room => (
+            {this.props.rooms && this.props.rooms.map(room => (
               <tr key={room}>
                 <td> {room} </td>
                 <td> {/*room.clients.length /10*/}</td>
