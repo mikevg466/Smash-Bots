@@ -83,7 +83,8 @@ function create() {
     game.physics.p2.updateBoundsCollisionGroup();
     
     slayer = new Slayer(game, 'smashbot', 400, 200);
-    console.log('create slayer', slayer)
+
+    //console.log('create slayer', slayer)
     InputManager.init(this, slayer);
  
     weapon = game.add.weapon(2000, 'bullet')
@@ -109,6 +110,7 @@ function create() {
     sayer.body.setCollisionGroup(playerCollisionGroup);
     slayer.sprite.body.collides([playerCollisionGroup]);
     sayer.body.collides([playerCollisionGroup]);
+
     // var spriteMaterial = game.physics.p2.createMaterial('spriteMaterial', player.body);
     // var spriteMaterial2 = game.physics.p2.createMaterial('spriteMaterial', sayer.body);
 

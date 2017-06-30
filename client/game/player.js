@@ -1,3 +1,4 @@
+
 import Weapon from './weapon'
 
 var Player = function(game, spriteName, xcoord, ycoord){ //game = context
@@ -117,6 +118,7 @@ Player.prototype.getDirection = function(){
 //     this.weapon.attack(this.getDirection());
 //     AudioManager.sword.play();
 // }
+
 Player.prototype.update = function(){
     this.weapon.update();
 }

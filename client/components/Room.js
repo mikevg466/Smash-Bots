@@ -5,13 +5,14 @@ import { connect } from 'react-redux';
 import store from '../store';
 import { enterLobby, loadRooms } from '../redux/lobby';
 import { endGame } from '../redux/game';
-import { onUpdate, emitJoin } from '../sockets/client';
+import { onUpdate, emitJoin, emitRoomMounted } from '../sockets/client';
 
 export class Room extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      showLobby: false
+      showLobby: false,
+
     }
     this.initLobby = this.initLobby.bind(this);
   }
@@ -24,8 +25,9 @@ initLobby(){
   });
 }
 
-componentWillMount(){
-  onUpdate(this.props.onLoadRooms);
+componentDidMount(){
+  onUpdate(this.props.onLoadRooms)
+  emitRoomMounted()
 }
 
   render() {

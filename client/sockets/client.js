@@ -36,5 +36,8 @@ export const emitChatMessage = message =>
 export const emitJoin = (room, weapon, armor) =>
   client.emit('join', room, weapon, armor);
 
+export const emitRoomMounted = () => 
+  client.emit('roomMounted')
+
 export const emitStartGame = () =>
   client.emit('startGame');
