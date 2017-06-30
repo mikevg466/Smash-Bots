@@ -38,7 +38,7 @@ socketServer.makeSocketServer = server => {
   }
 
   server.on('connection', client => {
-    client.emit('update', findRoomsOnServer());
+    server.sockets.emit('update', findRoomsOnServer());
     broadcastDebugMsg(client.id + ' has joined the server');
 
     // disconnect updates room list for clients but does not need to leave
@@ -91,7 +91,7 @@ socketServer.makeSocketServer = server => {
         weaponGraphic: ['spite1','sprite2', 'sprite3', 'sprite4'],
         characterGraphic: ['spite1','sprite2', 'sprite3', 'sprite4']
       }
-      
+
       const clientsAsPlayers = {}
       serverReduxStore.getState().lobby.clients.forEach((player,index) => {
         player.number = index+1
