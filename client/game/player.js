@@ -1,3 +1,5 @@
+import Weapon from './weapon'
+
 var Player = function(game, spriteName, xcoord, ycoord){ //game = context
 
     // var pos = this.getRandomResetPosition();
@@ -5,9 +7,13 @@ var Player = function(game, spriteName, xcoord, ycoord){ //game = context
     //Sprite
     this.sprite = game.add.sprite(xcoord, ycoord, spriteName);
     
+    //Weapon
+
+    this.weapon = new Weapon (game, 'smashbot', this, xcoord, ycoord)
+    console.log("====>", this)
     //Size and Physics
 
-    this.sprite.scale.setTo(0.75, 0.75)
+    // this.sprite.scale.setTo(0.75, 0.75)
     this.sprite.anchor.setTo(0.5, 0.5);
     game.physics.p2.enable(this.sprite);
     this.sprite.body.fixedRotation = true;
@@ -97,23 +103,23 @@ Player.prototype.jump = function(){
     this.sprite.body.moveUp(300)
 }
 
-// Player.prototype.getDirection = function(){
-//     for(var key in this.direction){
-//         if(this.direction[key]){
-//             return key;
-//         }
-//     }
-//     return null;
-// }
+Player.prototype.getDirection = function(){
+    for( var key in this.direction){
+        if (this.direction[key]){
+            return key;
+        }
+    }
+    return null;
+}
 
 // Player.prototype.attack = function(){
 //     //animation
 //     this.weapon.attack(this.getDirection());
 //     AudioManager.sword.play();
 // }
-// Player.prototype.update = function(){
-//     this.weapon.update();
-// }
+Player.prototype.update = function(){
+    this.weapon.update();
+}
 
 // Player.prototype.onFloor = function(){
 //     return this.sprite.body.onFloor();
