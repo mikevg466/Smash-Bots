@@ -84,9 +84,9 @@ function create() {
     // var playerCollisionGroup = game.physics.p2.createCollisionGroup();
     game.physics.p2.updateBoundsCollisionGroup();
     
-    slayer1 = new Slayer(game, 'smashbot', 400, 200);
-    var slayer2 = new Slayer(game, 'smashbot', 600, 200);
-    var slayer3 = new Slayer(game, 'smashbot', 800, 200);
+    // slayer1 = new Slayer(game, 'smashbot', 400, 200);
+    // var slayer2 = new Slayer(game, 'smashbot', 600, 200);
+    // var slayer3 = new Slayer(game, 'smashbot', 800, 200);
     slayer = new Slayer(game, 'smashbot', 1000, 200);
 
     //console.log('create slayer', slayer)
@@ -201,7 +201,7 @@ function update() {
 
     InputManager.update();
     slayer.update();
-    slayer1.update();
+    // slayer1.update();
     if (fireButton.isDown) {
         weapon.fire();
     }

@@ -6,19 +6,28 @@ var Weapon = function(game, spriteName, player, xcoord, ycoord){ //game = contex
     this.spritePos = {x: xcoord,
                     y: ycoord}
 
-    this.sprite = game.add.sprite(this.spritePos.x, this.spritePos.y, spriteName);
+    this.sprite = game.add.sprite(this.xcoord, this.ycoord, spriteName);
     // this.sprite.animations.add('attack',[2,4]);
     this.sprite.anchor.setTo(0.5, 1);
 
-    // game.physics.p2.enable(this.sprite);
+    game.physics.p2.enable(this.sprite, true);
+    // this.sprite.body.clearShapes();
+    // this.sprite.body.loadPolygon('physicsData', 'hammer_thors_all');
+
+
+
+    
 }
 
 Weapon.prototype.update = function(){
-
+    // console.log("====>", this.player.getPosition())
+    // console.log("PLAYER>", this.sprite.y)
 
     this.sprite.x = this.player.sprite.x;
     this.sprite.y = this.player.sprite.y + 7;
     this.refreshDirection(this.player.getDirection());
+    // this.move(this.player.get(position))
+    
 }
 
 // Weapon.prototype.attack = function(direction){
