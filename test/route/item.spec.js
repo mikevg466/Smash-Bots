@@ -8,7 +8,8 @@ const Item = require('../../server/db/models/item');
 const testItemList = [
   {
     name: 'Thor\'s Hammer',
-    graphic: 'http://test.com',
+    graphic: 'ourAssets/weapons/hammer_thors.png',
+    image: 'http://test.com',
     price: 500,
     type: 'weapon',
     description: 'THOR SLAM',
@@ -17,7 +18,8 @@ const testItemList = [
   },
   {
     name: 'Sword',
-    graphic: 'http://test2.com',
+    graphic: 'ourAssets/weapons/hammer_thors.png',
+    image: 'http://test2.com',
     price: 20,
     type: 'weapon',
     description: 'I am very sharp',
@@ -26,7 +28,8 @@ const testItemList = [
   },
   {
     name: 'Axe',
-    graphic: 'http://test3.com',
+    graphic: 'ourAssets/weapons/hammer_thors.png',
+    image: 'http://test3.com',
     price: 10000,
     type: 'weapon',
     description: 'AND MY AXE',

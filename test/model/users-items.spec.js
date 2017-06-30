@@ -15,7 +15,8 @@ describe('User model', () => {
     const testList = [
       {
         name: 'Thor\'s Hammer',
-        graphic: 'http://test.com',
+        graphic: 'ourAssets/weapons/hammer_thors.png',
+        image: 'http://test.com',
         price: 500,
         type: 'weapon',
         description: 'I shoot thunder at my foes',
@@ -24,7 +25,8 @@ describe('User model', () => {
       },
       {
         name: 'Sword',
-        graphic: 'http://test2.com',
+        graphic: 'ourAssets/weapons/hammer_thors.png',
+        image: 'http://test2.com',
         price: 20,
         type: 'weapon',
         description: 'I shoot thunder at my foes',
@@ -33,7 +35,8 @@ describe('User model', () => {
       },
       {
         name: 'Axe',
-        graphic: 'http://test3.com',
+        graphic: 'ourAssets/weapons/hammer_thors.png',
+        image: 'http://test3.com',
         price: 10000,
         type: 'weapon',
         description: 'I shoot thunder at my foes',
@@ -74,7 +77,7 @@ describe('User model', () => {
         expect(userItemsList[2].name).to.equal(testItems[2].name);
       });
     });
-    
+
     it('User can associate to item they have equipped as Weapon', () => {
       return mike.setWeapon(testItems[0])
         .then(() => User.findById(mike.id))
@@ -83,7 +86,7 @@ describe('User model', () => {
           expect(weapon.name).to.equal(testList[0].name);
         })
     });
-    
+
     it('User can associate to item they have equipped as Armor', () => {
       return mike.setArmor(testItems[1])
         .then(() => User.findById(mike.id))
@@ -92,6 +95,6 @@ describe('User model', () => {
           expect(armor.name).to.equal(testList[1].name);
         })
     });
-    
+
   }); // describe('Item Associations')
 }); // describe('User model')

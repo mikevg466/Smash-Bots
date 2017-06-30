@@ -19,7 +19,8 @@ describe('item model', () => {
     .then(() =>
       Item.create({
         name: 'Thor\'s Hammer',
-        graphic: 'http://orig07.deviantart.net/a821/f/2013/251/c/7/thor_hammer_mjolnir__avengers_version__by_pannaus-d6lir5n.jpg',
+        graphic: 'ourAssets/weapons/hammer_thors.png',
+        image: 'http://orig07.deviantart.net/a821/f/2013/251/c/7/thor_hammer_mjolnir__avengers_version__by_pannaus-d6lir5n.jpg',
         price:  500,
         type: 'weapon',
         description: 'A very good hammer.',
@@ -39,7 +40,11 @@ describe('item model', () => {
     });
     it('should have a graphic field', () => {
       expect(testItem.graphic).to.be.a('string');
-      expect(testItem.graphic).to.equal('http://orig07.deviantart.net/a821/f/2013/251/c/7/thor_hammer_mjolnir__avengers_version__by_pannaus-d6lir5n.jpg');
+      expect(testItem.graphic).to.equal('ourAssets/weapons/hammer_thors.png');
+    });
+    it('should have a image field', () => {
+      expect(testItem.image).to.be.a('string');
+      expect(testItem.image).to.equal('http://orig07.deviantart.net/a821/f/2013/251/c/7/thor_hammer_mjolnir__avengers_version__by_pannaus-d6lir5n.jpg');
     });
     it('should have a price field', () => {
       expect(testItem.price).to.be.a('number');
@@ -68,7 +73,8 @@ describe('item model', () => {
   describe('validations', () => {
     it('Requires a name field', () => {
       const item = Item.build({
-        graphic: 'https://openclipart.org/download/85753/Axe-001.svg',
+        graphic: 'ourAssets/weapons/hammer_thors.png',
+        image: 'https://openclipart.org/download/85753/Axe-001.svg',
         price:  200,
         type: 'weapon',
         description: 'A very good hammer.',
@@ -87,6 +93,7 @@ describe('item model', () => {
     it('Requires a graphic field', () => {
       const item = Item.build({
         name: 'Sword',
+        image: 'https://openclipart.org/download/85753/Axe-001.svg',
         price:  200,
         type: 'weapon',
         description: 'A very good hammer.',
@@ -102,10 +109,30 @@ describe('item model', () => {
             });
         });
     });
+    it('Requires a image field', () => {
+      const item = Item.build({
+        name: 'Sword',
+        graphic: 'ourAssets/weapons/hammer_thors.png',
+        price:  200,
+        type: 'weapon',
+        description: 'A very good hammer.',
+        power: 10,
+        unlockLevel: 5
+      });
+      return item.validate()
+        .then(err => {
+            expect(err).to.be.an('object');
+            expect(err.errors).to.contain.a.thing.with.properties({
+                path: 'image',
+                type: 'notNull Violation'
+            });
+        });
+    });
     it('Requires a price field', () => {
       const item = Item.build({
         name: 'Sword',
-        graphic: 'https://openclipart.org/download/85753/Axe-001.svg',
+        graphic: 'ourAssets/weapons/hammer_thors.png',
+        image: 'https://openclipart.org/download/85753/Axe-001.svg',
         type: 'weapon',
         description: 'A very good hammer.',
         power: 10,
@@ -123,7 +150,8 @@ describe('item model', () => {
     it('Requires a type field', () => {
       const item = Item.build({
         name: 'Sword',
-        graphic: 'https://openclipart.org/download/85753/Axe-001.svg',
+        graphic: 'ourAssets/weapons/hammer_thors.png',
+        image: 'https://openclipart.org/download/85753/Axe-001.svg',
         price:  200,
         description: 'A very good hammer.',
         power: 10,
@@ -141,7 +169,8 @@ describe('item model', () => {
     it('Requires a description field', () => {
       const item = Item.build({
         name: 'Sword',
-        graphic: 'https://openclipart.org/download/85753/Axe-001.svg',
+        graphic: 'ourAssets/weapons/hammer_thors.png',
+        image: 'https://openclipart.org/download/85753/Axe-001.svg',
         price:  200,
         type: 'weapon',
         power: 10,
@@ -159,7 +188,8 @@ describe('item model', () => {
     it('Requires a power field', () => {
       const item = Item.build({
         name: 'Sword',
-        graphic: 'https://openclipart.org/download/85753/Axe-001.svg',
+        graphic: 'ourAssets/weapons/hammer_thors.png',
+        image: 'https://openclipart.org/download/85753/Axe-001.svg',
         price:  200,
         type: 'weapon',
         description: 'A very good hammer.',
@@ -177,7 +207,8 @@ describe('item model', () => {
     it('Requires a unlockLevel field', () => {
       const item = Item.build({
         name: 'Sword',
-        graphic: 'https://openclipart.org/download/85753/Axe-001.svg',
+        graphic: 'ourAssets/weapons/hammer_thors.png',
+        image: 'https://openclipart.org/download/85753/Axe-001.svg',
         price:  200,
         type: 'weapon',
         description: 'A very good hammer.',
