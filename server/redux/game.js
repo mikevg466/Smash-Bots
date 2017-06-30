@@ -1,7 +1,6 @@
-const axios = require('axios');
 
 //------- ACTIONS -------
-const ADD_PLAYER = 'ADD_PLAYER';          // when PLAYER connects to room
+const ADD_PLAYERS = 'ADD_PLAYERS';          // when PLAYER connects to room
 const REMOVE_PLAYER = 'REMOVE_PLAYER';    // when PLAYER disconnects from room
 const LOAD_PLAYERS = 'LOAD_PLAYERS';      // initial load of all PLAYERs
 const UPDATE_PLAYER = 'UPDATE_PLAYER';    // update a PLAYER during game
@@ -9,7 +8,7 @@ const UPDATE_PLAYERS = 'UPDATE_PLAYERS';
 
 // ------ ACTION CREATORS -------
 
-const addPlayer = player => ({ type: ADD_PLAYER, player });
+const addPlayers = players => ({ type: ADD_PLAYER, players });
 const removePlayer = (player) => ({ type: REMOVE_PLAYER, player });
 const loadPlayers = () => ({ type: LOAD_PLAYERS });
 const updatePlayer = player => ({ type: UPDATE_PLAYER, player});
@@ -18,8 +17,7 @@ const updatePlayers = players => ({ type: UPDATE_PLAYERS, players});
 
 // ------- INIT STATE --------
 const initialState = {
-  isPlaying: false,
-  players: []
+  players: {}
 }
 
 
@@ -29,35 +27,18 @@ module.exports = function (state = initialState, action) {
 
   switch (action.type) {
 
-    case ADD_PLAYER:
-      const playersArrCopy = newState.players.slice(0)
-      playersArrCopy.push(action.player);
-      newState.players = playersArrCopy
-      break;
-
-    case REMOVE_PLAYER:
-      const playerRemovedArr = newState.players
-        .slice(0)
-        .splice(
-          newState.players.findIndex(player => player.id === action.player.id),
-          1
-        )
-      newState.players = playerRemovedArr
+    case ADD_PLAYERS:
+      newState.players = action.players
       break;
 
     case UPDATE_PLAYER:
-      const playerUpdatedArr = newState.players
-        .slice(0)
-        .splice(
-          newState.players.findIndex(player => player.id === action.player.id),
-          1, action.player
-        )
-      newState.players = playerUpdatedArr
+      var playerNumber = action.player.number
+      newState.players.playerNumber = action.player
       break;
 
     case UPDATE_PLAYERS:
-      const newPlayersArr = action.players
-      newState.players = newPlayersArr;
+      const newPlayersObj = action.players
+      newState.players = newPlayersObj;
       break;
 
     default:
