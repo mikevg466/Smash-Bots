@@ -86,15 +86,16 @@ socketServer.makeSocketServer = server => {
     client.on('startGame', () => {
       const weaponGraphic = ['spite1','sprite2', 'sprite3', 'sprite4']
       const characterGraphic = ['spite1','sprite2', 'sprite3', 'sprite4']
-      const clientsAsPlayers = {}
 
+      var clientsAsPlayers = {}
       serverReduxStore.getState().lobby.clients.forEach((client,index) => {
-        // first add player info's to clients
+        // first, add player info's to clients :
+        client.isPlayer = false
         client.number = index+1
         client.health = 100
         client.characterGraphic = characterGraphic[index]
         client.weaponGraphic = weaponGraphic[index]
-
+        // second, hash it inside an empty obj with {playerNum: playerObj} format. :
         clientsAsPlayers[client.number] = client
       })
       serverReduxStore.dispatch({
@@ -103,9 +104,9 @@ socketServer.makeSocketServer = server => {
       })
       server.sockets.emit('initPlayers', clientsAsPlayers)
 
-      console.log('start game server state',serverReduxStore.getState())
+      console.log('====================>>>>>',serverReduxStore.getState().game.players)
 
-      for(playerNumberKey in clientsAsPlayers){
+      for(let playerNumberKey in clientsAsPlayers){
         server.to(clientsAsPlayers[playerNumberKey].id).emit('playerAssignment', +playerNumberKey)
       }
 

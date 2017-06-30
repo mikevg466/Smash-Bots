@@ -56,31 +56,49 @@ export default function (state = initState, action) {
       newState.players = action.players;
       break;
 
-    case UPDATE_PLAYERS_STATE:
-      const updatedPlayerState = newState.players.map(player => {
-        if(player.isPlayer){
-          player.health = action.players
-            .find(recievedPlayer =>
-              recievedPlayer.number === player.number
-            ).health;
-          return player;
-        }
-        const newPlayer = action.players.find(recievedPlayer =>
-          recievedPlayer.number === player.number
-        )
-        newPlayer.isPlayer = false;
-        return newPlayer;
-      })
-      newState.players = updatedPlayerState;
+    case SET_PLAYER:
+      // const updatedPlayers = newState.players.map(player => {
+      //   if(player.number === action.playerNumber) player.isPlayer = true;
+      //   return player;
+      // });
+      // newState.players = updatedPlayers;
+      const playersObjCopy = Object.assign({}, newState.players);
+      playersObjCopy[action.playerNumber].isPlayer = true
+      newState.players = playersObjCopy
       break;
 
-    case SET_PLAYER:
-      const updatedPlayers = newState.players.map(player => {
-        if(player.number === action.playerNumber) player.isPlayer = true;
-        return player;
-      });
-      newState.players = updatedPlayers;
-      break;
+    case UPDATE_PLAYERS_STATE:
+
+      const playersObjCopy2 = Object.assign({},newState.players)
+
+      for(let key in playersObjCopy2){
+        const newPlayerState = action.players[key]
+        if(playersObjCopy2[key].isPlayer){
+          playersObjCopy2[key].health = newPlayerState.health
+          continue;
+        }
+        newPlayerState.isPlayer = false;
+        continue;
+      }
+
+      // const updatedPlayerState = {
+      // newState.players.map(player => {
+      //   if(player.isPlayer){                           // if each old player isPlayer,
+      //     player.health = action.players               
+      //       .find(recievedPlayer =>
+      //         recievedPlayer.number === player.number  // find the correct player from action.players 
+      //       ).health;                                  // then get the health from that correct player
+      //     return player;                               // set the health of old player to that health.
+      //   }
+      //   const newPlayer = action.players.find(recievedPlayer =>
+      //     recievedPlayer.number === player.number
+      //   )
+      //   newPlayer.isPlayer = false;
+      //   return newPlayer;
+      // })
+      // newState.players = updatedPlayerState;
+      // break;
+
 
     default:
       break;
@@ -91,10 +109,4 @@ export default function (state = initState, action) {
 
 // -------- DISPATCHERS -----------
 export const processInitPlayers = players =>
-  dispatch =>
-    dispatch(initPlayers(players
-      .map(player => {
-        player.isPlayer = false;
-        return player;
-      })
-    ));
+  dispatch => dispatch(initPlayers(players));
