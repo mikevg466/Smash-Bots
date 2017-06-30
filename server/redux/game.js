@@ -8,7 +8,7 @@ const UPDATE_PLAYERS = 'UPDATE_PLAYERS';
 
 // ------ ACTION CREATORS -------
 
-const addPlayer = player => ({ type: ADD_PLAYER, player });
+const addPlayers = players => ({ type: ADD_PLAYER, players });
 const removePlayer = (player) => ({ type: REMOVE_PLAYER, player });
 const loadPlayers = () => ({ type: LOAD_PLAYERS });
 const updatePlayer = player => ({ type: UPDATE_PLAYER, player});

@@ -38,6 +38,7 @@ socketServer.makeSocketServer = server => {
   }
 
   server.on('connection', client => {
+
     client.on('roomMounted', ()=>{
       server.sockets.emit('update', findRoomsOnServer())
     })
@@ -102,7 +103,6 @@ socketServer.makeSocketServer = server => {
         type: 'ADD_PLAYERS',
         players: clientsAsPlayers
       })
-      server.sockets.emit('initPlayers', clientsAsPlayers)
 
       console.log('====================>>>>>',serverReduxStore.getState().game.players)
 
@@ -110,7 +110,8 @@ socketServer.makeSocketServer = server => {
         server.to(clientsAsPlayers[playerNumberKey].id).emit('playerAssignment', +playerNumberKey)
       }
 
-      server.sockets.emit('initGame')
+      server.sockets.emit('initPlayers', clientsAsPlayers);
+      server.sockets.emit('initGame');
 
     })
 

@@ -7,7 +7,7 @@ export function runGame() {
 }
 
 function preload() {
-
+    game.load.image('chick', 'assets/sprites/budbrain_chick.png');
     game.load.atlasJSONArray('smashbot', 'ourAssets/basic_movement_no_weapon.png', 'ourAssets/basic_movement_no_weapon.json');
     game.load.image('atari', 'assets/sprites/block.png');
     game.load.image('background', 'assets/games/starstruck/background2.png');
@@ -51,15 +51,15 @@ function create() {
     
     // var playerCollisionGroup = game.physics.p2.createCollisionGroup();
     game.physics.p2.updateBoundsCollisionGroup();
-    
-    slayer = new Slayer (game, 'smashbot', 0, 0);
+
+    slayer = new Slayer (game, 'smashbot', 400, 200);
     console.log('create slayer', slayer)
     InputManager.init(this, slayer);
  
-    weapon = game.add.weapon(2000, 'smashbot')
+    weapon = game.add.weapon(2000, 'bullet')
     weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
     weapon.bulletAngleOffset = 0;
-    weapon.bulletSpeed = 200;
+    weapon.bulletSpeed = 2000;
     weapon.fireRate = 60;
     weapon.bulletAngleVariance = 20;
     weapon.trackSprite(slayer.sprite, 0, 0, true);
@@ -79,8 +79,6 @@ function create() {
     sayer.body.setCollisionGroup(playerCollisionGroup);
     slayer.sprite.body.collides([playerCollisionGroup]);
     sayer.body.collides([playerCollisionGroup]);
-
-
 
     // var spriteMaterial = game.physics.p2.createMaterial('spriteMaterial', player.body);
     // var spriteMaterial2 = game.physics.p2.createMaterial('spriteMaterial', sayer.body);
@@ -131,6 +129,7 @@ function create() {
 function update() {
 
     InputManager.update();
+    slayer.update();
     if (fireButton.isDown) {
         weapon.fire();
     }

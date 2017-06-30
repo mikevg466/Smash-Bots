@@ -37,7 +37,7 @@ componentDidMount(){
         <div>
         <table>
           <tbody>
-            {this.props.rooms && this.props.rooms.map(room => (
+            {this.props.rooms.map(room => (
               <tr key={room}>
                 <td> {room} </td>
                 <td> {/*room.clients.length /10*/}</td>

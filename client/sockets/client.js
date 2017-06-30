@@ -24,7 +24,7 @@ export const onInitGame = callbackFunc =>
 
 export const onInitPlayers = callbackFunc =>
   client.on('initPlayers', (players) => {
-    callbackFunc(players)
+    callbackFunc(players);
   });
 
 
