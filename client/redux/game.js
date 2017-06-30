@@ -97,8 +97,11 @@ export const processPlayerUpdate = players =>
 export const processPlayers = ( players, actionCreator ) =>
   (dispatch, getState) => {
     const playerNumber = getState().game.playerNumber;
+    console.log('playerNumber', playerNumber);
+    console.log('gameState', getState().game);
     const localPlayer = players[playerNumber];
+    console.log(localPlayer);
     const remotePlayers = players;
     delete remotePlayers[playerNumber];
-    dispatch(actionCreator(localPlayer, remotePlayers));
+    dispatch(actionCreator(localPlayer || {}, remotePlayers || {}));
   }

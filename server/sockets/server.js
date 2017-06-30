@@ -104,13 +104,13 @@ socketServer.makeSocketServer = server => {
         type: 'ADD_PLAYERS',
         players: clientsAsPlayers
       })
-      server.sockets.emit('initPlayers', clientsAsPlayers)
 
       for(playerNumberKey in clientsAsPlayers){
         server.to(clientsAsPlayers[playerNumberKey].id).emit('playerAssignment', +playerNumberKey)
       }
 
-      server.sockets.emit('initGame')
+      server.sockets.emit('initPlayers', clientsAsPlayers);
+      server.sockets.emit('initGame');
 
     })
 
