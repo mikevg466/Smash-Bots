@@ -1,5 +1,6 @@
 const { expect } = require('chai');
 const db = require('../../server/db');
+const model = require('../../server/db/models');
 const User = db.model('user');
 const Item = db.model('item');
 
@@ -15,17 +16,29 @@ describe('User model', () => {
       {
         name: 'Thor\'s Hammer',
         graphic: 'http://test.com',
-        price: 500
+        price: 500,
+        type: 'weapon',
+        description: 'I shoot thunder at my foes',
+        power: 5,
+        unlockLevel: 12
       },
       {
         name: 'Sword',
         graphic: 'http://test2.com',
-        price: 20
+        price: 20,
+        type: 'weapon',
+        description: 'I shoot thunder at my foes',
+        power: 5,
+        unlockLevel: 12
       },
       {
         name: 'Axe',
         graphic: 'http://test3.com',
-        price: 10000
+        price: 10000,
+        type: 'weapon',
+        description: 'I shoot thunder at my foes',
+        power: 5,
+        unlockLevel: 12
       }
     ];
 
@@ -34,7 +47,8 @@ describe('User model', () => {
         User.create({
           name: 'Mike',
           email: 'mike.com',
-          password: 'test'
+          password: 'test',
+          username: "mike01"
         }),
         Item.create(testList[0]),
         Item.create(testList[1]),
@@ -52,7 +66,7 @@ describe('User model', () => {
         mike.addItem(testItems[1]),
         mike.addItem(testItems[2])
       ])
-      .then(() => mike.getItem())
+      .then(() => mike.getItems())
       .then(userItemsList => {
         expect(userItemsList).to.be.an('array');
         expect(userItemsList).to.have.a.lengthOf(3);
@@ -62,7 +76,7 @@ describe('User model', () => {
     });
     
     it('User can associate to item they have equipped as Weapon', () => {
-      return mike.addWeapon(testItems[0])
+      return mike.setWeapon(testItems[0])
         .then(() => User.findById(mike.id))
         .then(user => user.getWeapon())
         .then(weapon => {
@@ -71,7 +85,7 @@ describe('User model', () => {
     });
     
     it('User can associate to item they have equipped as Armor', () => {
-      return mike.addArmor(testItems[1])
+      return mike.setArmor(testItems[1])
         .then(() => User.findById(mike.id))
         .then(user => user.getArmor())
         .then(armor => {

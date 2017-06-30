@@ -4,12 +4,36 @@ import PropTypes from 'prop-types';
 const SingleItem = props => {
 
   const { graphic, name, price } = props.selectedItem;
-
+  const item = props.selectedItem;
+  const user = props.user;
+  const handleBuy = props.handleBuy;
   return (
-    <div>
-      <img src={graphic} />
-      <button data={price} />
-      <h3>{name}</h3>
+    <div className="thumbnail text-center">
+      <div>
+        <h3>{name}</h3>
+      </div>
+      <div>
+        <img className="img-responsive" src={graphic} />
+      </div>
+      <div>
+        {
+          user.items.some(curItem => curItem.id === item.id) ?
+            <a
+              className="btn btn-success disabled">{price}
+            </a>
+              :
+            (user.gold >= item.price ?
+              <a
+                onClick={() => handleBuy(item)}
+                className="btn btn-success">{price}
+              </a>
+               :
+              <a
+                className="btn btn-warning disabled">{price}
+              </a>
+            )
+        }
+      </div>
     </div>
   )
 }

@@ -1,13 +1,26 @@
-import React, { Component } from 'react';
-import gameLogic from '../game/phaser-example'
+import React from 'react';
+import { connect } from 'react-redux';
+import { runGame } from '../game/phaser-example'
 
-const PhaserGame = props => {
+export class PhaserGame extends React.Component{
+  constructor(){
+    super();
+  }
 
+  componentDidMount(){
+    runGame();
+  }
+
+  render(){
     return (
-        <div id='phaser-example'>
-        </div>
+      <div id='phaser-example'>
+      </div>
     )
+  }
 }
 
+const mapState = ({ game }) => ({
+  players: game.players
+});
 
-export default PhaserGame;
+export default connect(mapState)(PhaserGame);
