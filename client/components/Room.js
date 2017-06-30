@@ -24,8 +24,7 @@ initLobby(){
   });
 }
 
-componentDidMount(){
-
+componentWillMount(){
   onUpdate(this.props.onLoadRooms);
 }
 

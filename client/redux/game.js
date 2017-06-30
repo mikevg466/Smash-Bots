@@ -29,8 +29,6 @@ export const initPlayers = (localPlayer, remotePlayers) => ({
   players = {
     playerNumber: {
       number: 1,
-      xPos: -300,
-      yPos: 0,
       health: 100,
       characterGraphic: 'spritePath',
       weaponGraphic: 'spritePath'
@@ -100,5 +98,5 @@ export const processPlayers = ( players, actionCreator ) =>
     const localPlayer = players[playerNumber];
     const remotePlayers = players;
     delete remotePlayers[playerNumber];
-    dispatch(actionCreator(localPlayer, remotePlayers));
+    dispatch(actionCreator(localPlayer || {}, remotePlayers || {}));
   }
