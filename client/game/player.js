@@ -1,22 +1,18 @@
-
 import Weapon from './weapon'
 
 var Player = function(game, spriteName, xcoord, ycoord){ //game = context
-
     // var pos = this.getRandomResetPosition();
-
     //Sprite
     this.sprite = game.add.sprite(xcoord, ycoord, spriteName);
-    
     //Weapon
 
-    this.weapon = new Weapon (game, 'smashbot', this, xcoord, ycoord)
-    console.log("====>", this)
+    this.weapon = new Weapon (game, 'thorHammer', this, xcoord, ycoord)
     //Size and Physics
 
     // this.sprite.scale.setTo(0.75, 0.75)
     this.sprite.anchor.setTo(0.5, 0.5);
-    game.physics.p2.enable(this.sprite);
+    game.physics.p2.enable(this.sprite, true);
+    this.sprite.body.loadPolygon('physicsData', 'smashbot000');
     this.sprite.body.fixedRotation = true;
     this.sprite.body.damping = 0.5;
     
