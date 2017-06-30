@@ -2,10 +2,10 @@ import Slayer from './player'
 import InputManager from './InputManager'
 
 // let game
-// export function runGame() {
+ export function runGame() {
 var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update });
-
-
+}
+ 
 function preload() {
     game.load.image('chick', 'assets/sprites/budbrain_chick.png');
     game.load.atlasJSONArray('smashbot', 'ourAssets/smashbot/basic_movement_no_weapon_final.png', 'ourAssets/smashbot/basic_movement_no_weapon_final.json');
