@@ -1,18 +1,18 @@
 import Slayer from './player'
 import InputManager from './InputManager'
 
-let game
-export function runGame() {
- game = new Phaser.Game(2000, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update, render: render });
+// let game
+ export function runGame() {
+var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update });
 }
-
+ 
 function preload() {
     game.load.image('chick', 'assets/sprites/budbrain_chick.png');
     game.load.atlasJSONArray('smashbot', 'ourAssets/smashbot/basic_movement_no_weapon_final.png', 'ourAssets/smashbot/basic_movement_no_weapon_final.json');
-//     game.load.atlasJSONArray('smashbot', 'ourAssets/basic_movement_no_weapon.png', 'ourAssets/basic_movement_no_weapon.json');
+    // game.load.atlasJSONArray('smashbot', 'ourAssets/basic_movement_no_weapon.png', 'ourAssets/basic_movement_no_weapon.json');
     game.load.image('atari', 'assets/sprites/block.png');
     game.load.image('background', 'assets/games/starstruck/background2.png');
-    game.load.spritesheet('dude', 'ourAssets/basic_movement_no_weapon.png', 32, 48);
+    // game.load.spritesheet('dude', 'ourAssets/basic_movement_no_weapon.png', 32, 48);
     game.load.image('bullet', 'assets/sprites/bullet.png');
     game.load.image('thorHammer', 'ourAssets/weapons/hammer_thors.png');
     game.load.physics('physicsData', 'ourAssets/smashbot/physics_data_smashbot.json');
@@ -81,9 +81,10 @@ function create() {
     
     // var playerCollisionGroup = game.physics.p2.createCollisionGroup();
     game.physics.p2.updateBoundsCollisionGroup();
+    
+    slayer = new Slayer(game, 'smashbot', 400, 200);
 
-    slayer = new Slayer (game, 'smashbot', 400, 200);
-    console.log('create slayer', slayer)
+    //console.log('create slayer', slayer)
     InputManager.init(this, slayer);
  
     weapon = game.add.weapon(2000, 'bullet')
@@ -104,9 +105,6 @@ function create() {
     
     sayer.body.fixedRotation = true;
     sayer.body.damping = 0.5;
-  
-  
-
 
     slayer.sprite.body.setCollisionGroup(playerCollisionGroup);
     sayer.body.setCollisionGroup(playerCollisionGroup);
@@ -138,14 +136,10 @@ function create() {
 
     //  Here is the contact material. It's a combination of 2 materials, so whenever shapes with
     //  those 2 materials collide it uses the following settings.
-    const groundPlayerCM = game.physics.p2.createContactMaterial(playerMaterial, worldMaterial, { friction: 0.0 });
+    // const groundPlayerCM = game.physics.p2.createContactMaterial(playerMaterial, worldMaterial, { friction: 0.0 });
     //const groundWeaponCM = game.physics.p2.createContactMaterial(weaponMaterial, worldMaterial, { friction: 0.0 });
-    const groundBoxesCM = game.physics.p2.createContactMaterial(worldMaterial, boxMaterial, { friction: 0.6 });
+    // const groundBoxesCM = game.physics.p2.createContactMaterial(worldMaterial, boxMaterial, { friction: 0.6 });
     //const playerWeaponCM = game.physics.p2.createContactMaterial(playerMaterial, weaponMaterial, { friction: 0.0 });
-
-
-
-
 
     // var groundPlayerCM = game.physics.p2.createContactMaterial(spriteMaterial, spriteMaterial2, worldMaterial, { friction: 0.0 });
     // var groundBoxesCM = game.physics.p2.createContactMaterial(worldMaterial, boxMaterial, { friction: 0.6 });
@@ -166,8 +160,7 @@ function create() {
 //     attackButton = game.input.keyboard.addKey(Phaser.Keyboard.W);
     jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     fireButton = game.input.keyboard.addKey(Phaser.Keyboard.Q);
-    secondJumpButton = game.input.keyboard.addKey(Phaser.Keyboard.F);
-      
+    secondJumpButton = game.input.keyboard.addKey(Phaser.Keyboard.F);   
 
 }
 
@@ -280,10 +273,10 @@ function update() {
 
 }
 
-    function render() {
+//     // function render() {
 
-    // Sprite debug info
-    game.debug.spriteInfo(player, 232, 132);
-    //game.debug.spriteBounds(player);
+//     // // Sprite debug info
+//     // game.debug.spriteInfo(player, 232, 132);
+//     // //game.debug.spriteBounds(player);
 
-}
+// }
