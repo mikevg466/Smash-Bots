@@ -1,17 +1,17 @@
 
-export default class Preload(game){
-  constructor(){
+export default class Preload{
+  constructor(game){
     this.game = game;
   }
 
   loadImages(imageObj){
     Object.keys(imageObj)
-      .forEach(key => this.game.load.image(key, imageObj[key]);
+      .forEach(key => this.game.load.image(key, imageObj[key]))
   }
 
   loadAtlasJSONArrays(jsonArraysObj){
-    Object.keys(imageObj)
-      .forEach(key => this.game.load.atlasJSONArray(key, imageObj[key].png, imageObj[key].json);
+    Object.keys(jsonArraysObj)
+      .forEach(key => this.game.load.atlasJSONArray(key, jsonArraysObj[key].png, jsonArraysObj[key].json))
   }
 
   loadPhysics(physicsObj){

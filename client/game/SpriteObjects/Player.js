@@ -1,7 +1,7 @@
 import Sprite from './Sprite';
 
-export class Player extends Sprite(game, spriteName, xCoord, yCoord){
-  constructor(){
+export default class Player extends Sprite{
+  constructor(game, spriteName, xCoord, yCoord){
     super(game, spriteName, xCoord, yCoord);
 
     // ------ Animations -------
@@ -27,6 +27,11 @@ export class Player extends Sprite(game, spriteName, xCoord, yCoord){
       left: false,
       right: true,
     }
+
+    this.setAnchor(0.5, 0.5);
+    this.setPhysics(false);
+    this.loadPolygon('smashbot000');
+    this.setDefault();
   }
 
   setDirection(direction){

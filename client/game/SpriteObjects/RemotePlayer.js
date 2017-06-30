@@ -1,7 +1,7 @@
 import Player from './Player';
 
-export class RemotePlayer extends Player(game, spriteName, xCoord, yCoord){
-  constructor(){
+export default class RemotePlayer extends Player{
+  constructor(game, spriteName, xCoord, yCoord){
     super(game, spriteName, xCoord, yCoord);
 
     // ------ Animations -------

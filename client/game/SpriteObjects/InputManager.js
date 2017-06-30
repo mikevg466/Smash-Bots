@@ -1,7 +1,7 @@
 //game = this.game, option = {......}
 export default class InputManager{
-  constructor(){
-    this.context = null,
+  constructor(game){
+    this.game = game,
     this.controls = {
       left: {
         keys: ["LEFT"],
@@ -22,11 +22,10 @@ export default class InputManager{
         timeCount: 0,
       }
     }
-    this.player = null,
+    this.player = null;
   }
 
-  init(game, player){
-    this.context = game;
+  init(player){
     this.player = player;
   }
 
@@ -43,6 +42,6 @@ export default class InputManager{
   }
 
   isDown(keyCode){
-    return this.context.input.keyboard.isDown(Phaser.Keyboard[keyCode]);
+    return this.game.input.keyboard.isDown(Phaser.Keyboard[keyCode]);
   }
 }
