@@ -37,8 +37,6 @@ socketServer.makeSocketServer = server => {
     return room;
   }
 
-
-
   server.on('connection', client => {
     client.emit('update', findRoomsOnServer());
     broadcastDebugMsg(client.id + ' has joined the server');
@@ -48,11 +46,12 @@ socketServer.makeSocketServer = server => {
     //   any leftover data when we create actual game state in rooms
     client.on('disconnect', () => {
       serverReduxStore.dispatch({
-        type: 'REMOVE_PLAYER',
-        player: {
+        type: 'REMOVE_CLIENT',
+        client: {
           id: client.id
         }
       })
+      client.leave(findRoomForClient(client));
       server.sockets.emit('update', findRoomsOnServer());
       broadcastDebugMsg(client.id + ' has disconnected from the server');
     });
@@ -60,17 +59,20 @@ socketServer.makeSocketServer = server => {
     // using join for both join and host
     //   use default roomId so that if they are not joining an existing room
     //    they are creating a new room
-    client.on('join', (roomId, playerWeapon, playerArmor) => {
+    client.on('join', (roomId, clientWeapon, clientArmor) => {
       const curRoomId = roomId || 'room-' + uuid.v4();
       // put new state to ReduxStore **
       serverReduxStore.dispatch({
-        type: 'ADD_PLAYER',
-        player: {
+        type: 'ADD_CLIENT',
+        client: {
           id: client.id,
-          playerWeapon,
-          playerArmor
+          clientWeapon,
+          clientArmor
         }
       })
+      // =========================================== delete this later ================
+      console.log(serverReduxStore.getState().lobby.clients)
+      // =============================^^^^^^^^^^^^^^ delete this later ^^^^^^^^^^^^^^^^=====
 
       // join or create room
       client.join(curRoomId);
@@ -89,32 +91,34 @@ socketServer.makeSocketServer = server => {
         weaponGraphic: ['spite1','sprite2', 'sprite3', 'sprite4'],
         characterGraphic: ['spite1','sprite2', 'sprite3', 'sprite4']
       }
-      const inGameDataPlayers = serverReduxStore.getState().game.players.map((player,index) => {
+      
+      const clientsAsPlayers = {}
+      serverReduxStore.getState().lobby.clients.forEach((player,index) => {
         player.number = index+1
         player.health = playerExample.health
         player.characterGraphic = playerExample.characterGraphic[index]
         player.weaponGraphic = playerExample.weaponGraphic[index]
-        return player
+        clientsAsPlayers[player.number] = player
       })
       serverReduxStore.dispatch({
-        type: 'UPDATE_PLAYERS',
-        players: inGameDataPlayers
+        type: 'ADD_PLAYERS',
+        players: clientsAsPlayers
       })
-      server.sockets.emit('initPlayers', inGameDataPlayers)
+      server.sockets.emit('initPlayers', clientsAsPlayers)
 
-      inGameDataPlayers.forEach(player => {
-        server.to(player.id).emit('playerAssignment', player.number)
-      })
+      for(playerNumberKey in clientsAsPlayers){
+        server.to(clientsAsPlayers[playerNumberKey].id).emit('playerAssignment', +playerNumberKey)
+      }
 
       server.sockets.emit('initGame')
 
     })
 
-    client.on('clientStateChange', (clientState) => {
+    client.on('clientStateChange', (playerState) => {
       // update global state
       serverReduxStore.dispatch({
         type: 'UPDATE_PLAYER',
-        player: clientState
+        player: playerState
       })
 
     })
