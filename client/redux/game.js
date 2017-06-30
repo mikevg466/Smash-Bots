@@ -8,9 +8,17 @@ const INIT_PLAYERS = 'INIT_PLAYERS';
 // ------ ACTION CREATORS -------
 export const startGame = () => ({ type: START_GAME });
 export const endGame = () => ({ type: END_GAME });
-export const updatePlayersState = players => ({ type: UPDATE_PLAYERS_STATE, players });
+export const updatePlayersState = (localPlayer, remotePlayers) => ({
+  type: UPDATE_PLAYERS_STATE,
+  localPlayer,
+  remotePlayers
+});
 export const setPlayer = playerNumber => ({ type: SET_PLAYER, playerNumber });
-export const initPlayers = players => ({ type: INIT_PLAYERS, players });
+export const initPlayers = (localPlayer, remotePlayers) => ({
+  type: INIT_PLAYERS,
+  localPlayer,
+  remotePlayers
+});
 
 // ------- INIT STATE --------
 
@@ -18,23 +26,23 @@ export const initPlayers = players => ({ type: INIT_PLAYERS, players });
 /*
   EXAMPLE format:
 
-  players = [
-    {
-      isPlayer: true
+  players = {
+    playerNumber: {
       number: 1,
-      xPos: -300,
-      yPos: 0,
       health: 100,
       characterGraphic: 'spritePath',
       weaponGraphic: 'spritePath'
-    }, {}
-  ]
+    },
+    playerNumber: {.....}
+  }
 
  */
 
 const initState = {
   isGamePlaying: false,
-  players: [],
+  playerNumber: 0,
+  localPlayer: {},
+  remotePlayers: {},
 };
 
 
@@ -53,52 +61,20 @@ export default function (state = initState, action) {
       break;
 
     case INIT_PLAYERS:
-      newState.players = action.players;
-      break;
-
-    case SET_PLAYER:
-      // const updatedPlayers = newState.players.map(player => {
-      //   if(player.number === action.playerNumber) player.isPlayer = true;
-      //   return player;
-      // });
-      // newState.players = updatedPlayers;
-      const playersObjCopy = Object.assign({}, newState.players);
-      playersObjCopy[action.playerNumber].isPlayer = true
-      newState.players = playersObjCopy
+      newState.localPlayer = action.localPlayer;
+      newState.remotePlayers = action.remotePlayers;
       break;
 
     case UPDATE_PLAYERS_STATE:
+      const updatedPlayer = Object.assign({}, action.localPlayer);
+      updatedPlayer.health = action.localPlayer.health;
+      newState.localPlayer = updatedPlayer;
+      newState.remotePlayers = action.remotePlayers;
+      break;
 
-      const playersObjCopy2 = Object.assign({},newState.players)
-
-      for(let key in playersObjCopy2){
-        const newPlayerState = action.players[key]
-        if(playersObjCopy2[key].isPlayer){
-          playersObjCopy2[key].health = newPlayerState.health
-          continue;
-        }
-        newPlayerState.isPlayer = false;
-        continue;
-      }
-
-      // const updatedPlayerState = {
-      // newState.players.map(player => {
-      //   if(player.isPlayer){                           // if each old player isPlayer,
-      //     player.health = action.players               
-      //       .find(recievedPlayer =>
-      //         recievedPlayer.number === player.number  // find the correct player from action.players 
-      //       ).health;                                  // then get the health from that correct player
-      //     return player;                               // set the health of old player to that health.
-      //   }
-      //   const newPlayer = action.players.find(recievedPlayer =>
-      //     recievedPlayer.number === player.number
-      //   )
-      //   newPlayer.isPlayer = false;
-      //   return newPlayer;
-      // })
-      // newState.players = updatedPlayerState;
-      // break;
-
+    case SET_PLAYER:
+      newState.playerNumber = action.playerNumber;
+      break;
 
     default:
       break;
@@ -109,4 +85,18 @@ export default function (state = initState, action) {
 
 // -------- DISPATCHERS -----------
 export const processInitPlayers = players =>
-  dispatch => dispatch(initPlayers(players));
+  dispatch =>
+    dispatch(processPlayers(players, initPlayers));
+
+export const processPlayerUpdate = players =>
+  dispatch =>
+    dispatch(processPlayers(players, updatePlayersState))
+
+export const processPlayers = ( players, actionCreator ) =>
+  (dispatch, getState) => {
+    const playerNumber = getState().game.playerNumber;
+    const localPlayer = players[playerNumber];
+    const remotePlayers = players;
+    delete remotePlayers[playerNumber];
+    dispatch(actionCreator(localPlayer || {}, remotePlayers || {}));
+  }
