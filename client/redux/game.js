@@ -29,8 +29,6 @@ export const initPlayers = (localPlayer, remotePlayers) => ({
   players = {
     playerNumber: {
       number: 1,
-      xPos: -300,
-      yPos: 0,
       health: 100,
       characterGraphic: 'spritePath',
       weaponGraphic: 'spritePath'
@@ -97,10 +95,7 @@ export const processPlayerUpdate = players =>
 export const processPlayers = ( players, actionCreator ) =>
   (dispatch, getState) => {
     const playerNumber = getState().game.playerNumber;
-    console.log('playerNumber', playerNumber);
-    console.log('gameState', getState().game);
     const localPlayer = players[playerNumber];
-    console.log(localPlayer);
     const remotePlayers = players;
     delete remotePlayers[playerNumber];
     dispatch(actionCreator(localPlayer || {}, remotePlayers || {}));
