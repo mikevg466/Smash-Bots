@@ -14,8 +14,8 @@ var Weapon = function(game, spriteName, player, xcoord, ycoord){ //game = contex
 }
 
 Weapon.prototype.update = function(){
-    console.log("WUUUUT", this.player)
-    console.log("WHYYY", this.sprite)
+
+
     this.sprite.x = this.player.sprite.x;
     this.sprite.y = this.player.sprite.y + 7;
     this.refreshDirection(this.player.getDirection());

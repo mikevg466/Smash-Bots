@@ -1,11 +1,11 @@
 import Slayer from './player'
 import InputManager from './InputManager'
+import store from '../store'
 
 // let game
  export function runGame() {
 var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update });
-}
- 
+
 function preload() {
     game.load.image('chick', 'assets/sprites/budbrain_chick.png');
     game.load.atlasJSONArray('smashbot', 'ourAssets/smashbot/basic_movement_no_weapon_final.png', 'ourAssets/smashbot/basic_movement_no_weapon_final.json');
@@ -14,6 +14,7 @@ function preload() {
     game.load.image('background', 'assets/games/starstruck/background2.png');
     // game.load.spritesheet('dude', 'ourAssets/basic_movement_no_weapon.png', 32, 48);
     game.load.image('bullet', 'assets/sprites/bullet.png');
+    game.load.image('weapon', store.getState().game.localPlayer.weaponGraphic)
     game.load.image('thorHammer', 'ourAssets/weapons/hammer_thors.png');
     game.load.physics('physicsData', 'ourAssets/smashbot/physics_data_smashbot.json');
 
@@ -36,6 +37,7 @@ var slayer;
 let thorHammer,
     thorHammerPoly,
     attackButton;
+var slayer1
 
 function create() {
 
@@ -82,7 +84,10 @@ function create() {
     // var playerCollisionGroup = game.physics.p2.createCollisionGroup();
     game.physics.p2.updateBoundsCollisionGroup();
     
-    slayer = new Slayer(game, 'smashbot', 400, 200);
+    slayer1 = new Slayer(game, 'smashbot', 400, 200);
+    var slayer2 = new Slayer(game, 'smashbot', 600, 200);
+    var slayer3 = new Slayer(game, 'smashbot', 800, 200);
+    slayer = new Slayer(game, 'smashbot', 1000, 200);
 
     //console.log('create slayer', slayer)
     InputManager.init(this, slayer);
@@ -196,6 +201,7 @@ function update() {
 
     InputManager.update();
     slayer.update();
+    slayer1.update();
     if (fireButton.isDown) {
         weapon.fire();
     }
@@ -280,3 +286,4 @@ function update() {
 //     // //game.debug.spriteBounds(player);
 
 // }
+ }
