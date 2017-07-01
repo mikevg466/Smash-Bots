@@ -3,6 +3,21 @@ import Player from './Player';
 export default class LocalPlayer extends Player{
   constructor(game, spriteName, xCoord, yCoord){
     super(game, spriteName, xCoord, yCoord);
+    this.controls = {
+      left: {
+        keys: ["LEFT"],
+      },
+      right: {
+        keys: ["RIGHT"],
+      },
+      attack:{
+        keys:["F"],
+        timeCount: 0,
+      },
+      jump:{
+        keys:["SPACEBAR"],
+      }
+    }
   }
 
   move(direction){
@@ -31,4 +46,3 @@ export default class LocalPlayer extends Player{
   }
 
 }
-

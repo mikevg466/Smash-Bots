@@ -18,11 +18,6 @@ export default class Sprite{
     this.game.physics.arcade.enable(this.sprite, hasPhysics);
   }
 
-  // loadPolygon(polygon){
-  //   this.sprite.body.clearShapes();
-  //   this.sprite.body.loadPolygon('physicsData', polygon);
-  // }
-
   setAnimation(name, framesArray, frameRate){
     this.sprite.animations.add(name, framesArray, frameRate, true);
   }
