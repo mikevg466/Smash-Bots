@@ -49,6 +49,7 @@ export default class RemotePlayer extends Player{
   }
 
   jump(){
+    // this.sprite.body.velocity.y = -320
   }
 
 }

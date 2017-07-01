@@ -85,24 +85,24 @@ export function runGame() {
     sayer.animations.add('left', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27], 60, true);
     sayer.animations.add('turn', [14], 20, true);
     sayer.animations.add('right', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27], 60, true);
-    game.physics.p2.enable(sayer);
+    game.physics.arcade.enable(sayer);
     sayer.body.fixedRotation = true;
     sayer.body.damping = 0.5;
 
     // ------ Set Collisions -------
-    var playerCollisionGroup = game.physics.p2.createCollisionGroup();
-    game.physics.p2.updateBoundsCollisionGroup();
+    // var playerCollisionGroup = game.physics.p2.createCollisionGroup();
+    // game.physics.p2.updateBoundsCollisionGroup();
 
-    slayer.sprite.body.setCollisionGroup(playerCollisionGroup);
-    sayer.body.setCollisionGroup(playerCollisionGroup);
-    slayer.sprite.body.collides([playerCollisionGroup]);
-    sayer.body.collides([playerCollisionGroup]);
+    // slayer.sprite.body.setCollisionGroup(playerCollisionGroup);
+    // sayer.body.setCollisionGroup(playerCollisionGroup);
+    // slayer.sprite.body.collides([playerCollisionGroup]);
+    // sayer.body.collides([playerCollisionGroup]);
 
-    var worldMaterial = game.physics.p2.createMaterial('worldMaterial');
+    // var worldMaterial = game.physics.p2.createMaterial('worldMaterial');
     // var boxMaterial = game.physics.p2.createMaterial('worldMaterial');
 
     //  4 trues = the 4 faces of the world in left, right, top, bottom order
-    game.physics.p2.setWorldMaterial(worldMaterial, true, true, true, true);
+    // game.physics.p2.setWorldMaterial(worldMaterial, true, true, true, true);
 
 
     jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -121,78 +121,6 @@ export function runGame() {
       if (fireButton.isDown) {
           weapon.fire();
       }
-
-
-
-      if (jumpButton.isDown && game.time.now > jumpTimer && checkIfCanJump())
-      {
-          slayer.sprite.body.moveUp(300);
-          jumpTimer = game.time.now + 750;
-         //thorHammer.body.moveUp(300);
-      }
-
-
-      if (secondJumpButton.isDown && game.time.now > jumpTimer && checkIfCanJump2())
-      {
-          sayer.body.moveUp(300);
-          jumpTimer = game.time.now + 750;
-      }
-
-
-      function checkIfCanJump() {
-
-          var result = false;
-
-          for (var i=0; i < game.physics.p2.world.narrowphase.contactEquations.length; i++)
-          {
-              var c = game.physics.p2.world.narrowphase.contactEquations[i];
-
-              if (c.bodyA === slayer.sprite.body.data || c.bodyB === slayer.sprite.body.data)
-              {
-                  var d = p2.vec2.dot(c.normalA, yAxis);
-
-                  if (c.bodyA === slayer.sprite.body.data)
-                  {
-                      d *= -1;
-                  }
-
-                  if (d > 0.5)
-                  {
-                      result = true;
-                  }
-              }
-          }
-
-          return result;
-
-      }
-
-      function checkIfCanJump2() {
-
-          var result = false;
-          for (var i=0; i < game.physics.p2.world.narrowphase.contactEquations.length; i++)
-          {
-              var c = game.physics.p2.world.narrowphase.contactEquations[i];
-
-              if (c.bodyA === sayer.body.data || c.bodyB === sayer.body.data)
-              {
-                  var d = p2.vec2.dot(c.normalA, yAxis);
-
-                  if (c.bodyA === sayer.body.data)
-                  {
-                      d *= -1;
-                  }
-
-                  if (d > 0.5)
-                  {
-                      result = true;
-                  }
-              }
-          }
-
-          return result;
-      }
-
   }
 
  }

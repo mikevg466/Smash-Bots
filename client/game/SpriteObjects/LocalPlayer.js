@@ -8,13 +8,13 @@ export default class LocalPlayer extends Player{
   move(direction){
     switch(direction){
       case 'left':
-        this.sprite.body.moveLeft(500);
+        this.sprite.body.velocity.x = -500;
         this.setDirection('left');
         this.sprite.animations.play('left');
         break;
 
       case 'right':
-        this.sprite.body.moveRight(500);
+        this.sprite.body.velocity.x = 500;
         this.setDirection('right');
         this.sprite.animations.play('right');
         break;
@@ -27,7 +27,8 @@ export default class LocalPlayer extends Player{
   }
 
   jump(){
-    this.sprite.body.moveUp(300)
+    this.sprite.body.velocity.y = -320
   }
 
 }
+
