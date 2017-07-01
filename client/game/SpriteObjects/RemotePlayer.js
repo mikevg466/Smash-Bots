@@ -29,25 +29,6 @@ export default class RemotePlayer extends Player{
     }
   }
 
-  move(direction){
-    switch(direction){
-      case 'left':
-        this.setDirection('left');
-        this.sprite.animations.play('left');
-        break;
-
-      case 'right':
-        this.setDirection('right');
-        this.sprite.animations.play('right');
-        break;
-
-      default:
-        this.sprite.body.velocity.x = 0;
-        this.sprite.animations.stop();
-        break;
-    }
-  }
-
   jump(){
     // this.sprite.body.velocity.y = -320
   }

@@ -3,6 +3,26 @@ import Player from './Player';
 export default class LocalPlayer extends Player{
   constructor(game, spriteName, xCoord, yCoord){
     super(game, spriteName, xCoord, yCoord);
+    this.controls = {
+      left: {
+        keys: ["LEFT"],
+        state: 0,   //this property is for server multiplayer check button press
+      },
+      right: {
+        keys: ["RIGHT"],
+        state: 0,
+      },
+      attack:{
+        keys:["F"],
+        state: 0,
+        timeCount: 0,
+      },
+      jump:{
+        keys:["SPACEBAR"],
+        state: 0,
+        timeCount: 0,
+      }
+    }
   }
 
   move(direction){
@@ -31,4 +51,3 @@ export default class LocalPlayer extends Player{
   }
 
 }
-
