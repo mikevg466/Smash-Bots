@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const SingleItem = props => {
 
-  const { graphic, name, price } = props.selectedItem;
+  const { image, name, price } = props.selectedItem;
   const item = props.selectedItem;
   const user = props.user;
   const handleBuy = props.handleBuy;
@@ -13,7 +13,7 @@ const SingleItem = props => {
         <h3>{name}</h3>
       </div>
       <div>
-        <img className="img-responsive" src={graphic} />
+        <img className="img-responsive" src={image} />
       </div>
       <div>
         {

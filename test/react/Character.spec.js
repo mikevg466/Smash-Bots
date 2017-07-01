@@ -14,28 +14,32 @@ const itemList = [
   {
     id: 1,
     name: 'Sword',
-    graphic: 'http://www.darksword-armory.com/medieval-weapon/medieval-swords/the-warmonger/',
+    graphic: 'ourAssets/weapons/hammer_thors.png',
+    image: 'http://www.darksword-armory.com/medieval-weapon/medieval-swords/the-warmonger/',
     price: 100,
     type: 'weapon'
   },
   {
     id: 2,
     name: 'Axe',
-    graphic: 'https://openclipart.org/download/85753/Axe-001.svg',
+    graphic: 'ourAssets/weapons/hammer_thors.png',
+    image: 'https://openclipart.org/download/85753/Axe-001.svg',
     price: 200,
     type: 'weapon'
   },
   {
     id: 3,
     name: 'Helmet',
-    graphic: 'http://www.darksword-armory.com/medieval-weapon/medieval-swords/the-warmonger/',
+    graphic: 'ourAssets/weapons/hammer_thors.png',
+    image: 'http://www.darksword-armory.com/medieval-weapon/medieval-swords/the-warmonger/',
     price: 100,
     type: 'armor'
   },
   {
     id: 4,
     name: 'Shield',
-    graphic: 'https://openclipart.org/download/85753/Axe-001.svg',
+    graphic: 'ourAssets/weapons/hammer_thors.png',
+    image: 'https://openclipart.org/download/85753/Axe-001.svg',
     price: 200,
     type: 'armor'
   }

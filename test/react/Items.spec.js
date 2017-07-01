@@ -12,7 +12,8 @@ describe('Items container', () => {
   let items;
   const itemsList = [
     { name: 'Sword',
-      graphic: 'http://www.darksword-armory.com/medieval-weapon/medieval-swords/the-warmonger/',
+      graphic: 'ourAssets/weapons/hammer_thors.png',
+      image: 'http://www.darksword-armory.com/medieval-weapon/medieval-swords/the-warmonger/',
       price: 100
     },
     {
@@ -30,7 +31,7 @@ describe('Items container', () => {
     );
   });
 
-  it('should have one div with an unordered list, with two list items', () => {
+  xit('should have one div with an unordered list, with two list items', () => {
     expect(items.is('div')).to.equal(true);
     expect(items.find('ul').length).to.equal(1);
     expect(items.find('li').length).to.equal(2);

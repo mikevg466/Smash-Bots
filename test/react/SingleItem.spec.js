@@ -13,7 +13,8 @@ describe('Item component', () => {
   const selectedItem = {
     id: 1,
     name: 'Sword',
-    graphic: 'http://store.hbo.com/imgcache/product/resized/000/499/553/catl/game-of-thrones-longclaw-letter-opener_1000.jpg?k=2f027467&pid=499553&s=catl&sn=hbo',
+    graphic: 'ourAssets/weapons/hammer_thors.png',
+    image: 'http://store.hbo.com/imgcache/product/resized/000/499/553/catl/game-of-thrones-longclaw-letter-opener_1000.jpg?k=2f027467&pid=499553&s=catl&sn=hbo',
     price: 100
   };
   const user = {
@@ -22,7 +23,8 @@ describe('Item component', () => {
       {
         id: 2,
         name: 'Axe',
-        graphic: 'http://store.hbo.com/imgcache/product/resized/000/499/553/catl/game-of-thrones-longclaw-letter-opener_1000.jpg?k=2f027467&pid=499553&s=catl&sn=hbo',
+        graphic: 'ourAssets/weapons/hammer_thors.png',
+        image: 'http://store.hbo.com/imgcache/product/resized/000/499/553/catl/game-of-thrones-longclaw-letter-opener_1000.jpg?k=2f027467&pid=499553&s=catl&sn=hbo',
         price: 100
       }
     ]
@@ -45,7 +47,7 @@ describe('Item component', () => {
     expect(singleItem.find('h3').length).to.equal(1);
   });
   it('image should use the seletedItem\'s url', () => {
-    expect(singleItem.find('img').prop('src')).to.equal(selectedItem.graphic);
+    expect(singleItem.find('img').prop('src')).to.equal(selectedItem.image);
   });
   // it('button data should display selectedItem\'s price', () => {
   //   expect(singleItem.find('a').prop('data')).to.equal(selectedItem.price);
