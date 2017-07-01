@@ -1,4 +1,5 @@
 import Sprite from './Sprite';
+// import Weapon from './Weapon';
 
 export default class Player extends Sprite{
   constructor(game, spriteName, xCoord, yCoord){
@@ -48,13 +49,23 @@ export default class Player extends Sprite{
       down: false,
       left: false,
       right: true,
-    }
+    };
+
+    this.lives = 3;
+    this.jumpCounter = 2;
 
     this.setAnchor(0.5, 0.5);
     this.setPhysics(true);
     // this.loadPolygon('smashbot000');
     this.setDefault();
+
     this.setGravity(500);
+    this.sprite.events.onKilled.add(function(){
+        this.lives -= 1;
+        if (this.lives > 0){
+          this.sprite.reset(this.xCoord, this.yCoord)
+        }
+    }, this);
   }
 
   // default move
@@ -82,7 +93,7 @@ export default class Player extends Sprite{
   }
 
   setDirection(direction){
-    switch(direction){
+    switch (direction){
       case 'left':
         this.direction.left = true;
         this.direction.right = false;
@@ -112,7 +123,11 @@ export default class Player extends Sprite{
   }
 
   getPosition(){
-    return {x: this.sprite.x , y: this.sprite.y}
+    return {x: this.sprite.x, y: this.sprite.y};
   }
 
+  resetJumps(){
+    //when player collides with floor call this method
+    //this.jumpCounter = 2
+  }
 }

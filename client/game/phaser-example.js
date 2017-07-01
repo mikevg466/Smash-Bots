@@ -11,8 +11,9 @@ export function runGame() {
     window.innerHeight,
     Phaser.CANVAS,
     'phaser-example',
-    {preload, create, update}
+    {preload, create, update, render}
   );
+  let platform;
 
   // ------ PreLoad -------
   function preload() {
@@ -32,7 +33,7 @@ export function runGame() {
       }
     };
 
-    gameManager.preload(images, atlasJSONs, physics);
+    gameManager.preload(images, atlasJSONs);
   }
 
 
@@ -49,7 +50,7 @@ export function runGame() {
 
     // ------ Add Platforms -------
     // TODO: separate out platforms as it's own class and call through gameManager.addSprite
-    const platform = gameManager.game.add.sprite(500, 650, 'platform');
+    platform = gameManager.game.add.sprite(500, 650, 'platform');
     gameManager.game.physics.arcade.enable(platform);
     platform.body.immovable = true;
     platform.scale.setTo(2, 1.2);
@@ -57,17 +58,18 @@ export function runGame() {
 
     // ------ Set Collisions -------
 
+
   }
 
 
   // ------ Update -------
   function update(){
     // make a method:
-    gameManager.game.physics.arcade.collide(slayer.sprite, platform, collideCallback); // optional: add callback
-    gameManager.game.physics.arcade.collide(enemy1.sprite, platform, collideCallback);
-    gameManager.game.physics.arcade.collide(enemy2.sprite, platform, collideCallback);
-    gameManager.game.physics.arcade.collide(enemy3.sprite, platform, collideCallback);
-    gameManager.game.physics.arcade.overlap(slayer.sprite, enemy1.sprite, overlapCallback); // default. change to collide when player attacks.
+    gameManager.game.physics.arcade.collide(gameManager.slayer.sprite, platform, collideCallback); // optional: add callback
+    gameManager.game.physics.arcade.collide(gameManager.enemy1.sprite, platform, collideCallback);
+    gameManager.game.physics.arcade.collide(gameManager.enemy2.sprite, platform, collideCallback);
+    gameManager.game.physics.arcade.collide(gameManager.enemy3.sprite, platform, collideCallback);
+    gameManager.game.physics.arcade.overlap(gameManager.slayer.sprite, gameManager.enemy1.sprite, overlapCallback); // default. change to collide when player attacks.
 
     gameManager.update();
   }
@@ -77,4 +79,16 @@ export function runGame() {
     function overlapCallback(){
      //console.log('overlapped');
   }
+  function render() {
+
+
+    gameManager.game.debug.bodyInfo(gameManager.slayer.sprite);
+
+    gameManager.game.debug.body(gameManager.slayer.sprite);
+    // game.debug.body(sprite2);
+
+    // game.debug.bodyInfo(weapon.sprite);
+    // game.debug.body(weapon.sprite)
+
+}
  }
