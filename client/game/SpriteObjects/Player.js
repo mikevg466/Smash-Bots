@@ -25,21 +25,16 @@ export default class Player extends Sprite{
     this.controls = {
       left: {
         keys: null,
-        state: 0,   //this property is for server multiplayer check button press
       },
       right: {
-        keys: null,
-        state: 0,
+        keys: null
       },
       attack:{
         keys: null,
-        state: 0,
         timeCount: 0,
       },
       jump:{
         keys: null,
-        state: 0,
-        timeCount: 0,
       }
     }
 
