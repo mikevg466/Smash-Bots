@@ -21,9 +21,17 @@ export default class InputManager{
     else {
       this.player.stop();
     }
-    if (controls.jump.keys && this.isDown(controls.jump.keys[0])){
-      this.player.jump();
-    }
+
+    let key1 = this.game.input.keyboard.addKey(Phaser.Keyboard.U)
+    key1.onDown.add((U) => {
+      if (key1.justDown) {
+      this.player.jumpCounter -= 1;
+      }
+      if (this.player.jumpCounter >= 0 ) {
+        this.player.jump()
+        console.log(this.player.jumpCounter)
+      }
+    })
   }
 
   isDown(keyCode){

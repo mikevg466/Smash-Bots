@@ -11,7 +11,7 @@ export function runGame() {
     window.innerHeight,
     Phaser.CANVAS,
     'phaser-example',
-    {preload, create, update}
+    {preload, create, update, render}
   );
 
   // ------ PreLoad -------
@@ -57,6 +57,7 @@ export function runGame() {
 
     // ------ Set Collisions -------
 
+
   }
 
 
@@ -77,4 +78,16 @@ export function runGame() {
     function overlapCallback(){
      //console.log('overlapped');
   }
+  function render() {
+    
+
+    game.debug.bodyInfo(slayer.sprite);
+
+    game.debug.body(slayer.sprite);
+    // game.debug.body(sprite2);
+
+    // game.debug.bodyInfo(weapon.sprite);
+    // game.debug.body(weapon.sprite)
+
+}
  }
