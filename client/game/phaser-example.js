@@ -14,26 +14,23 @@ export function runGame() {
     {preload, create, update}
   );
 
-
   // ------ PreLoad -------
   function preload() {
     const images = {
       chick: 'assets/sprites/budbrain_chick.png',
       atari: 'assets/sprites/block.png',
       background: 'assets/games/starstruck/background2.png',
+      platform: 'ourAssets/platform_wood.png',
       bullet: 'assets/sprites/bullet.png',
       weapon: store.getState().game.localPlayer.weaponGraphic,
       thorHammer: 'ourAssets/weapons/hammer_thors.png',
     };
     const atlasJSONs = {
       smashbot: {
-        png: 'ourAssets/smashbot/basic_movement_no_weapon_final.png',
-        json:'ourAssets/smashbot/basic_movement_no_weapon_final.json'
+        png: 'ourAssets/smashbot/robot_hammer_swing.png',
+        json:'ourAssets/smashbot/robot_hammer_swing.json'
       }
     };
-    const physics = {
-      physicsData: 'ourAssets/smashbot/physics_data_smashbot.json'
-    }
 
     gameManager.preload(images, atlasJSONs, physics);
   }
@@ -52,20 +49,32 @@ export function runGame() {
 
     // ------ Add Platforms -------
     // TODO: separate out platforms as it's own class and call through gameManager.addSprite
-    const sayer = gameManager.game.add.sprite(100, 100, 'smashbot');
-    gameManager.game.physics.arcade.enable(sayer);
-    sayer.body.fixedRotation = true;
-    sayer.body.damping = 0.5;
+    const platform = gameManager.game.add.sprite(500, 650, 'platform');
+    gameManager.game.physics.arcade.enable(platform);
+    platform.body.immovable = true;
+    platform.scale.setTo(2, 1.2);
+    platform.anchor.setTo(0.5, 0.5);
 
     // ------ Set Collisions -------
-
 
   }
 
 
   // ------ Update -------
   function update(){
-      gameManager.update();
-  }
+    // make a method:
+    gameManager.game.physics.arcade.collide(slayer.sprite, platform, collideCallback); // optional: add callback
+    gameManager.game.physics.arcade.collide(enemy1.sprite, platform, collideCallback);
+    gameManager.game.physics.arcade.collide(enemy2.sprite, platform, collideCallback);
+    gameManager.game.physics.arcade.collide(enemy3.sprite, platform, collideCallback);
+    gameManager.game.physics.arcade.overlap(slayer.sprite, enemy1.sprite, overlapCallback); // default. change to collide when player attacks.
 
+    gameManager.update();
+  }
+  function collideCallback(){
+    // console.log('collided');
+  }
+    function overlapCallback(){
+     //console.log('overlapped');
+  }
  }

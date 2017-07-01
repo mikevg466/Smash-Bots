@@ -1,0 +1,44 @@
+{"frames": [
+
+{
+	"filename": "robot_explosion_shorter_000.png",
+	"frame": {"x":0,"y":0,"w":688,"h":684},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":688,"h":684},
+	"sourceSize": {"w":688,"h":684}
+},
+{
+	"filename": "robot_explosion_shorter_001.png",
+	"frame": {"x":688,"y":0,"w":688,"h":684},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":688,"h":684},
+	"sourceSize": {"w":688,"h":684}
+},
+{
+	"filename": "robot_explosion_shorter_002.png",
+	"frame": {"x":0,"y":684,"w":688,"h":684},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":688,"h":684},
+	"sourceSize": {"w":688,"h":684}
+},
+{
+	"filename": "robot_explosion_shorter_003.png",
+	"frame": {"x":688,"y":684,"w":688,"h":684},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":688,"h":684},
+	"sourceSize": {"w":688,"h":684}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "robot_explosion_short.png",
+	"format": "RGBA8888",
+	"size": {"w":1376,"h":1368},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:44d48767a80599464822c936eff49499:aa0454614bdd4ec8b3f0643f2f375c37:cb229ddb2ae945d1cbb9f85c1f1b627d$"
+}
+}

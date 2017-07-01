@@ -1,0 +1,236 @@
+{"frames": [
+
+{
+	"filename": "robot_hammer_swing_000.png",
+	"frame": {"x":0,"y":0,"w":295,"h":279},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":295,"h":279},
+	"sourceSize": {"w":295,"h":279}
+},
+{
+	"filename": "robot_hammer_swing_001.png",
+	"frame": {"x":295,"y":0,"w":295,"h":279},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":295,"h":279},
+	"sourceSize": {"w":295,"h":279}
+},
+{
+	"filename": "robot_hammer_swing_002.png",
+	"frame": {"x":590,"y":0,"w":295,"h":279},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":295,"h":279},
+	"sourceSize": {"w":295,"h":279}
+},
+{
+	"filename": "robot_hammer_swing_003.png",
+	"frame": {"x":885,"y":0,"w":295,"h":279},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":295,"h":279},
+	"sourceSize": {"w":295,"h":279}
+},
+{
+	"filename": "robot_hammer_swing_004.png",
+	"frame": {"x":1180,"y":0,"w":295,"h":279},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":295,"h":279},
+	"sourceSize": {"w":295,"h":279}
+},
+{
+	"filename": "robot_hammer_swing_005.png",
+	"frame": {"x":1475,"y":0,"w":295,"h":279},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":295,"h":279},
+	"sourceSize": {"w":295,"h":279}
+},
+{
+	"filename": "robot_hammer_swing_006.png",
+	"frame": {"x":0,"y":279,"w":295,"h":279},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":295,"h":279},
+	"sourceSize": {"w":295,"h":279}
+},
+{
+	"filename": "robot_hammer_swing_007.png",
+	"frame": {"x":295,"y":279,"w":295,"h":279},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":295,"h":279},
+	"sourceSize": {"w":295,"h":279}
+},
+{
+	"filename": "robot_hammer_swing_008.png",
+	"frame": {"x":590,"y":279,"w":295,"h":279},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":295,"h":279},
+	"sourceSize": {"w":295,"h":279}
+},
+{
+	"filename": "robot_hammer_swing_009.png",
+	"frame": {"x":885,"y":279,"w":295,"h":279},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":295,"h":279},
+	"sourceSize": {"w":295,"h":279}
+},
+{
+	"filename": "robot_hammer_swing_010.png",
+	"frame": {"x":1180,"y":279,"w":295,"h":279},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":295,"h":279},
+	"sourceSize": {"w":295,"h":279}
+},
+{
+	"filename": "robot_hammer_swing_011.png",
+	"frame": {"x":1475,"y":279,"w":295,"h":279},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":295,"h":279},
+	"sourceSize": {"w":295,"h":279}
+},
+{
+	"filename": "robot_hammer_swing_012.png",
+	"frame": {"x":0,"y":558,"w":295,"h":279},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":295,"h":279},
+	"sourceSize": {"w":295,"h":279}
+},
+{
+	"filename": "robot_hammer_swing_013.png",
+	"frame": {"x":295,"y":558,"w":295,"h":279},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":295,"h":279},
+	"sourceSize": {"w":295,"h":279}
+},
+{
+	"filename": "robot_hammer_swing_014.png",
+	"frame": {"x":590,"y":558,"w":295,"h":279},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":295,"h":279},
+	"sourceSize": {"w":295,"h":279}
+},
+{
+	"filename": "robot_hammer_swing_015.png",
+	"frame": {"x":885,"y":558,"w":295,"h":279},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":295,"h":279},
+	"sourceSize": {"w":295,"h":279}
+},
+{
+	"filename": "robot_hammer_swing_016.png",
+	"frame": {"x":1180,"y":558,"w":295,"h":279},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":295,"h":279},
+	"sourceSize": {"w":295,"h":279}
+},
+{
+	"filename": "robot_hammer_swing_017.png",
+	"frame": {"x":1475,"y":558,"w":295,"h":279},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":295,"h":279},
+	"sourceSize": {"w":295,"h":279}
+},
+{
+	"filename": "robot_hammer_swing_018.png",
+	"frame": {"x":0,"y":837,"w":295,"h":279},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":295,"h":279},
+	"sourceSize": {"w":295,"h":279}
+},
+{
+	"filename": "robot_hammer_swing_019.png",
+	"frame": {"x":295,"y":837,"w":295,"h":279},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":295,"h":279},
+	"sourceSize": {"w":295,"h":279}
+},
+{
+	"filename": "robot_hammer_swing_020.png",
+	"frame": {"x":590,"y":837,"w":295,"h":279},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":295,"h":279},
+	"sourceSize": {"w":295,"h":279}
+},
+{
+	"filename": "robot_hammer_swing_021.png",
+	"frame": {"x":885,"y":837,"w":295,"h":279},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":295,"h":279},
+	"sourceSize": {"w":295,"h":279}
+},
+{
+	"filename": "robot_hammer_swing_022.png",
+	"frame": {"x":1180,"y":837,"w":295,"h":279},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":295,"h":279},
+	"sourceSize": {"w":295,"h":279}
+},
+{
+	"filename": "robot_hammer_swing_023.png",
+	"frame": {"x":1475,"y":837,"w":295,"h":279},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":295,"h":279},
+	"sourceSize": {"w":295,"h":279}
+},
+{
+	"filename": "robot_hammer_swing_024.png",
+	"frame": {"x":0,"y":1116,"w":295,"h":279},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":295,"h":279},
+	"sourceSize": {"w":295,"h":279}
+},
+{
+	"filename": "robot_hammer_swing_025.png",
+	"frame": {"x":295,"y":1116,"w":295,"h":279},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":295,"h":279},
+	"sourceSize": {"w":295,"h":279}
+},
+{
+	"filename": "robot_hammer_swing_026.png",
+	"frame": {"x":590,"y":1116,"w":295,"h":279},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":295,"h":279},
+	"sourceSize": {"w":295,"h":279}
+},
+{
+	"filename": "robot_hammer_swing_027.png",
+	"frame": {"x":885,"y":1116,"w":295,"h":279},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":295,"h":279},
+	"sourceSize": {"w":295,"h":279}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "robot_hammer_swing.png",
+	"format": "RGBA8888",
+	"size": {"w":1770,"h":1395},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:84b6b51166b2aab5c3f9d6a649527c5b:26c6b42e76d20a4c9c273726201d6d75:05ce37cfc7a0ef56f39e45123cead8a8$"
+}
+}
