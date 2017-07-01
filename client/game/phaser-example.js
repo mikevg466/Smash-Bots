@@ -11,7 +11,7 @@ export function runGame() {
     window.innerHeight,
     Phaser.CANVAS,
     'phaser-example',
-    {preload, create, update}
+    {preload, create, update, render}
   );
   const inputManager = new InputManager(game);
   let weapon,
@@ -117,10 +117,24 @@ export function runGame() {
 
 
       inputManager.update();
-      // slayer1.update();
+    //   slayer.update();
       if (fireButton.isDown) {
           weapon.fire();
       }
   }
+
+  function render() {
+    
+
+    game.debug.bodyInfo(slayer.sprite);
+
+    game.debug.body(slayer.sprite);
+    // game.debug.body(sprite2);
+
+    // game.debug.bodyInfo(weapon.sprite);
+    // game.debug.body(weapon.sprite)
+
+}
+
 
  }

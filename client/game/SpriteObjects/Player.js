@@ -1,4 +1,5 @@
 import Sprite from './Sprite';
+// import Weapon from './Weapon';
 
 export default class Player extends Sprite{
   constructor(game, spriteName, xCoord, yCoord){
@@ -28,13 +29,19 @@ export default class Player extends Sprite{
       right: true,
     }
 
+    this.jumpCounter = 2
+
     this.setAnchor(0.5, 0.5);
-    this.setPhysics(false);
+    this.setPhysics(true);
     // this.loadPolygon('smashbot000');
     this.setDefault();
     this.setGravity(500)
+    // this.weapon = new Weapon(game, 'thorHammer', this);
+    
   }
-  
+//   update(){
+//     this.weapon.update();
+// }
   setGravity(num){
     this.sprite.body.gravity.y = num;
   }
@@ -73,4 +80,8 @@ export default class Player extends Sprite{
     return {x: this.sprite.x , y: this.sprite.y}
   }
 
+  resetJumps(){
+    //when player touches floor call this method
+    //this.jumpCounter = 2
+  }
 }
