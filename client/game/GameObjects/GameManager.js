@@ -37,6 +37,7 @@ export default class GameManager{
     this[name] = new objType(this.game, spriteName, xCoord, yCoord);
     curInputManager.init(this[name]);
     this.inputManagerList.push(curInputManager);
+    return this[name]; // returns sprite.
   }
 
 }

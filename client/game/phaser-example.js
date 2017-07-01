@@ -2,7 +2,14 @@ import { LocalPlayer, RemotePlayer } from './SpriteObjects';
 import GameManager from './GameObjects/GameManager';
 import store from '../store';
 
-// let game
+let slayer,
+  enemy1,
+  enemy2,
+  enemy3,
+  platform,
+  hitBoxes,
+  hitBox1;
+
 export function runGame() {
 
   // ------ Init Game -------
@@ -32,7 +39,7 @@ export function runGame() {
       }
     };
 
-    gameManager.preload(images, atlasJSONs, physics);
+    gameManager.preload(images, atlasJSONs);
   }
 
 
@@ -42,14 +49,14 @@ export function runGame() {
     gameManager.create('background');
 
     // ------ Add Players -------
-    gameManager.addSprite('slayer', LocalPlayer, 'smashbot', 500, 200);
-    gameManager.addSprite('enemy1', RemotePlayer, 'smashbot', 1000, 200);
-    gameManager.addSprite('enemy2', RemotePlayer, 'smashbot', 1500, 200);
-    gameManager.addSprite('enemy3', RemotePlayer, 'smashbot', 2000, 200);
+    slayer = gameManager.addSprite('slayer', LocalPlayer, 'smashbot', 150, 200);
+    enemy1 = gameManager.addSprite('enemy1', RemotePlayer, 'smashbot', 450, 200);
+    enemy2 = gameManager.addSprite('enemy2', RemotePlayer, 'smashbot', 750, 200);
+    enemy3 = gameManager.addSprite('enemy3', RemotePlayer, 'smashbot', 1050, 200);
 
     // ------ Add Platforms -------
     // TODO: separate out platforms as it's own class and call through gameManager.addSprite
-    const platform = gameManager.game.add.sprite(500, 650, 'platform');
+    platform = gameManager.game.add.sprite(500, 650, 'platform');
     gameManager.game.physics.arcade.enable(platform);
     platform.body.immovable = true;
     platform.scale.setTo(2, 1.2);
@@ -79,13 +86,11 @@ export function runGame() {
      //console.log('overlapped');
   }
   function render() {
-    
 
-    game.debug.bodyInfo(slayer.sprite);
-
-    game.debug.body(slayer.sprite);
+    //game.debug.bodyInfo(slayer.sprite);
+    //game.debug.body(slayer.sprite);
+    //gameManager.game.debug.body(hitBox1);
     // game.debug.body(sprite2);
-
     // game.debug.bodyInfo(weapon.sprite);
     // game.debug.body(weapon.sprite)
 
