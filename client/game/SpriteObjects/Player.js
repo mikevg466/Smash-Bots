@@ -7,7 +7,7 @@ export default class Player extends Sprite{
     // ------ Animations -------
     this.setAnimation(
       'left',
-      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27],
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
       60
     );
     this.setAnimation(
@@ -17,7 +17,7 @@ export default class Player extends Sprite{
     );
     this.setAnimation(
       'right',
-      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27],
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
       60
     );
 
@@ -30,8 +30,13 @@ export default class Player extends Sprite{
 
     this.setAnchor(0.5, 0.5);
     this.setPhysics(false);
-    this.loadPolygon('smashbot000');
+    // this.loadPolygon('smashbot000');
     this.setDefault();
+    this.setGravity(500)
+  }
+  
+  setGravity(num){
+    this.sprite.body.gravity.y = num;
   }
 
   setDirection(direction){

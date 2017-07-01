@@ -35,9 +35,13 @@ export default class InputManager{
     }
     else if (this.isDown(this.controls.right.keys[0])){
       this.player.move('right');
+      
     }
     else {
       this.player.stop();
+    }
+    if (this.isDown(this.controls.jump.keys[0])){
+      this.player.jump();
     }
   }
 

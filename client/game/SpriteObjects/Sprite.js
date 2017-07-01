@@ -1,7 +1,7 @@
 
 export default class Sprite{
   constructor(game, spriteName, xCoord, yCoord){
-    this.sprite = game.add.sprite(this.xCoord, this.yCoord, spriteName);
+    this.sprite = game.add.sprite(xCoord, yCoord, spriteName);
     this.game = game;
     this.xCoord = xCoord;
     this.yCoord = yCoord;
@@ -15,13 +15,13 @@ export default class Sprite{
     this.sprite.anchor.setTo(x, y);
   }
   setPhysics(hasPhysics){
-    this.game.physics.p2.enable(this.sprite, hasPhysics);
+    this.game.physics.arcade.enable(this.sprite, hasPhysics);
   }
 
-  loadPolygon(polygon){
-    this.sprite.body.clearShapes();
-    this.sprite.body.loadPolygon('physicsData', polygon);
-  }
+  // loadPolygon(polygon){
+  //   this.sprite.body.clearShapes();
+  //   this.sprite.body.loadPolygon('physicsData', polygon);
+  // }
 
   setAnimation(name, framesArray, frameRate){
     this.sprite.animations.add(name, framesArray, frameRate, true);
