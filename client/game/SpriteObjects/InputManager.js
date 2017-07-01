@@ -35,7 +35,6 @@ export default class InputManager{
     }
     else if (this.isDown(this.controls.right.keys[0])){
       this.player.move('right');
-      
     }
     else {
       this.player.stop();

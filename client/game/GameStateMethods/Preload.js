@@ -14,8 +14,8 @@ export default class Preload{
       .forEach(key => this.game.load.atlasJSONArray(key, jsonArraysObj[key].png, jsonArraysObj[key].json))
   }
 
-  loadPhysics(physicsObj){
-    Object.keys(physicsObj)
-      .forEach(key => this.game.load.physics(key, physicsObj[key]))
-  }
+  // loadPhysics(physicsObj){
+  //   Object.keys(physicsObj)
+  //     .forEach(key => this.game.load.physics(key, physicsObj[key]))
+  // }
 }
