@@ -33,9 +33,6 @@ export default class Sprite{
     this.sprite.body.collideWorldBounds = false;
     this.sprite.checkWorldBounds = true;
     this.sprite.outOfBoundsKill = true;
-    this.sprite.events.onKilled.add(function(){
-        this.sprite.reset(this.xCoord, this.yCoord);
-    }, this);
   }
 
 }

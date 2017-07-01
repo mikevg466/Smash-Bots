@@ -28,7 +28,7 @@ export default class Player extends Sprite{
       left: false,
       right: true,
     }
-
+    this.lives = 3
     this.jumpCounter = 2
 
     this.setAnchor(0.5, 0.5);
@@ -36,6 +36,11 @@ export default class Player extends Sprite{
     // this.loadPolygon('smashbot000');
     this.setDefault();
     this.setGravity(500)
+    this.sprite.events.onKilled.add(function(){
+        this.lives -= 1
+        if(this.lives > 0){
+        this.sprite.reset(this.xCoord, this.yCoord)};
+    }, this);
     // this.weapon = new Weapon(game, 'thorHammer', this);
     
   }
