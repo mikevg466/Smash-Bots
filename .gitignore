@@ -5,4 +5,3 @@ secrets.js
 yarn.lock
 .DS_Store
 npm-debug.log
-client/game/SpriteObjects/weapon.js
