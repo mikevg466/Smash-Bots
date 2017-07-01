@@ -21,7 +21,6 @@ export default class InputManager{
         keys:["SPACEBAR"],
         state: 0,
         timeCount: 0,
-        jumpCount: 2
       }
     }
     this.player = null;

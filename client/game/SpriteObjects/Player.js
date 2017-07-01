@@ -27,9 +27,10 @@ export default class Player extends Sprite{
       down: false,
       left: false,
       right: true,
-    }
-    this.lives = 3
-    this.jumpCounter = 2
+    };
+
+    this.lives = 3;
+    this.jumpCounter = 2;
 
     this.setAnchor(0.5, 0.5);
     this.setPhysics(true);
@@ -37,12 +38,12 @@ export default class Player extends Sprite{
     this.setDefault();
     this.setGravity(500)
     this.sprite.events.onKilled.add(function(){
-        this.lives -= 1
-        if(this.lives > 0){
-        this.sprite.reset(this.xCoord, this.yCoord)};
+        this.lives -= 1;
+        if (this.lives > 0){
+          this.sprite.reset(this.xCoord, this.yCoord)
+        }
     }, this);
-    // this.weapon = new Weapon(game, 'thorHammer', this);
-    
+    // this.weapon = new Weapon(game, 'thorHammer', this); 
   }
 //   update(){
 //     this.weapon.update();
@@ -52,7 +53,7 @@ export default class Player extends Sprite{
   }
 
   setDirection(direction){
-    switch(direction){
+    switch (direction){
       case 'left':
         this.direction.left = true;
         this.direction.right = false;
@@ -82,11 +83,11 @@ export default class Player extends Sprite{
   }
 
   getPosition(){
-    return {x: this.sprite.x , y: this.sprite.y}
+    return {x: this.sprite.x, y: this.sprite.y};
   }
 
   resetJumps(){
-    //when player touches floor call this method
+    //when player collides with floor call this method
     //this.jumpCounter = 2
   }
 }
