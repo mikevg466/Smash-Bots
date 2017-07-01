@@ -15,7 +15,6 @@ export default class GameManager{
       physicsConfig
     );
     this.inputManagerList = [];
-    this.inputManager = new InputManager(this.game);
     this.onCreate = Create.bind(this);
     this.onPreload = Preload.bind(this);
     this.onUpdate = Update.bind(this);
