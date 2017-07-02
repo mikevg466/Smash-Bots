@@ -32,11 +32,31 @@ export default class GameManager{
     this.onUpdate();
   }
 
-  addSprite(name, objType, spriteName, xCoord, yCoord){
+  addPlayer(name, objType, spriteName, xCoord, yCoord, playerNumber){
+    this[name] = new objType(this.game, spriteName, xCoord, yCoord, playerNumber);
     const curInputManager = new InputManager(this.game);
-    this[name] = new objType(this.game, spriteName, xCoord, yCoord);
     curInputManager.init(this[name]);
     this.inputManagerList.push(curInputManager);
+  }
+
+  addSprite(name, objType, spriteName, xCoord, yCoord){
+    this[name] = new objType(this.game, spriteName, xCoord, yCoord);
+  }
+
+  addCollisions(aObjNameList, bObjName){
+    aObjNameList.forEach(aObjName =>
+      this.game.physics.arcade.collide(this[aObjName].sprite, this[bObjName].sprite, this.collideCallback)
+    );
+  }
+
+
+  // optional callbacks
+  collideCallback(){
+    // console.log('collided');
+  }
+
+  overlapCallback(){
+     //console.log('overlapped');
   }
 
 }
