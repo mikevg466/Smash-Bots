@@ -107,6 +107,17 @@ socketServer.makeSocketServer = server => {
 
     })
 
+    client.on('endGame', () => {
+      server.sockets.emit('stopGame')
+    })
+
+    client.on('clientStateChange', (playerState) => {
+      // update global state
+      serverReduxStore.dispatch({
+        type: 'UPDATE_PLAYER',
+        player: playerState
+      })
+      
     client.on('playerStateChanges', (playersStates) => {
       //playersStates is an object with only the changes about a client and his enemies that he affected.
       serverReduxStore.dispatch(updatePlayers(playersStates))
@@ -120,6 +131,7 @@ socketServer.makeSocketServer = server => {
       // find out which room the client is in
       server.to(findRoomForClient(client)).emit('addChatMessage', msg, client.id);
     });
+
 
     function broadcastDebugMsg(msg) {
       server.sockets.emit('debugMessage', msg);

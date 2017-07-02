@@ -1,5 +1,6 @@
 import { Create, Preload, Update } from './StateMethods';
 import InputManager from './InputManager';
+import { emitEndGame } from '../../sockets/client';
 
 
 export default class GameManager{
@@ -37,6 +38,11 @@ export default class GameManager{
     const curInputManager = new InputManager(this.game);
     curInputManager.init(this[name]);
     this.inputManagerList.push(curInputManager);
+  }
+  endGame() {
+    this.game.cache.destroy()
+    this.game.destroy();
+    emitEndGame();
   }
 
   addSprite(name, objType, spriteName, xCoord, yCoord){

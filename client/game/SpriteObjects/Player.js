@@ -128,7 +128,10 @@ export default class Player extends Sprite{
   }
 
   resetJumps(){
-    //when player collides with floor call this method
-    //this.jumpCounter = 2
+    this.jumpCounter = 2;
   }
 }
+
+
+//onfloor = false
+//oncollision => if(i)

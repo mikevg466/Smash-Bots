@@ -29,7 +29,6 @@ export default class InputManager{
       }
       if (this.player.jumpCounter >= 0 ) {
         this.player.jump()
-        console.log(this.player.jumpCounter)
       }
     })
   }

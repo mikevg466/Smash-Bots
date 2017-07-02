@@ -5,7 +5,6 @@ import { emitPlayerStateChanges } from '../sockets/client';
 import store from '../store';
 // import throttle from 'lodash.throttle';
 
-// let game
 export function runGame(localPlayerNum, remotePlayerNums) {
 
   // ------ Init Game -------
@@ -17,6 +16,9 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     {preload, create, update, render}
   );
 
+  let totalLives;
+  let gameText;
+  
   // ------ PreLoad -------
   function preload() {
     const images = {
@@ -27,6 +29,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
       bullet: 'assets/sprites/bullet.png',
       weapon: store.getState().game.localPlayer.weaponGraphic,
       thorHammer: 'ourAssets/weapons/hammer_thors.png',
+      gameText: 'assets/fonts/retrofonts/mmegadeth_tlb.png'
     };
     const atlasJSONs = {
       smashbot: {
@@ -52,7 +55,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
       { xCoord: 1100, yCoord: 200 },
     ];
 
-    if(localPlayerNum){
+    if (localPlayerNum){
       const { xCoord, yCoord } = playerList[localPlayerNum - 1];
       gameManager.addPlayer('localPlayer', LocalPlayer, 'smashbot', xCoord, yCoord, localPlayerNum);
     }
@@ -61,6 +64,8 @@ export function runGame(localPlayerNum, remotePlayerNums) {
         const { xCoord, yCoord } = playerList[playerNum - 1];
         gameManager.addPlayer('remote' + playerNum, RemotePlayer, 'smashbot', xCoord, yCoord, playerNum);
       });
+
+    
 
     // ------ Add Platforms -------
     gameManager.addSprite('platform', Platform, 'platform', 500, 650);
@@ -83,6 +88,17 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 
     gameManager.update();
 
+    let arrayLives = [];
+    gameManager.inputManagerList.forEach(inputManager => arrayLives.push(inputManager.player.lives))
+    
+    let totalLives = arrayLives.reduce((acc, cur) => acc + cur, 0)
+    if (totalLives === 1) {
+      var winner = gameManager.inputManagerList.filter(inputManager => inputManager.player.lives === 1);
+      console.log(winner[0].player.playerNumber);
+      gameManager.endGame();
+    }
+    console.log(totalLives)
+    
     // handle position changes
     const localPlayerState = localPlayerNum  ? {
       xCoord: gameManager.localPlayer.sprite.position.x,
@@ -118,3 +134,4 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 
   }
 }
+// }
