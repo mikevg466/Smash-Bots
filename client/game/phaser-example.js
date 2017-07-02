@@ -78,6 +78,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     localPlayerNum && players.push('localPlayer');
     remotePlayerNums.forEach(playerNum => players.push('remote' + playerNum))
     gameManager.addCollisions(players, 'platform');
+
     // gameManager.game.physics.arcade.overlap(gameManager.localPlayer.sprite, gameManager.remote1.sprite, overlapCallback); // default. change to collide when player attacks.
 
     gameManager.update();
@@ -110,5 +111,5 @@ export function runGame(localPlayerNum, remotePlayerNums) {
   //   // game.debug.bodyInfo(weapon.sprite);
   //   // game.debug.body(weapon.sprite)
 
+  }
 }
- }

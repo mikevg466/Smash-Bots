@@ -34,12 +34,7 @@ module.exports = function (state = initialState, action) {
       break;
 
     case REMOVE_CLIENT:
-      const clientRemovedArr = newState.clients
-        .slice(0)
-        .splice(
-          newState.clients.findIndex(client => client.id === action[client.id]),
-          1
-        )
+      const clientRemovedArr = newState.clients.filter(client => client.id !== action.client.id)
       newState.clients = clientRemovedArr
       break;
 
