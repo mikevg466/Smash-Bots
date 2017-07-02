@@ -31,8 +31,8 @@ gameRedux.reducers = (state = initialState, action) => {
 
     case UPDATE_PLAYERS:
       Object.keys(action.players).forEach(playerNumber => {
-        for(let key in action.players){
-          newState.players[playerNumber][key] = action.players[key]
+        for(let key in action.players[playerNumber]){
+          newState.players[playerNumber][key] = action.players[playerNumber][key]
         }
       })
       break;
