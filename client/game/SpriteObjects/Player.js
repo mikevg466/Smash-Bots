@@ -7,24 +7,14 @@ export default class Player extends Sprite{
 
     // ------ Animations -------
     this.setAnimation(
-      'left',
+      'move',
       [6, 7, 8, 9],
-      10
+      10, true
     );
     this.setAnimation(
-      'right',
-      [6, 7, 8, 9],
-      10
-    );
-    this.setAnimation(
-      'swingLeft',
-      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27],
-      60
-    );
-    this.setAnimation(
-      'swingRight',
-      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27],
-      60
+      'swing',
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 27, 27, 27, 27, 27, 27, 6],
+      60, false
     );
 
     // default controls
@@ -73,20 +63,24 @@ export default class Player extends Sprite{
     switch(direction){
       case 'left':
         this.setDirection('left');
-        this.sprite.animations.play('left');
+        this.sprite.animations.play('move');
         break;
 
       case 'right':
         this.setDirection('right');
-        this.sprite.animations.play('right');
+        this.sprite.animations.play('move');
         break;
 
-      default:
-        this.sprite.body.velocity.x = 0;
-        this.sprite.animations.stop();
-        break;
+      // default:
+      //   this.sprite.body.velocity.x = 0;
+      //   // this.sprite.animations.stop();
+      //   break;
     }
   }
+
+  // attack(){
+  //   this.sprite.animations.play('swing');
+  // }
 
   setGravity(num){
     this.sprite.body.gravity.y = num;
@@ -121,8 +115,8 @@ export default class Player extends Sprite{
 
   stop(){
     this.sprite.body.velocity.x = 0;
-    this.sprite.animations.stop();
   }
+
 
   getPosition(){
     return {x: this.sprite.x, y: this.sprite.y};

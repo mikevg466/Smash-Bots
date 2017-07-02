@@ -76,8 +76,8 @@ export function runGame() {
     hitBox1 = hitBoxes.create(150, -50, null);
     hitBox2 = hitBoxes.create(-150, -50, null);
     // set the size of the hitBox, and its position relative to the player
-    hitBox1.body.setSize(68, 166, slayer.sprite.width / 3, 0); // slayer.sprite.width, slayer.sprite.height / 2);
-    hitBox2.body.setSize(68, 166, -(slayer.sprite.width / 3), 0);
+    hitBox1.body.setSize(68, 166, slayer.sprite.width / 6 - 50, 0); // slayer.sprite.width, slayer.sprite.height / 2);
+    hitBox2.body.setSize(68, 166, -(slayer.sprite.width / 6), 0);
     // add some properties to the hitBox. These can be accessed later for use in calculations
     const assignHitBoxProperties = hitBox => {
       hitBox.name = 'hit';
@@ -87,7 +87,7 @@ export function runGame() {
     }
     assignHitBoxProperties(hitBox1);
     assignHitBoxProperties(hitBox2);
-
+    gameManager.game.physics.arcade.enable([hitBox1, hitBox2]);
 
     // ------ Set Collisions -------
 
@@ -97,12 +97,21 @@ export function runGame() {
 
   // ------ Update -------
   function update(){
+    // adding platform collisions
     // make a method:
     gameManager.game.physics.arcade.collide(slayer.sprite, platform, collideCallback); // optional: add callback
     gameManager.game.physics.arcade.collide(enemy1.sprite, platform, collideCallback);
     gameManager.game.physics.arcade.collide(enemy2.sprite, platform, collideCallback);
     gameManager.game.physics.arcade.collide(enemy3.sprite, platform, collideCallback);
-    gameManager.game.physics.arcade.overlap(slayer.sprite, enemy1.sprite, overlapCallback); // default. change to collide when player attacks.
+
+    // adding smashbot collisions
+    //gameManager.game.physics.arcade.overlap(slayer.sprite, enemy1.sprite, overlapCallback); // default. change to collide when player attacks.
+    gameManager.game.physics.arcade.collide(slayer.sprite, enemy1.sprite, collideCallback);
+    gameManager.game.physics.arcade.collide(slayer.sprite, enemy2.sprite, collideCallback);
+    gameManager.game.physics.arcade.collide(slayer.sprite, enemy3.sprite, collideCallback);
+    gameManager.game.physics.arcade.collide(slayer.sprite, enemy3.sprite, collideCallback);
+
+    //gameManager.game.input.onDown.add(toggleHitBoxes);
 
     gameManager.update();
   }
@@ -112,22 +121,27 @@ export function runGame() {
   function overlapCallback(){
     //console.log('overlapped');
   }
-  // activate a hitbox by name
-  function enableHitBox(hitBoxName) {
-    // search all the hitboxes
-    for (var i = 0; i < hitBoxes.children.length; i++){
-    // if we find the hitbox with the “name” specified
-      if (hitBoxes.children[i].name === hitBoxName){
-        hitBoxes.children[i].reset(0,0);  // reset it
-      }
-    }
-  }
-  // disable all active hitboxes
-  function disableAllHitBoxes() {
-    hitBoxes.forEachExists(function(hitBox) {
-      hitBox.kill();
-    });
-  }
+  // // activate a hitbox by name
+  // function enableHitBox(hitBoxName) {
+  //   // search all the hitboxes
+  //   for (var i = 0; i < hitBoxes.children.length; i++){
+  //   // if we find the hitbox with the “name” specified
+  //     if (hitBoxes.children[i].name === hitBoxName){
+  //       hitBoxes.children[i].reset(0,0);  // reset it
+  //     }
+  //   }
+  // }
+  // // disable all active hitboxes
+  // function disableAllHitBoxes() {
+  //   hitBoxes.forEachExists(function(hitBox) {
+  //     hitBox.kill();
+  //   });
+  // }
+  // toggle hitBoxes on and off
+  // function toggleHitBoxes() {
+  //   hitBox1.body.enable = !hitBox1.body.enable;
+  //   hitBox2.body.enable = !hitBox2.body.enable;
+  // }
 
   // ------ Render -------
   function render() {

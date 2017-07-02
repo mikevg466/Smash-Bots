@@ -6,20 +6,16 @@ export default class RemotePlayer extends Player{
 
     // ------ Animations -------
     this.setAnimation(
-      'left',
-      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27],
-      60
+      'move',
+      [6, 7, 8, 9],
+      10, true
     );
     this.setAnimation(
-      'turn',
-      [14],
-      20
+      'swing',
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 27, 27, 27, 27, 27, 27, 6],
+      60, false
     );
-    this.setAnimation(
-      'right',
-      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27],
-      60
-    );
+
 
     this.direction = {
       up: false,
@@ -31,6 +27,9 @@ export default class RemotePlayer extends Player{
 
   jump(){
     // this.sprite.body.velocity.y = -320
+  }
+  attack(){
+
   }
 
 }
