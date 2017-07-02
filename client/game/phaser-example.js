@@ -1,6 +1,6 @@
 import { LocalPlayer, RemotePlayer, Platform } from './SpriteObjects';
 import GameManager from './GameObjects/GameManager';
-import { processLocalState } from '../redux/game';
+import { updateLocalState } from '../redux/game';
 import { emitPlayerStateChanges } from '../sockets/client';
 import store from '../store';
 // import throttle from 'lodash.throttle';
