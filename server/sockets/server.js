@@ -112,12 +112,12 @@ socketServer.makeSocketServer = server => {
 
     })
 
-    client.on('playerStateChanges', (playersStates) => {    
+    client.on('playerStateChanges', (playersStates) => {
       //playersStates is an object with only the changes about a client and his enemies that he affected.
       Object.keys(playersStates).forEach(playerNumber => {
         serverReduxStore.dispatch({
           type: 'UPDATE_PLAYER',
-          player: playerStates[playerNumber]
+          player: playersStates[playerNumber]
         })
       })
       server.sockets.emit('playerStateUpdates', server.getState().game.players)
