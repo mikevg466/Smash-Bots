@@ -1,4 +1,5 @@
 import Player from './Player';
+// import GameManager from './GameObjects/GameManager';
 
 export default class LocalPlayer extends Player{
   constructor(game, spriteName, xCoord, yCoord){
@@ -42,15 +43,12 @@ export default class LocalPlayer extends Player{
   }
 
   attack(swingRightTrue){
-    let hitBox1, hitBox2;
-    if (this.sprite.children[0].name === 'hitBoxes'){
-      hitBox1 = this.sprite.children[0][0];
-      hitBox2 = this.sprite.children[0][1];
-    }
+    const hitBoxR = this.sprite.children[0];
+    const hitBoxL = this.sprite.children[1];
     if (swingRightTrue){
-      this.game.physics.arcade.collide(hitBox1, enemy1);
+      //this.game.physics.arcade.collide(hitBoxR, enemy1);
     } else {
-      this.game.physics.arcade.collide(hitBox2, enemy1);
+      // this.game.physics.arcade.collide(hitBoxL, enemy1);
     }
     this.sprite.animations.play('swing');
   }
@@ -58,10 +56,5 @@ export default class LocalPlayer extends Player{
   jump(){
     this.sprite.body.velocity.y = -320;
   }
-
-  // attack(){
-  //   if (this.direction.right) this.sprite.animations.play('swingRight');
-  //   else this.sprite.animations.play('swingLeft');
-  // }
 
 }

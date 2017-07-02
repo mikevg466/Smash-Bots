@@ -9,7 +9,9 @@ let slayer,
   platform,
   hitBoxes,
   hitBox1,
-  hitBox2;
+  hitBox2,
+  hitBoxR,
+  hitBoxL;
 
 export function runGame() {
 
@@ -32,6 +34,7 @@ export function runGame() {
       bullet: 'assets/sprites/bullet.png',
       weapon: store.getState().game.localPlayer.weaponGraphic,
       thorHammer: 'ourAssets/weapons/hammer_thors.png',
+      hitBoxT: 'ourAssets/transparent_box.png'
     };
     const atlasJSONs = {
       smashbot: {
@@ -55,6 +58,9 @@ export function runGame() {
     enemy3 = gameManager.addSprite('enemy3', RemotePlayer, 'smashbot', 1050, 200);
     slayer = gameManager.addSprite('slayer', LocalPlayer, 'smashbot', 150, 200);
 
+    enemy1.sprite.body.velocity.setTo(100, 5);
+    console.log(enemy1.sprite.body.velocity)
+
     // ------ Add Platforms -------
     // TODO: separate out platforms as it's own class and call through gameManager.addSprite
     platform = gameManager.game.add.sprite(500, 650, 'platform');
@@ -63,31 +69,49 @@ export function runGame() {
     platform.scale.setTo(2, 1.2);
     platform.anchor.setTo(0.5, 0.5);
 
-    // ------ Add HitBoxes -------
-    // make the player
-    // create a group for all the player’s hitBoxes
-    hitBoxes = gameManager.game.add.group();
-    hitBoxes.name = 'hitBoxes';
-    // give all the hitBoxes a physics body (using arcade physics)
-    hitBoxes.enableBody = true;
-    // make the hitBoxes children of the player. They will now move with the player
-    slayer.sprite.addChild(hitBoxes);
-    // create a “hitBox” (really just an empty sprite with a physics body)
-    hitBox1 = hitBoxes.create(150, -50, null);
-    hitBox2 = hitBoxes.create(-150, -50, null);
-    // set the size of the hitBox, and its position relative to the player
-    hitBox1.body.setSize(68, 166, slayer.sprite.width / 6 - 50, 0); // slayer.sprite.width, slayer.sprite.height / 2);
-    hitBox2.body.setSize(68, 166, -(slayer.sprite.width / 6), 0);
-    // add some properties to the hitBox. These can be accessed later for use in calculations
-    const assignHitBoxProperties = hitBox => {
-      hitBox.name = 'hit';
-      hitBox.damage = 50;
-      hitBox.knockbackDirection = 0.5;  // TODO: should not be a constant
-      hitBox.knockbackAmt = 600;
-    }
-    assignHitBoxProperties(hitBox1);
-    assignHitBoxProperties(hitBox2);
-    gameManager.game.physics.arcade.enable([hitBox1, hitBox2]);
+    // // ------ Add HitBoxes -------
+    // // make the player
+    // // create a group for all the player’s hitBoxes
+    // hitBoxes = gameManager.game.add.group();
+    // hitBoxes.name = 'hitBoxes';
+    // // give all the hitBoxes a physics body (using arcade physics)
+    // hitBoxes.enableBody = true;
+    // // make the hitBoxes children of the player. They will now move with the player
+    // slayer.sprite.addChild(hitBoxes);
+    // // create a “hitBox” (really just an empty sprite with a physics body)
+    // hitBox1 = hitBoxes.create(150, -50, null);
+    // hitBox2 = hitBoxes.create(-150, -50, null);
+    // // set the size of the hitBox, and its position relative to the player
+    // hitBox1.body.setSize(68, 166, slayer.sprite.width / 6 - 50, 0); // slayer.sprite.width, slayer.sprite.height / 2);
+    // hitBox2.body.setSize(68, 166, -(slayer.sprite.width / 6), 0);
+    // // add some properties to the hitBox. These can be accessed later for use in calculations
+    // const assignHitBoxProperties = hitBox => {
+    //   hitBox.name = 'hit';
+    //   hitBox.damage = 50;
+    //   hitBox.knockbackDirection = 0.5;  // TODO: should not be a constant
+    //   hitBox.knockbackAmt = 600;
+    // }
+    // assignHitBoxProperties(hitBox1);
+    // assignHitBoxProperties(hitBox2);
+    // gameManager.game.physics.arcade.enable([hitBox1, hitBox2]);
+
+  hitBoxR = slayer.sprite.addChild(gameManager.game.make.sprite(150, -50, 'hitBoxT'));
+  hitBoxL = slayer.sprite.addChild(gameManager.game.make.sprite(-150, -50, 'hitBoxT'));
+  gameManager.game.physics.arcade.enable([hitBoxR, hitBoxL], true);
+  //hitBoxR.body.setSize(68, 166, slayer.sprite.width / 6 - 50, 0);
+  //hitBoxL.body.setSize(68, 166, -(slayer.sprite.width / 6), 0);
+  hitBoxR.body.setSize(68, 166, slayer.sprite.width / 6 - 50, 0);
+  hitBoxL.body.setSize(68, 166, -(slayer.sprite.width / 6), 0);
+  const assignHitBoxProperties = (hitBox, name) => {
+    hitBox.name = name;
+    hitBox.damage = 50;
+    hitBox.knockbackDirection = 0.5;  // TODO: should not be a constant
+    hitBox.knockbackAmt = 600;
+  };
+  assignHitBoxProperties(hitBoxR, 'hitBoxR');
+  assignHitBoxProperties(hitBoxL, 'hitBoxL');
+
+
 
     // ------ Set Collisions -------
 
@@ -97,6 +121,7 @@ export function runGame() {
 
   // ------ Update -------
   function update(){
+
     // adding platform collisions
     // make a method:
     gameManager.game.physics.arcade.collide(slayer.sprite, platform, collideCallback); // optional: add callback
@@ -111,13 +136,41 @@ export function runGame() {
     gameManager.game.physics.arcade.collide(slayer.sprite, enemy3.sprite, collideCallback);
     gameManager.game.physics.arcade.collide(slayer.sprite, enemy3.sprite, collideCallback);
 
+    gameManager.game.physics.arcade.overlap(hitBoxR, enemy1.sprite,
+    overlapCallbackHit);
+    gameManager.game.physics.arcade.overlap(hitBoxR, enemy2.sprite,
+    overlapCallbackHit);
+    gameManager.game.physics.arcade.overlap(hitBoxR, enemy3.sprite, overlapCallbackHit);
+
     //gameManager.game.input.onDown.add(toggleHitBoxes);
 
     gameManager.update();
   }
   function collideCallback(){
-    // console.log('collided');
+    //console.log('collided');
   }
+  function overlapCallbackHit(hitBox, enemy){
+    console.log('overlap')
+    if (enemy.isFlying) return;
+    enemy.isFlying = true;
+    let randomY = Math.random() * 200 - 100;
+    enemy.body.moves = true;
+    if (hitBox.name === 'hitBoxR') {
+      setVelocity(enemy, 100, randomY);
+    } else {
+      setVelocity(enemy, -100, randomY);
+    }
+  }
+  // function isFirstHit(hitBox, enemy){
+
+  // }
+
+  function setVelocity(enemy, x, y){
+    console.log(enemy.body.velocity)
+    enemy.body.velocity.setTo(x, y);
+    console.log(enemy.body.velocity)
+  }
+
   function overlapCallback(){
     //console.log('overlapped');
   }
@@ -146,14 +199,14 @@ export function runGame() {
   // ------ Render -------
   function render() {
 
-    gameManager.game.debug.bodyInfo(slayer.sprite, 100, 100);
-    gameManager.game.debug.body(slayer.sprite);
-    gameManager.game.debug.body(hitBox1);
-    gameManager.game.debug.body(hitBox2);
+    // gameManager.game.debug.bodyInfo(slayer.sprite, 100, 100);
+    // gameManager.game.debug.body(slayer.sprite);
+    // gameManager.game.debug.body(hitBoxR);
+    // gameManager.game.debug.body(hitBoxL);
 
-    gameManager.game.debug.body(enemy1.sprite);
-    gameManager.game.debug.body(enemy2.sprite);
-    gameManager.game.debug.body(enemy3.sprite);
+    // gameManager.game.debug.body(enemy1.sprite);
+    // gameManager.game.debug.body(enemy2.sprite);
+    // gameManager.game.debug.body(enemy3.sprite);
 
   }
 }

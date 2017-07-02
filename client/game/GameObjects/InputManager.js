@@ -1,9 +1,11 @@
 //game = this.game, option = {......}
+let moving = false;
 export default class InputManager{
   constructor(game){
     this.game = game,
     this.player = null;
   }
+
 
   init(player){
     this.player = player;
@@ -12,6 +14,7 @@ export default class InputManager{
   update(){
     const controls = this.player.controls;
     if (controls.left.keys && this.isDown(controls.left.keys[0])){
+      moving = true;
       if (controls.attack.keys && this.isDown(controls.attack.keys[0])) {
         this.player.attack(false);
       } else {
@@ -19,15 +22,19 @@ export default class InputManager{
       }
     }
     else if (controls.right.keys && this.isDown(controls.right.keys[0])){
+      moving = true;
       if (controls.attack.keys && this.isDown(controls.attack.keys[0])) {
         this.player.attack(true);
       } else {
         this.player.move('right');
       }
     }
-    else {
-      this.player.stop();
-    }
+    // else if (moving) {
+    //   console.log('hi', moving)
+    //   this.player.stop();
+    //   moving = false;
+    //   console.log('=====>', moving)
+    // }
 
 
     const jumpKey = this.game.input.keyboard.addKey(Phaser.Keyboard.U);
@@ -37,22 +44,15 @@ export default class InputManager{
       }
       if (this.player.jumpCounter >= 0 ) {
         this.player.jump();
-        console.log(this.player.jumpCounter);
+        //console.log(this.player.jumpCounter);
       }
-    })
+    });
 
     const attackKey = this.game.input.keyboard.addKey(Phaser.Keyboard.L);
     attackKey.onDown.add((L) => {
       const swingRightTrue = this.player.direction.right;
       this.player.attack(swingRightTrue);
-    })
-    // if (controls.attack.keys && this.isDown(controls.attack.keys[0])){
-    //   this.player.attack();
-    // }
-    // else {
-    //   this.player.sprite.animations.play('move')
-    // }
-    // });
+    });
   }
 
   isDown(keyCode){
