@@ -22,16 +22,21 @@ export default class InputManager{
       this.player.stop();
     }
 
-    let key1 = this.game.input.keyboard.addKey(Phaser.Keyboard.U)
+    const key1 = this.game.input.keyboard.addKey(Phaser.Keyboard.U);
     key1.onDown.add((U) => {
       if (key1.justDown) {
       this.player.jumpCounter -= 1;
       }
       if (this.player.jumpCounter >= 0 ) {
-        this.player.jump()
-        console.log(this.player.jumpCounter)
+        this.player.jump();
+        console.log(this.player.jumpCounter);
       }
-    })
+    });
+
+    // const attackKey = this.game.input.keyboard.addKey(Phaser.Keyboard.F);
+    //   attackKey.onDown.add(() => {
+    //   this.player.attack();
+    // });
   }
 
   isDown(keyCode){

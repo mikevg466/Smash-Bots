@@ -35,11 +35,11 @@ export default class Player extends Sprite{
       right: {
         keys: null
       },
-      attack:{
+      attack: {
         keys: null,
         timeCount: 0,
       },
-      jump:{
+      jump: {
         keys: null,
       }
     }
@@ -54,17 +54,17 @@ export default class Player extends Sprite{
     this.lives = 3;
     this.jumpCounter = 2;
 
-    this.setAnchor(0.5, 0.5);
+    this.setAnchor(0.27, 0.5);
     this.setPhysics(true);
-    // this.loadPolygon('smashbot000');
     this.setDefault();
+    this.sprite.body.setSize(68, 166, 44, 94); // hitBox
 
     this.setGravity(500);
     this.sprite.events.onKilled.add(function(){
-        this.lives -= 1;
-        if (this.lives > 0){
-          this.sprite.reset(this.xCoord, this.yCoord)
-        }
+      this.lives -= 1;
+      if (this.lives > 0){
+        this.sprite.reset(this.xCoord, this.yCoord);
+      }
     }, this);
   }
 
@@ -98,18 +98,20 @@ export default class Player extends Sprite{
         this.direction.left = true;
         this.direction.right = false;
         this.sprite.scale.x = -1;
+        if (this.sprite.children[0].name === 'hitBoxes') this.sprite.children[0].scale.x = -1;
         break;
 
       case 'right':
         this.direction.right = true;
         this.direction.left = false;
         this.sprite.scale.x = 1;
+        if (this.sprite.children[0].name === 'hitBoxes') this.sprite.children[0].scale.x = 1;
         break;
     }
   }
 
   getDirection(){
-    for( var key in this.direction){
+    for ( var key in this.direction){
       if (this.direction[key]){
         return key;
       }

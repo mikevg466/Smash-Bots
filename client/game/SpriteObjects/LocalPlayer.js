@@ -42,7 +42,12 @@ export default class LocalPlayer extends Player{
   }
 
   jump(){
-    this.sprite.body.velocity.y = -320
+    this.sprite.body.velocity.y = -320;
   }
+
+  // attack(){
+  //   if (this.direction.right) this.sprite.animations.play('swingRight');
+  //   else this.sprite.animations.play('swingLeft');
+  // }
 
 }

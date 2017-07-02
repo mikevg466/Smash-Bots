@@ -8,7 +8,8 @@ let slayer,
   enemy3,
   platform,
   hitBoxes,
-  hitBox1;
+  hitBox1,
+  hitBox2;
 
 export function runGame() {
 
@@ -31,7 +32,6 @@ export function runGame() {
       bullet: 'assets/sprites/bullet.png',
       weapon: store.getState().game.localPlayer.weaponGraphic,
       thorHammer: 'ourAssets/weapons/hammer_thors.png',
-      hitBox: 'ourAssets',
     };
     const atlasJSONs = {
       smashbot: {
@@ -65,22 +65,29 @@ export function runGame() {
 
     // ------ Add HitBoxes -------
     // make the player
-    // create a group for all the player’s hitboxes
+    // create a group for all the player’s hitBoxes
     hitBoxes = gameManager.game.add.group();
-    // give all the hitboxes a physics body (using arcade physics)
+    hitBoxes.name = 'hitBoxes';
+    // give all the hitBoxes a physics body (using arcade physics)
     hitBoxes.enableBody = true;
-    // make the hitboxes children of the player. They will now move with the player
+    // make the hitBoxes children of the player. They will now move with the player
     slayer.sprite.addChild(hitBoxes);
-    // create a “hitbox” (really just an empty sprite with a physics body)
-    hitBox1 = hitBoxes.create(0, 0, null); // 'hitBox'
-    // set the size of the hitbox, and its position relative to the player
-    hitBox1.body.setSize(50, 50, slayer.sprite.width, slayer.sprite.height / 2);
-    // add some properties to the hitbox. These can be accessed later for use in calculations
-    hitBox1.name = 'punch';
-    hitBox1.damage = 50;
-    hitBox1.knockbackDirection = 0.5;
-    hitBox1.knockbackAmt = 600;
-    console.log('slayer', hitBox1);
+    // create a “hitBox” (really just an empty sprite with a physics body)
+    hitBox1 = hitBoxes.create(150, -50, null);
+    hitBox2 = hitBoxes.create(-150, -50, null);
+    // set the size of the hitBox, and its position relative to the player
+    hitBox1.body.setSize(68, 166, slayer.sprite.width / 3, 0); // slayer.sprite.width, slayer.sprite.height / 2);
+    hitBox2.body.setSize(68, 166, -(slayer.sprite.width / 3), 0);
+    // add some properties to the hitBox. These can be accessed later for use in calculations
+    const assignHitBoxProperties = hitBox => {
+      hitBox.name = 'hit';
+      hitBox.damage = 50;
+      hitBox.knockbackDirection = 0.5;  // TODO: should not be a constant
+      hitBox.knockbackAmt = 600;
+    }
+    assignHitBoxProperties(hitBox1);
+    assignHitBoxProperties(hitBox2);
+
 
     // ------ Set Collisions -------
 
@@ -125,12 +132,14 @@ export function runGame() {
   // ------ Render -------
   function render() {
 
-    //game.debug.bodyInfo(slayer.sprite);
+    gameManager.game.debug.bodyInfo(slayer.sprite, 100, 100);
     gameManager.game.debug.body(slayer.sprite);
-    //gameManager.game.debug.body(hitBox1);
-    // game.debug.body(sprite2);
-    // game.debug.bodyInfo(weapon.sprite);
-    // game.debug.body(weapon.sprite)
+    gameManager.game.debug.body(hitBox1);
+    gameManager.game.debug.body(hitBox2);
+
+    gameManager.game.debug.body(enemy1.sprite);
+    gameManager.game.debug.body(enemy2.sprite);
+    gameManager.game.debug.body(enemy3.sprite);
 
   }
 }
