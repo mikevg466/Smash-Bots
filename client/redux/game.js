@@ -4,12 +4,18 @@ const END_GAME = 'END_GAME';
 const UPDATE_PLAYERS_STATE = 'UPDATE_PLAYERS_STATE';
 const SET_PLAYER = 'SET_PLAYER';
 const INIT_PLAYERS = 'INIT_PLAYERS';
+const UPDATE_LOCAL_STATE = 'UPDATE_LOCAL_STATE';
 
 // ------ ACTION CREATORS -------
 export const startGame = () => ({ type: START_GAME });
 export const endGame = () => ({ type: END_GAME });
 export const updatePlayersState = (localPlayer, remotePlayers) => ({
   type: UPDATE_PLAYERS_STATE,
+  localPlayer,
+  remotePlayers
+});
+export const updateLocalState = (localPlayer, remotePlayers) => ({
+  type: UPDATE_LOCAL_STATE,
   localPlayer,
   remotePlayers
 });
@@ -25,11 +31,15 @@ export const initPlayers = (localPlayer, remotePlayers) => ({
 // from game.players server state
 /*
   EXAMPLE format:
+  localPlayer: {
+    xCoord: 100,
+    yCoord: 100
+  }
 
-  players = {
+  remotePlayers = {
     playerNumber: {
       number: 1,
-      health: 100,
+      damage: 100,
       characterGraphic: 'spritePath',
       weaponGraphic: 'spritePath'
     },
@@ -43,6 +53,13 @@ const initState = {
   playerNumber: 0,
   localPlayer: {},
   remotePlayers: {},
+  playerStateChanges: {},
+};
+
+const defaultPlayer = {
+  damage: 0,
+  xCoord: 0,
+  yCoord: 0
 };
 
 
@@ -66,10 +83,26 @@ export default function (state = initState, action) {
       break;
 
     case UPDATE_PLAYERS_STATE:
-      const updatedPlayer = Object.assign({}, action.localPlayer);
-      updatedPlayer.health = action.localPlayer.health;
+      const updatedPlayer = Object.assign({}, newState.localPlayer);
+      updatedPlayer.damage = action.localPlayer.damage;
       newState.localPlayer = updatedPlayer;
       newState.remotePlayers = action.remotePlayers;
+      break;
+
+    case UPDATE_LOCAL_STATE:
+      const stateChanges = {};
+      // position changes
+      const { xCoord, yCoord, number } = action.localPlayer;
+      stateChanges[number] = {};
+      stateChanges[number].xCoord = xCoord;
+      stateChanges[number].yCoord = yCoord;
+      // damage changes
+      Object.keys(action.remotePlayers)
+        .forEach(playerNum => {
+          stateChanges[playerNum] = {};
+          stateChanges[playerNum].damage = action.remotePlayers[playerNum].damage;
+        });
+      newState.playerStateChanges = stateChanges;
       break;
 
     case SET_PLAYER:
@@ -90,10 +123,15 @@ export const processInitPlayers = players =>
 
 export const processPlayerUpdate = players =>
   dispatch =>
-    dispatch(processPlayers(players, updatePlayersState))
+    dispatch(processPlayers(players, updatePlayersState));
 
 export const processPlayers = ( players, actionCreator ) =>
   (dispatch, getState) => {
+    for(let key in players){
+      for(let defaults in defaultPlayer){
+        players[key][defaults] = players[key][defaults] || defaultPlayer[defaults];
+      }
+    }
     const playerNumber = getState().game.playerNumber;
     const localPlayer = players[playerNumber];
     const remotePlayers = players;
