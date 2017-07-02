@@ -3,6 +3,7 @@ import GameManager from './GameObjects/GameManager';
 import { processLocalState } from '../redux/game';
 import { emitPlayerStateChanges } from '../sockets/client';
 import store from '../store';
+// import throttle from 'lodash.throttle';
 
 // let game
 export function runGame(localPlayerNum, remotePlayerNums) {
@@ -82,31 +83,32 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     gameManager.update();
 
     // handle position changes
-    const localPlayerState = {
+    const localPlayerState = localPlayerNum  ? {
       xCoord: gameManager.localPlayer.sprite.position.x,
       yCoord: gameManager.localPlayer.sprite.position.y,
       number: gameManager.localPlayer.playerNumber
-    };
+    } :
+    {};
     // TODO: update remote player damage if collision occurs
     const remotePlayersState = {};
 
-
-
-    store.dispatch(updateLocalState(localPlayerState, remotePlayersState));
-    emitPlayerStateChanges(store.getState().game.playerStateChanges);
+    // throttle(() => {
+      store.dispatch(updateLocalState(localPlayerState, remotePlayersState));
+      emitPlayerStateChanges(store.getState().game.playerStateChanges);
+    // }, 15);
   }
 
   // ------ Render -------
   function render() {
-
-
-    gameManager.game.debug.bodyInfo(gameManager.localPlayer.sprite);
-
-    gameManager.game.debug.body(gameManager.localPlayer.sprite);
-    // game.debug.body(sprite2);
-
-    // game.debug.bodyInfo(weapon.sprite);
-    // game.debug.body(weapon.sprite)
+  //
+  //
+  //   gameManager.game.debug.bodyInfo(gameManager.localPlayer.sprite);
+  //
+  //   gameManager.game.debug.body(gameManager.localPlayer.sprite);
+  //   // game.debug.body(sprite2);
+  //
+  //   // game.debug.bodyInfo(weapon.sprite);
+  //   // game.debug.body(weapon.sprite)
 
 }
  }

@@ -127,8 +127,8 @@ export const processPlayerUpdate = players =>
 
 export const processPlayers = ( players, actionCreator ) =>
   (dispatch, getState) => {
-    for(key in players){
-      for(defaults in defaultPlayer){
+    for(let key in players){
+      for(let defaults in defaultPlayer){
         players[key][defaults] = defaultPlayer[defaults];
       }
     }
