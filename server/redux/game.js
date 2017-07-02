@@ -1,3 +1,5 @@
+const gameRedux = {}
+module.exports = gameRedux
 
 //------- ACTIONS -------
 const ADD_PLAYERS = 'ADD_PLAYERS';          // when PLAYER connects to room
@@ -7,12 +9,8 @@ const UPDATE_PLAYER = 'UPDATE_PLAYER';    // update a PLAYER during game
 const UPDATE_PLAYERS = 'UPDATE_PLAYERS';  
 
 // ------ ACTION CREATORS -------
-
-const addPlayers = players => ({ type: ADD_PLAYER, players });
-const removePlayer = (player) => ({ type: REMOVE_PLAYER, player });
-const loadPlayers = () => ({ type: LOAD_PLAYERS });
-const updatePlayer = player => ({ type: UPDATE_PLAYER, player});
-const updatePlayers = players => ({ type: UPDATE_PLAYERS, players});
+gameRedux.addPlayers = players => ({ type: ADD_PLAYERS, players });
+gameRedux.updatePlayers = players => ({ type: UPDATE_PLAYERS, players});
 
 
 // ------- INIT STATE --------
@@ -22,7 +20,7 @@ const initialState = {
 
 
 // ------- REDUCERS ------------
-module.exports = function (state = initialState, action) {
+gameRedux.reducers = (state = initialState, action) => {
   const newState = Object.assign({}, state );
 
   switch (action.type) {
@@ -31,16 +29,12 @@ module.exports = function (state = initialState, action) {
       newState.players = action.players
       break;
 
-    case UPDATE_PLAYER:
-      const playerNumber = action.player.number
-      for(let key in action.player){
-        newState.players[playerNumber][key] = action.player[key]
-      }
-      break;
-
     case UPDATE_PLAYERS:
-      const newPlayersObj = action.players
-      newState.players = newPlayersObj;
+      Object.keys(action.players).forEach(playerNumber => {
+        for(let key in action.players[playerNumber]){
+          newState.players[playerNumber][key] = action.players[playerNumber][key]
+        }
+      })
       break;
 
     default:
@@ -51,3 +45,5 @@ module.exports = function (state = initialState, action) {
 
 
 // -------- DISPATCHERS -----------
+
+

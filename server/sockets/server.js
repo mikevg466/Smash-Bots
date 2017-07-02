@@ -1,5 +1,7 @@
 const uuid = require('uuid');
 const serverReduxStore = require('../store');   // ****
+const { updatePlayers, addPlayers } = require('../redux/game.js');
+const { removeClient, addClient } = require('../redux/lobby.js');
 
 // server rooms is always empty
 // server.sockets.adapter.rooms has rooms but also has clientID's with no way to distinguish
@@ -47,12 +49,10 @@ socketServer.makeSocketServer = server => {
     //  as empty rooms do not appear.  Still need to look into if this leaves
     //   any leftover data when we create actual game state in rooms
     client.on('disconnect', () => {
-      serverReduxStore.dispatch({
-        type: 'REMOVE_CLIENT',
-        client: {
+      serverReduxStore.dispatch(removeClient({
           id: client.id
-        }
-      })
+        })
+      )
       client.leave(findRoomForClient(client));
       server.sockets.emit('update', findRoomsOnServer());
       broadcastDebugMsg(client.id + ' has disconnected from the server');
@@ -64,14 +64,12 @@ socketServer.makeSocketServer = server => {
     client.on('join', (roomId, clientWeapon, clientArmor) => {
       const curRoomId = roomId || 'room-' + uuid.v4();
       // add client with items to ReduxStore
-      serverReduxStore.dispatch({
-        type: 'ADD_CLIENT',
-        client: {
+      serverReduxStore.dispatch(addClient({
           id: client.id,
           clientWeapon,
           clientArmor
-        }
-      })
+        }))
+
       // join or create room
       client.join(curRoomId);
 
@@ -98,10 +96,7 @@ socketServer.makeSocketServer = server => {
         // second, hash it inside an empty obj with {playerNum: playerObj} format. :
         clientsAsPlayers[client.number] = client
       })
-      serverReduxStore.dispatch({
-        type: 'ADD_PLAYERS',
-        players: clientsAsPlayers
-      })
+      serverReduxStore.dispatch(addPlayers(clientsAsPlayers))
 
       for(let playerNumberKey in clientsAsPlayers){
         server.to(clientsAsPlayers[playerNumberKey].id).emit('playerAssignment', +playerNumberKey)
@@ -112,15 +107,10 @@ socketServer.makeSocketServer = server => {
 
     })
 
-    client.on('playerStateChanges', (playersStates) => {    
+    client.on('playerStateChanges', (playersStates) => {
       //playersStates is an object with only the changes about a client and his enemies that he affected.
-      Object.keys(playersStates).forEach(playerNumber => {
-        serverReduxStore.dispatch({
-          type: 'UPDATE_PLAYER',
-          player: playerStates[playerNumber]
-        })
-      })
-      server.sockets.emit('playerStateUpdates', server.getState().game.players)
+      serverReduxStore.dispatch(updatePlayers(playersStates))
+      server.sockets.emit('playerStateUpdates', serverReduxStore.getState().game.players)
     })
 
     // chatMessage uses new findRoomForClient helper method that find's the room

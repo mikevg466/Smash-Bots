@@ -1,6 +1,6 @@
 import { LocalPlayer, RemotePlayer, Platform } from './SpriteObjects';
 import GameManager from './GameObjects/GameManager';
-import { processLocalState } from '../redux/game';
+import { updateLocalState } from '../redux/game';
 import { emitPlayerStateChanges } from '../sockets/client';
 import store from '../store';
 // import throttle from 'lodash.throttle';
@@ -96,6 +96,11 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     // throttle(() => {
       store.dispatch(updateLocalState(localPlayerState, remotePlayersState));
       emitPlayerStateChanges(store.getState().game.playerStateChanges);
+      const remotePlayerState = store.getState().game.remotePlayers;
+      remotePlayerNums.forEach(playerNum => {
+        const { xCoord, yCoord } = remotePlayerState[playerNum]
+        gameManager['remote' + playerNum].sprite.position.set(xCoord, yCoord);
+      });
     // }, 15);
   }
 
