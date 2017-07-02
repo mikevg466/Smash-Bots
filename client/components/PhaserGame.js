@@ -10,8 +10,13 @@ export class PhaserGame extends React.Component{
   }
 
   componentDidMount(){
-    runGame();
+    const remotePlayerNumList = [];
+    Object.keys(this.props.remotePlayers)
+      .forEach(playerNum => remotePlayerNumList.push(playerNum));
+    const localPlayerNum = this.props.localPlayer ? this.props.localPlayer.number : null;
+    runGame(localPlayerNum, remotePlayerNumList);
     onStopGame(this.props.handleEndGame);
+
   }
   
   // endGame(){
@@ -36,7 +41,8 @@ export class PhaserGame extends React.Component{
 }
 
 const mapState = ({ game }) => ({
-  players: game.players
+  localPlayer: game.localPlayer,
+  remotePlayers: game.remotePlayers
 });
 
 const mapDispatch = dispatch => ({

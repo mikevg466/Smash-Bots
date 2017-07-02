@@ -2,8 +2,9 @@ import Sprite from './Sprite';
 // import Weapon from './Weapon';
 
 export default class Player extends Sprite{
-  constructor(game, spriteName, xCoord, yCoord){
+  constructor(game, spriteName, xCoord, yCoord, playerNumber){
     super(game, spriteName, xCoord, yCoord);
+    this.playerNumber = playerNumber;
 
     // ------ Animations -------
     this.setAnimation(
