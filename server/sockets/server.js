@@ -123,17 +123,6 @@ socketServer.makeSocketServer = server => {
       server.sockets.emit('playerStateUpdates', server.getState().game.players)
     })
 
-    // client.on('clientsStateChange', (playersState) => {
-    //   serverReduxStore.dispatch({
-    //     type: 'UPDATE_PLAYERS',
-    //     player
-    //   })
-    // })
-
-    // server.sockets.emit('globalStateChange', () => {   //Throttle?
-    //   // send global state to everyone constantly
-    // })
-
     // chatMessage uses new findRoomForClient helper method that find's the room
     //   for the client that starts with "lobby-",  this removes the rooms that
     //    are based on the clientId
