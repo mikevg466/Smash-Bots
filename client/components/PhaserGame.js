@@ -26,7 +26,6 @@ export class PhaserGame extends React.Component{
   //need piece that initiates end game
 
   render(){
-    console.log("=====>", this.endGame)
     return (
       <div>
         <div id='phaser-example'>

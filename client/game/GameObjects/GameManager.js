@@ -1,5 +1,6 @@
 import { Create, Preload, Update } from './StateMethods';
 import InputManager from './InputManager';
+import { emitEndGame } from '../../sockets/client';
 
 
 export default class GameManager{
@@ -38,9 +39,10 @@ export default class GameManager{
     curInputManager.init(this[name]);
     this.inputManagerList.push(curInputManager);
   }
-  destroy() {
+  endGame() {
     this.game.cache.destroy()
     this.game.destroy();
+    emitEndGame();
   }
 
   addSprite(name, objType, spriteName, xCoord, yCoord){
@@ -56,6 +58,10 @@ export default class GameManager{
 
   // optional callbacks
   collideCallback(){
+    // this.destroy();
+    // emitEndGame();
+    
+    
     // console.log('collided');
   }
 
