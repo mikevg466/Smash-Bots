@@ -129,7 +129,7 @@ export const processPlayers = ( players, actionCreator ) =>
   (dispatch, getState) => {
     for(let key in players){
       for(let defaults in defaultPlayer){
-        players[key][defaults] = defaultPlayer[defaults];
+        players[key][defaults] = players[key][defaults] || defaultPlayer[defaults];
       }
     }
     const playerNumber = getState().game.playerNumber;
