@@ -38,7 +38,6 @@ socketServer.makeSocketServer = server => {
   }
 
   server.on('connection', client => {
-
     client.on('roomMounted', ()=>{
       server.sockets.emit('update', findRoomsOnServer())
     })
@@ -64,7 +63,7 @@ socketServer.makeSocketServer = server => {
     //    they are creating a new room
     client.on('join', (roomId, clientWeapon, clientArmor) => {
       const curRoomId = roomId || 'room-' + uuid.v4();
-      // put new state to ReduxStore **
+      // add client with items to ReduxStore
       serverReduxStore.dispatch({
         type: 'ADD_CLIENT',
         client: {
@@ -73,9 +72,10 @@ socketServer.makeSocketServer = server => {
           clientArmor
         }
       })
-
       // join or create room
       client.join(curRoomId);
+
+      //tell everyone in the room to update
       server.sockets.emit('update', findRoomsOnServer());
     });
 
@@ -91,7 +91,6 @@ socketServer.makeSocketServer = server => {
       var clientsAsPlayers = {}
       serverReduxStore.getState().lobby.clients.forEach((client,index) => {
         // first, add player info's to clients :
-        client.isPlayer = false
         client.number = index+1
         client.health = 100
         client.characterGraphic = characterGraphic[index]
@@ -113,13 +112,23 @@ socketServer.makeSocketServer = server => {
 
     })
 
-    client.on('clientStateChange', (playerState) => {
-      // update global state
-      serverReduxStore.dispatch({
-        type: 'UPDATE_PLAYER',
-        player: playerState
+    client.on('playerStateChanges', (playersStates) => {    
+      //playersStates is an object with only the changes about a client and his enemies that he affected.
+      Object.keys(playersStates).forEach(playerNumber => {
+        serverReduxStore.dispatch({
+          type: 'UPDATE_PLAYER',
+          player: playerStates[playerNumber]
+        })
       })
+      server.sockets.emit('playerStateUpdates', server.getState().game.players)
     })
+
+    // client.on('clientsStateChange', (playersState) => {
+    //   serverReduxStore.dispatch({
+    //     type: 'UPDATE_PLAYERS',
+    //     player
+    //   })
+    // })
 
     // server.sockets.emit('globalStateChange', () => {   //Throttle?
     //   // send global state to everyone constantly

@@ -43,34 +43,6 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     gameManager.create('background');
 
     // ------ Add Players -------
-<<<<<<< HEAD
-    const state = store.getState()
-    // assign player coordinates
-    var slayerPlayerNumber = state.game.playerNumber
-    var enemy1PlayerNumber = Object.keys(state.game.remotePlayers)[0]
-    var enemy2Playernumber = Object.keys(state.game.remotePlayers)[1]
-    var enemy3Playernumber = Object.keys(state.game.remotePlayers)[2]
-
-    const xCoords = [250, 500, 750, 1000]
-    const yCoords = [200, 200, 200, 200]
-
-    const slayerX = xCoords[slayerPlayerNumber-1]
-    const slayerY = yCoords[slayerPlayerNumber-1]
-
-    const enemy1X = xCoords[enemy1PlayerNumber-1]
-    const enemy1Y = yCoords[enemy1PlayerNumber-1]
-
-    // const enemy2X = xCoords[enemy2PlayerNumber-1]
-    // const enemy2Y = yCoords[enemy2PlayerNumber-1]
-
-    // const enemy3X = xCoords[enemy3PlayerNumber-1]
-    // const enemy3Y = yCoords[enemy3PlayerNumber-1]
-
-    gameManager.addSprite('slayer', LocalPlayer, 'smashbot', slayerX, slayerY);
-    gameManager.addSprite('enemy1', RemotePlayer, 'smashbot', enemy1X, enemy1Y);
-    gameManager.addSprite('enemy2', RemotePlayer, 'smashbot', 750, 200);
-    gameManager.addSprite('enemy3', RemotePlayer, 'smashbot', 1000, 200);
-=======
     const playerList = [
       { xCoord: 200, yCoord: 200 },
       { xCoord: 500, yCoord: 200 },
@@ -87,7 +59,6 @@ export function runGame(localPlayerNum, remotePlayerNums) {
         const { xCoord, yCoord } = playerList[playerNum - 1];
         gameManager.addPlayer('remote' + playerNum, RemotePlayer, 'smashbot', xCoord, yCoord, playerNum);
       });
->>>>>>> c1062bc508f62b4b6794fbb51a75343d0c0bd09a
 
     // ------ Add Platforms -------
     gameManager.addSprite('platform', Platform, 'platform', 500, 650);
@@ -105,29 +76,17 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     localPlayerNum && players.push('localPlayer');
     remotePlayerNums.forEach(playerNum => players.push('remote' + playerNum))
     gameManager.addCollisions(players, 'platform');
-
+    
     // gameManager.game.physics.arcade.overlap(gameManager.localPlayer.sprite, gameManager.remote1.sprite, overlapCallback); // default. change to collide when player attacks.
 
     gameManager.update();
   }
-<<<<<<< HEAD
-  function collideCallback(){
-    // console.log('collided');
-  }
-  function overlapCallback(){
-     //console.log('overlapped');
-  }
-  function render() {
-
-    gameManager.game.debug.bodyInfo(gameManager.slayer.sprite);
-=======
 
   // ------ Render -------
   function render() {
 
 
     gameManager.game.debug.bodyInfo(gameManager.localPlayer.sprite);
->>>>>>> c1062bc508f62b4b6794fbb51a75343d0c0bd09a
 
     gameManager.game.debug.body(gameManager.localPlayer.sprite);
     // game.debug.body(sprite2);

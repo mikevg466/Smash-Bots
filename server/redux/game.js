@@ -32,8 +32,10 @@ module.exports = function (state = initialState, action) {
       break;
 
     case UPDATE_PLAYER:
-      var playerNumber = action.player.number
-      newState.players.playerNumber = action.player
+      const playerNumber = action.player.number
+      for(let key in action.player){
+        newState.players[playerNumber][key] = action.player[key]
+      }
       break;
 
     case UPDATE_PLAYERS:
