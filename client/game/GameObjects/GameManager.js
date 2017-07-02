@@ -39,4 +39,20 @@ export default class GameManager{
     this.inputManagerList.push(curInputManager);
   }
 
+  addCollisions(aObjNameList, bObj){
+    aObjNameList.forEach(aObjName =>
+      this.game.physics.arcade.collide(this[aObjName].sprite, bObj, this.collideCallback)
+    );
+  }
+
+
+  // optional callbacks
+  collideCallback(){
+    // console.log('collided');
+  }
+
+  overlapCallback(){
+     //console.log('overlapped');
+  }
+
 }
