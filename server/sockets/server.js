@@ -1,5 +1,7 @@
 const uuid = require('uuid');
 const serverReduxStore = require('../store');   // ****
+const { updatePlayers, addPlayers } = require('../redux/game.js');
+const { removeClient, addClient } = require('../redux/lobby.js');
 
 // server rooms is always empty
 // server.sockets.adapter.rooms has rooms but also has clientID's with no way to distinguish
@@ -38,7 +40,6 @@ socketServer.makeSocketServer = server => {
   }
 
   server.on('connection', client => {
-
     client.on('roomMounted', ()=>{
       server.sockets.emit('update', findRoomsOnServer())
     })
@@ -48,12 +49,10 @@ socketServer.makeSocketServer = server => {
     //  as empty rooms do not appear.  Still need to look into if this leaves
     //   any leftover data when we create actual game state in rooms
     client.on('disconnect', () => {
-      serverReduxStore.dispatch({
-        type: 'REMOVE_CLIENT',
-        client: {
+      serverReduxStore.dispatch(removeClient({
           id: client.id
-        }
-      })
+        })
+      )
       client.leave(findRoomForClient(client));
       server.sockets.emit('update', findRoomsOnServer());
       broadcastDebugMsg(client.id + ' has disconnected from the server');
@@ -64,18 +63,17 @@ socketServer.makeSocketServer = server => {
     //    they are creating a new room
     client.on('join', (roomId, clientWeapon, clientArmor) => {
       const curRoomId = roomId || 'room-' + uuid.v4();
-      // put new state to ReduxStore **
-      serverReduxStore.dispatch({
-        type: 'ADD_CLIENT',
-        client: {
+      // add client with items to ReduxStore
+      serverReduxStore.dispatch(addClient({
           id: client.id,
           clientWeapon,
           clientArmor
-        }
-      })
+        }))
 
       // join or create room
       client.join(curRoomId);
+
+      //tell everyone in the room to update
       server.sockets.emit('update', findRoomsOnServer());
     });
 
@@ -91,7 +89,6 @@ socketServer.makeSocketServer = server => {
       var clientsAsPlayers = {}
       serverReduxStore.getState().lobby.clients.forEach((client,index) => {
         // first, add player info's to clients :
-        client.isPlayer = false
         client.number = index+1
         client.health = 100
         client.characterGraphic = characterGraphic[index]
@@ -99,10 +96,7 @@ socketServer.makeSocketServer = server => {
         // second, hash it inside an empty obj with {playerNum: playerObj} format. :
         clientsAsPlayers[client.number] = client
       })
-      serverReduxStore.dispatch({
-        type: 'ADD_PLAYERS',
-        players: clientsAsPlayers
-      })
+      serverReduxStore.dispatch(addPlayers(clientsAsPlayers))
 
       for(let playerNumberKey in clientsAsPlayers){
         server.to(clientsAsPlayers[playerNumberKey].id).emit('playerAssignment', +playerNumberKey)
@@ -113,17 +107,22 @@ socketServer.makeSocketServer = server => {
 
     })
 
+    client.on('endGame', () => {
+      server.sockets.emit('stopGame')
+    })
+
     client.on('clientStateChange', (playerState) => {
       // update global state
       serverReduxStore.dispatch({
         type: 'UPDATE_PLAYER',
         player: playerState
       })
+      
+    client.on('playerStateChanges', (playersStates) => {
+      //playersStates is an object with only the changes about a client and his enemies that he affected.
+      serverReduxStore.dispatch(updatePlayers(playersStates))
+      server.sockets.emit('playerStateUpdates', serverReduxStore.getState().game.players)
     })
-
-    // server.sockets.emit('globalStateChange', () => {   //Throttle?
-    //   // send global state to everyone constantly
-    // })
 
     // chatMessage uses new findRoomForClient helper method that find's the room
     //   for the client that starts with "lobby-",  this removes the rooms that
@@ -132,6 +131,7 @@ socketServer.makeSocketServer = server => {
       // find out which room the client is in
       server.to(findRoomForClient(client)).emit('addChatMessage', msg, client.id);
     });
+
 
     function broadcastDebugMsg(msg) {
       server.sockets.emit('debugMessage', msg);

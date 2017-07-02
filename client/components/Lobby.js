@@ -88,7 +88,7 @@ const mapDispatch = dispatch => ({
   handleMessage: message => dispatch(recieveMessage(message)),
   handleInitPlayers: players => dispatch(processInitPlayers(players)),
   handlePlayerAssignment: playerNumber => dispatch(setPlayer(playerNumber)),
-  handleStartGame: () => dispatch(startGame())
+  handleStartGame: () => dispatch(startGame()),
 })
 
 export default connect(mapState, mapDispatch)(Lobby);

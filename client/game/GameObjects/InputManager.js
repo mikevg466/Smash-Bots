@@ -43,8 +43,7 @@ export default class InputManager{
       this.player.jumpCounter -= 1;
       }
       if (this.player.jumpCounter >= 0 ) {
-        this.player.jump();
-        //console.log(this.player.jumpCounter);
+        this.player.jump()
       }
     });
 
