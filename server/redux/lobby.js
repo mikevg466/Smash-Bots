@@ -1,3 +1,5 @@
+lobbyRedux = {}
+module.exports = lobbyRedux
 
 //------- ACTIONS -------
 const ADD_CLIENT = 'ADD_CLIENT';          // when CLIENT connects to room
@@ -8,11 +10,11 @@ const UPDATE_CLIENTS = 'UPDATE_CLIENTS';
 
 // ------ ACTION CREATORS -------
 
-const addClient = client => ({ type: ADD_CLIENT, client });
-const removeClient = (client) => ({ type: REMOVE_CLIENT, client });
-const loadClients = () => ({ type: LOAD_CLIENTS });
-const updateClient = client => ({ type: UPDATE_CLIENT, client});
-const updateClients = clients => ({ type: UPDATE_CLIENTS, clients});
+lobbyRedux.addClient = client => ({ type: ADD_CLIENT, client });
+lobbyRedux.removeClient = (client) => ({ type: REMOVE_CLIENT, client });
+lobbyRedux.loadClients = () => ({ type: LOAD_CLIENTS });
+lobbyRedux.updateClient = client => ({ type: UPDATE_CLIENT, client});
+lobbyRedux.updateClients = clients => ({ type: UPDATE_CLIENTS, clients});
 
 
 // ------- INIT STATE --------
@@ -22,7 +24,7 @@ const initialState = {
 
 
 // ------- REDUCERS ------------
-module.exports = function (state = initialState, action) {
+lobbyRedux.reducers = (state = initialState, action) => {
   const newState = Object.assign({}, state );
 
   switch (action.type) {
@@ -34,12 +36,7 @@ module.exports = function (state = initialState, action) {
       break;
 
     case REMOVE_CLIENT:
-      const clientRemovedArr = newState.clients
-        .slice(0)
-        .splice(
-          newState.clients.findIndex(client => client.id === action[client.id]),
-          1
-        )
+      const clientRemovedArr = newState.clients.filter(client => client.id !== action.client.id)
       newState.clients = clientRemovedArr
       break;
 

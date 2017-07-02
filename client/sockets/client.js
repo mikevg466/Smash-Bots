@@ -30,8 +30,10 @@ export const onInitPlayers = callbackFunc =>
 export const onStopGame = callbackFunc =>
   client.on('stopGame', () => {
     callbackFunc();
+export const onPlayerStateUpdates = callbackFunc =>
+  client.on('playerStateUpdates', state => {
+    callbackFunc(state);
   });
-
 
 
 // ------ EMITTERS -------
@@ -41,11 +43,15 @@ export const emitChatMessage = message =>
 export const emitJoin = (room, weapon, armor) =>
   client.emit('join', room, weapon, armor);
 
-export const emitRoomMounted = () => 
+export const emitRoomMounted = () =>
   client.emit('roomMounted')
 
 export const emitStartGame = () =>
   client.emit('startGame');
-
+    
 export const emitEndGame = () =>
   client.emit('endGame')
+
+export const emitPlayerStateChanges = state =>
+  client.emit('playerStateChanges', state);
+

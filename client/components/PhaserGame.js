@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { runGame } from '../game/phaser-example'
-import { endGame } from '../redux/game';
-import { emitEndGame, onStopGame } from '../sockets/client';
+import { runGame } from '../game/phaser-example';
+import { onPlayerStateUpdates, emitEndGame, onStopGame } from '../sockets/client';
+import { processPlayerUpdate, endGame } from '../redux/game';
 
 export class PhaserGame extends React.Component{
   constructor(){
@@ -10,6 +10,7 @@ export class PhaserGame extends React.Component{
   }
 
   componentDidMount(){
+    onPlayerStateUpdates(this.props.handlePlayerStateUpdates);
     const remotePlayerNumList = [];
     Object.keys(this.props.remotePlayers)
       .forEach(playerNum => remotePlayerNumList.push(playerNum));
@@ -45,6 +46,7 @@ const mapState = ({ game }) => ({
 });
 
 const mapDispatch = dispatch => ({
+  handlePlayerStateUpdates: state => dispatch(processPlayerUpdate(state)),
   handleEndGame: () => dispatch(endGame())
 })
 
