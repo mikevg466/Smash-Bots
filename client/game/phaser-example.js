@@ -1,4 +1,4 @@
-import { LocalPlayer, RemotePlayer } from './SpriteObjects';
+import { LocalPlayer, RemotePlayer, Platform } from './SpriteObjects';
 import GameManager from './GameObjects/GameManager';
 import store from '../store';
 
@@ -52,21 +52,16 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 
     if(localPlayerNum){
       const { xCoord, yCoord } = playerList[localPlayerNum - 1];
-      gameManager.addSprite('localPlayer', LocalPlayer, 'smashbot', xCoord, yCoord, localPlayerNum);
+      gameManager.addPlayer('localPlayer', LocalPlayer, 'smashbot', xCoord, yCoord, localPlayerNum);
     }
     remotePlayerNums
       .forEach(playerNum => {
         const { xCoord, yCoord } = playerList[playerNum - 1];
-        gameManager.addSprite('remote' + playerNum, RemotePlayer, 'smashbot', xCoord, yCoord, playerNum);
+        gameManager.addPlayer('remote' + playerNum, RemotePlayer, 'smashbot', xCoord, yCoord, playerNum);
       });
 
     // ------ Add Platforms -------
-    // TODO: separate out platforms as it's own class and call through gameManager.addSprite
-    platform = gameManager.game.add.sprite(500, 650, 'platform');
-    gameManager.game.physics.arcade.enable(platform);
-    platform.body.immovable = true;
-    platform.scale.setTo(2, 1.2);
-    platform.anchor.setTo(0.5, 0.5);
+    gameManager.addSprite('platform', Platform, 'platform', 500, 650);
 
     // ------ Set Collisions -------
 
@@ -80,7 +75,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     const players = [];
     localPlayerNum && players.push('localPlayer');
     remotePlayerNums.forEach(playerNum => players.push('remote' + playerNum))
-    gameManager.addCollisions(players, platform);
+    gameManager.addCollisions(players, 'platform');
 
     // gameManager.game.physics.arcade.overlap(gameManager.localPlayer.sprite, gameManager.remote1.sprite, overlapCallback); // default. change to collide when player attacks.
 

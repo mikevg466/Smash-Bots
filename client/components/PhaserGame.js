@@ -12,8 +12,6 @@ export class PhaserGame extends React.Component{
     Object.keys(this.props.remotePlayers)
       .forEach(playerNum => remotePlayerNumList.push(playerNum));
     const localPlayerNum = this.props.localPlayer ? this.props.localPlayer.number : null;
-    console.log('localPlayerNum', localPlayerNum);
-    console.log('remotePlayerList', remotePlayerNumList);
     runGame(localPlayerNum, remotePlayerNumList);
   }
 
