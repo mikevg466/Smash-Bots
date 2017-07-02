@@ -1,19 +1,21 @@
 import { LocalPlayer, RemotePlayer, Platform } from './SpriteObjects';
 import GameManager from './GameObjects/GameManager';
+import { processLocalState } from '../redux/game';
+import { emitPlayerStateChanges } from '../sockets/client';
 import store from '../store';
+// import throttle from 'lodash.throttle';
 
 // let game
 export function runGame(localPlayerNum, remotePlayerNums) {
 
   // ------ Init Game -------
-  var gameManager = new GameManager(
+  const gameManager = new GameManager(
     window.innerWidth,
     window.innerHeight,
     Phaser.CANVAS,
     'phaser-example',
     {preload, create, update, render}
   );
-  let platform;
 
   // ------ PreLoad -------
   function preload() {
@@ -71,28 +73,43 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 
   // ------ Update -------
   function update(){
-    // make a method:
+    // manage collisions
     const players = [];
     localPlayerNum && players.push('localPlayer');
     remotePlayerNums.forEach(playerNum => players.push('remote' + playerNum))
     gameManager.addCollisions(players, 'platform');
-    
+
     // gameManager.game.physics.arcade.overlap(gameManager.localPlayer.sprite, gameManager.remote1.sprite, overlapCallback); // default. change to collide when player attacks.
 
     gameManager.update();
+
+    // handle position changes
+    const localPlayerState = localPlayerNum  ? {
+      xCoord: gameManager.localPlayer.sprite.position.x,
+      yCoord: gameManager.localPlayer.sprite.position.y,
+      number: gameManager.localPlayer.playerNumber
+    } :
+    {};
+    // TODO: update remote player damage if collision occurs
+    const remotePlayersState = {};
+
+    // throttle(() => {
+      store.dispatch(updateLocalState(localPlayerState, remotePlayersState));
+      emitPlayerStateChanges(store.getState().game.playerStateChanges);
+    // }, 15);
   }
 
   // ------ Render -------
   function render() {
-
-
-    gameManager.game.debug.bodyInfo(gameManager.localPlayer.sprite);
-
-    gameManager.game.debug.body(gameManager.localPlayer.sprite);
-    // game.debug.body(sprite2);
-
-    // game.debug.bodyInfo(weapon.sprite);
-    // game.debug.body(weapon.sprite)
+  //
+  //
+  //   gameManager.game.debug.bodyInfo(gameManager.localPlayer.sprite);
+  //
+  //   gameManager.game.debug.body(gameManager.localPlayer.sprite);
+  //   // game.debug.body(sprite2);
+  //
+  //   // game.debug.bodyInfo(weapon.sprite);
+  //   // game.debug.body(weapon.sprite)
 
   }
 }
