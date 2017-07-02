@@ -26,6 +26,8 @@ export default class LocalPlayer extends Player{
         this.sprite.body.velocity.x = -500;
         this.setDirection('left');
         this.sprite.animations.play('left');
+        console.log("^^^^^^^", this.endGame)
+        //i think the game is still running
         break;
 
       case 'right':

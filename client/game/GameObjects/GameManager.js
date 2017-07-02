@@ -38,5 +38,9 @@ export default class GameManager{
     curInputManager.init(this[name]);
     this.inputManagerList.push(curInputManager);
   }
+  destroy() {
+    this.game.cache.destroy()
+    this.game.destroy();
+  }
 
 }

@@ -1,7 +1,7 @@
 import { LocalPlayer, RemotePlayer } from './SpriteObjects';
 import GameManager from './GameObjects/GameManager';
 import store from '../store';
-
+import { emitEndGame } from '../sockets/client';
 // let game
 export function runGame() {
 
@@ -14,6 +14,7 @@ export function runGame() {
     {preload, create, update, render}
   );
   let platform;
+  let totalLives;
 
   // ------ PreLoad -------
   function preload() {
@@ -48,6 +49,8 @@ export function runGame() {
     gameManager.addSprite('enemy2', RemotePlayer, 'smashbot', 1500, 200);
     gameManager.addSprite('enemy3', RemotePlayer, 'smashbot', 2000, 200);
 
+    
+
     // ------ Add Platforms -------
     // TODO: separate out platforms as it's own class and call through gameManager.addSprite
     platform = gameManager.game.add.sprite(500, 650, 'platform');
@@ -55,6 +58,7 @@ export function runGame() {
     platform.body.immovable = true;
     platform.scale.setTo(2, 1.2);
     platform.anchor.setTo(0.5, 0.5);
+    
 
     // ------ Set Collisions -------
 
@@ -70,15 +74,21 @@ export function runGame() {
     gameManager.game.physics.arcade.collide(gameManager.enemy2.sprite, platform, collideCallback);
     gameManager.game.physics.arcade.collide(gameManager.enemy3.sprite, platform, collideCallback);
     gameManager.game.physics.arcade.overlap(gameManager.slayer.sprite, gameManager.enemy1.sprite, overlapCallback); // default. change to collide when player attacks.
-
+    gameManager.game.physics.arcade.overlap(gameManager.slayer.sprite, platform, overlapCallback);
     gameManager.update();
+    totalLives = (gameManager.slayer.lives + gameManager.enemy1.lives + gameManager.enemy2.lives + gameManager.enemy3.lives)
   }
   function collideCallback(){
-    // console.log('collided');
+    console.log(totalLives)
+    // gameManager.destroy()
+    // emitEndGame();
+    // gameManager.slayer.resetJumps();
+    // console.log(gameManager.slayer.jumpCounter);
   }
     function overlapCallback(){
-     //console.log('overlapped');
+
   }
+  
   function render() {
 
 
@@ -91,4 +101,5 @@ export function runGame() {
     // game.debug.body(weapon.sprite)
 
 }
- }
+ 
+}

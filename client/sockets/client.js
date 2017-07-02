@@ -27,6 +27,11 @@ export const onInitPlayers = callbackFunc =>
     callbackFunc(players);
   });
 
+export const onStopGame = callbackFunc =>
+  client.on('stopGame', () => {
+    callbackFunc();
+  });
+
 
 
 // ------ EMITTERS -------
@@ -41,3 +46,6 @@ export const emitRoomMounted = () =>
 
 export const emitStartGame = () =>
   client.emit('startGame');
+
+export const emitEndGame = () =>
+  client.emit('endGame')
