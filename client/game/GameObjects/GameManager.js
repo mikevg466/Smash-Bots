@@ -58,10 +58,6 @@ export default class GameManager{
 
   // optional callbacks
   collideCallback(){
-    // this.destroy();
-    // emitEndGame();
-    
-    
     // console.log('collided');
   }
 
