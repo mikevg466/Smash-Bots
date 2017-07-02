@@ -96,6 +96,11 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     // throttle(() => {
       store.dispatch(updateLocalState(localPlayerState, remotePlayersState));
       emitPlayerStateChanges(store.getState().game.playerStateChanges);
+      const remotePlayerState = store.getState().game.remotePlayers;
+      remotePlayerNums.forEach(playerNum => {
+        const { xCoord, yCoord } = remotePlayerState[playerNum]
+        gameManager['remote' + playerNum].sprite.position.set(xCoord, yCoord);
+      });
     // }, 15);
   }
 
