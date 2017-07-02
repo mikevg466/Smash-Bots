@@ -43,10 +43,32 @@ export function runGame() {
     gameManager.create('background');
 
     // ------ Add Players -------
-    gameManager.addSprite('slayer', LocalPlayer, 'smashbot', 500, 200);
-    gameManager.addSprite('enemy1', RemotePlayer, 'smashbot', 1000, 200);
-    gameManager.addSprite('enemy2', RemotePlayer, 'smashbot', 1500, 200);
-    gameManager.addSprite('enemy3', RemotePlayer, 'smashbot', 2000, 200);
+    const state = store.getState()
+    // assign player coordinates
+    var slayerPlayerNumber = state.game.playerNumber
+    var enemy1PlayerNumber = Object.keys(state.game.remotePlayers)[0]
+    var enemy2Playernumber = Object.keys(state.game.remotePlayers)[1]
+    var enemy3Playernumber = Object.keys(state.game.remotePlayers)[2]
+
+    const xCoords = [250, 500, 750, 1000]
+    const yCoords = [200, 200, 200, 200]
+
+    const slayerX = xCoords[slayerPlayerNumber-1]
+    const slayerY = yCoords[slayerPlayerNumber-1]
+
+    const enemy1X = xCoords[enemy1PlayerNumber-1]
+    const enemy1Y = yCoords[enemy1PlayerNumber-1]
+
+    // const enemy2X = xCoords[enemy2PlayerNumber-1]
+    // const enemy2Y = yCoords[enemy2PlayerNumber-1]
+
+    // const enemy3X = xCoords[enemy3PlayerNumber-1]
+    // const enemy3Y = yCoords[enemy3PlayerNumber-1]
+
+    gameManager.addSprite('slayer', LocalPlayer, 'smashbot', slayerX, slayerY);
+    gameManager.addSprite('enemy1', RemotePlayer, 'smashbot', enemy1X, enemy1Y);
+    gameManager.addSprite('enemy2', RemotePlayer, 'smashbot', 750, 200);
+    gameManager.addSprite('enemy3', RemotePlayer, 'smashbot', 1000, 200);
 
     // ------ Add Platforms -------
     // TODO: separate out platforms as it's own class and call through gameManager.addSprite
@@ -76,11 +98,10 @@ export function runGame() {
   function collideCallback(){
     // console.log('collided');
   }
-    function overlapCallback(){
+  function overlapCallback(){
      //console.log('overlapped');
   }
   function render() {
-
 
     gameManager.game.debug.bodyInfo(gameManager.slayer.sprite);
 
@@ -90,5 +111,5 @@ export function runGame() {
     // game.debug.bodyInfo(weapon.sprite);
     // game.debug.body(weapon.sprite)
 
+  }
 }
- }

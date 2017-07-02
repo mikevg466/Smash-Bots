@@ -3,6 +3,7 @@ import Player from './Player';
 export default class LocalPlayer extends Player{
   constructor(game, spriteName, xCoord, yCoord){
     super(game, spriteName, xCoord, yCoord);
+    console.log(xCoord,yCoord)
     this.controls = {
       left: {
         keys: ["LEFT"],
