@@ -31,17 +31,18 @@ module.exports = function (state = initialState, action) {
       newState.players = action.players
       break;
 
-    case UPDATE_PLAYER:
-      const playerNumber = action.player.number
-      for(let key in action.player){
-        newState.players[playerNumber][key] = action.player[key]
-      }
+    case UPDATE_PLAYERS:
+      Object.keys(playersStates).forEach(playerNumber => {
+        for(let key in action.player){
+          newState.players[playerNumber][key] = action.player[key]
+        }
+      })
       break;
 
-    case UPDATE_PLAYERS:
-      const newPlayersObj = action.players
-      newState.players = newPlayersObj;
-      break;
+    // case UPDATE_PLAYERS:
+    //   const newPlayersObj = action.players
+    //   newState.players = newPlayersObj;
+    //   break;
 
     default:
       return newState;
