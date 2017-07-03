@@ -30,6 +30,8 @@ export const onInitPlayers = callbackFunc =>
 export const onStopGame = callbackFunc =>
   client.on('stopGame', () => {
     callbackFunc();
+  });
+
 export const onPlayerStateUpdates = callbackFunc =>
   client.on('playerStateUpdates', state => {
     callbackFunc(state);
@@ -48,7 +50,7 @@ export const emitRoomMounted = () =>
 
 export const emitStartGame = () =>
   client.emit('startGame');
-    
+
 export const emitEndGame = () =>
   client.emit('endGame')
 

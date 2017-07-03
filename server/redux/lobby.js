@@ -1,12 +1,12 @@
-lobbyRedux = {}
-module.exports = lobbyRedux
+const lobbyRedux = {};
+module.exports = lobbyRedux;
 
 //------- ACTIONS -------
 const ADD_CLIENT = 'ADD_CLIENT';          // when CLIENT connects to room
 const REMOVE_CLIENT = 'REMOVE_CLIENT';    // when CLIENT disconnects from room
 const LOAD_CLIENTS = 'LOAD_CLIENTS';      // initial load of all CLIENTs
 const UPDATE_CLIENT = 'UPDATE_CLIENT';    // update a CLIENT during game
-const UPDATE_CLIENTS = 'UPDATE_CLIENTS';  
+const UPDATE_CLIENTS = 'UPDATE_CLIENTS';
 
 // ------ ACTION CREATORS -------
 

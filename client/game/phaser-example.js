@@ -21,7 +21,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 
   let totalLives;
   let gameText;
-  
+
   // ------ PreLoad -------
   function preload() {
     const images = {
@@ -32,7 +32,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
       bullet: 'assets/sprites/bullet.png',
       weapon: store.getState().game.localPlayer.weaponGraphic,
       thorHammer: 'ourAssets/weapons/hammer_thors.png',
-      hitBoxT: 'ourAssets/transparent_box.png'
+      hitBoxT: 'ourAssets/transparent_box.png',
       gameText: 'assets/fonts/retrofonts/mmegadeth_tlb.png'
     };
     const atlasJSONs = {
@@ -72,7 +72,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
         const { xCoord, yCoord } = playerList[playerNum - 1];
         gameManager.addPlayer('remote' + playerNum, RemotePlayer, 'smashbot', xCoord, yCoord, playerNum);
       });
-    
+
 
     // ------ Add Platforms -------
     gameManager.addSprite('platform', Platform, 'platform', 500, 650);
@@ -137,7 +137,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 
     let arrayLives = [];
     gameManager.inputManagerList.forEach(inputManager => arrayLives.push(inputManager.player.lives))
-    
+
     let totalLives = arrayLives.reduce((acc, cur) => acc + cur, 0)
     if (totalLives === 1) {
       var winner = gameManager.inputManagerList.filter(inputManager => inputManager.player.lives === 1);
@@ -145,7 +145,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
       gameManager.endGame();
     }
     console.log(totalLives)
-    
+
     // handle position changes
     const localPlayerState = localPlayerNum  ? {
       xCoord: gameManager.localPlayer.sprite.position.x,
