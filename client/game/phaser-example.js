@@ -5,6 +5,9 @@ import { emitPlayerStateChanges } from '../sockets/client';
 import store from '../store';
 // import throttle from 'lodash.throttle';
 
+let hitBoxR,
+  hitBoxL;
+
 export function runGame(localPlayerNum, remotePlayerNums) {
 
   // ------ Init Game -------
@@ -29,12 +32,13 @@ export function runGame(localPlayerNum, remotePlayerNums) {
       bullet: 'assets/sprites/bullet.png',
       weapon: store.getState().game.localPlayer.weaponGraphic,
       thorHammer: 'ourAssets/weapons/hammer_thors.png',
+      hitBoxT: 'ourAssets/transparent_box.png'
       gameText: 'assets/fonts/retrofonts/mmegadeth_tlb.png'
     };
     const atlasJSONs = {
       smashbot: {
         png: 'ourAssets/smashbot/robot_hammer_swing.png',
-        json:'ourAssets/smashbot/robot_hammer_swing.json'
+        json: 'ourAssets/smashbot/robot_hammer_swing.json'
       }
     };
 
@@ -48,6 +52,10 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     gameManager.create('background');
 
     // ------ Add Players -------
+
+//     enemy1.sprite.body.velocity.setTo(100, 5);
+//     console.log(enemy1.sprite.body.velocity)
+
     const playerList = [
       { xCoord: 200, yCoord: 200 },
       { xCoord: 500, yCoord: 200 },
@@ -64,11 +72,30 @@ export function runGame(localPlayerNum, remotePlayerNums) {
         const { xCoord, yCoord } = playerList[playerNum - 1];
         gameManager.addPlayer('remote' + playerNum, RemotePlayer, 'smashbot', xCoord, yCoord, playerNum);
       });
-
     
 
     // ------ Add Platforms -------
     gameManager.addSprite('platform', Platform, 'platform', 500, 650);
+
+    // ------ Add HitBoxes -------
+
+  hitBoxR = gameManager.localPlayer.sprite.addChild(gameManager.game.make.sprite(150, -50, 'hitBoxT'));
+  hitBoxL = gameManager.localPlayer.sprite.addChild(gameManager.game.make.sprite(-150, -50, 'hitBoxT'));
+  gameManager.game.physics.arcade.enable([hitBoxR, hitBoxL], true);
+  //hitBoxR.body.setSize(68, 166, slayer.sprite.width / 6 - 50, 0);
+  //hitBoxL.body.setSize(68, 166, -(slayer.sprite.width / 6), 0);
+  hitBoxR.body.setSize(68, 166, gameManager.localPlayer.sprite.width / 6 - 50, 0);
+  hitBoxL.body.setSize(68, 166, -(gameManager.localPlayer.sprite.width / 6), 0);
+  const assignHitBoxProperties = (hitBox, name) => {
+    hitBox.name = name;
+    hitBox.damage = 50;
+    hitBox.knockbackDirection = 0.5;  // TODO: should not be a constant
+    hitBox.knockbackAmt = 600;
+  };
+  assignHitBoxProperties(hitBoxR, 'hitBoxR');
+  assignHitBoxProperties(hitBoxL, 'hitBoxL');
+
+
 
     // ------ Set Collisions -------
 
@@ -78,11 +105,31 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 
   // ------ Update -------
   function update(){
+
+//     // adding smashbot collisions
+//     //gameManager.game.physics.arcade.overlap(slayer.sprite, enemy1.sprite, overlapCallback); // default. change to collide when player attacks.
+//     gameManager.game.physics.arcade.collide(slayer.sprite, enemy1.sprite, collideCallback);
+//     gameManager.game.physics.arcade.collide(slayer.sprite, enemy2.sprite, collideCallback);
+//     gameManager.game.physics.arcade.collide(slayer.sprite, enemy3.sprite, collideCallback);
+//     gameManager.game.physics.arcade.collide(slayer.sprite, enemy3.sprite, collideCallback);
+
+//     gameManager.game.physics.arcade.overlap(hitBoxR, enemy1.sprite,
+//     overlapCallbackHit);
+//     gameManager.game.physics.arcade.overlap(hitBoxR, enemy2.sprite,
+//     overlapCallbackHit);
+//     gameManager.game.physics.arcade.overlap(hitBoxR, enemy3.sprite, overlapCallbackHit);
+//     gameManager.game.physics.arcade.overlap(hitBoxL, enemy1.sprite,
+//     overlapCallbackHit);
+//     gameManager.game.physics.arcade.overlap(hitBoxL, enemy2.sprite,
+//     overlapCallbackHit);
+//     gameManager.game.physics.arcade.overlap(hitBoxL, enemy3.sprite, overlapCallbackHit);
+
     // manage collisions
     const players = [];
     localPlayerNum && players.push('localPlayer');
     remotePlayerNums.forEach(playerNum => players.push('remote' + playerNum))
     gameManager.addCollisions(players, 'platform');
+    players.forEach(player => gameManager.addCollisions(players, player));
 
     // gameManager.game.physics.arcade.overlap(gameManager.localPlayer.sprite, gameManager.remote1.sprite, overlapCallback); // default. change to collide when player attacks.
 
@@ -120,17 +167,46 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     // }, 15);
   }
 
+  function collideCallback(){
+    //console.log('collided');
+  }
+  function overlapCallbackHit(hitBox, enemy){
+    console.log('overlap')
+    if (enemy.isFlying) return;
+    enemy.isFlying = true;
+    let randomY = Math.random() * 200 - 100;
+    enemy.body.moves = true;
+    if (hitBox.name === 'hitBoxR') {
+      setVelocity(enemy, 100, randomY);
+    } else {
+      setVelocity(enemy, -100, randomY);
+    }
+  }
+  // function isFirstHit(hitBox, enemy){
+
+  // }
+
+  function setVelocity(enemy, x, y){
+    console.log(enemy.body.velocity)
+    enemy.body.velocity.setTo(x, y);
+    console.log(enemy.body.velocity)
+  }
+
+  function overlapCallback(){
+    //console.log('overlapped');
+  }
+
   // ------ Render -------
   function render() {
-  //
-  //
-  //   gameManager.game.debug.bodyInfo(gameManager.localPlayer.sprite);
-  //
-  //   gameManager.game.debug.body(gameManager.localPlayer.sprite);
-  //   // game.debug.body(sprite2);
-  //
-  //   // game.debug.bodyInfo(weapon.sprite);
-  //   // game.debug.body(weapon.sprite)
+
+    // gameManager.game.debug.bodyInfo(slayer.sprite, 100, 100);
+    // gameManager.game.debug.body(slayer.sprite);
+    // gameManager.game.debug.body(hitBoxR);
+    // gameManager.game.debug.body(hitBoxL);
+
+    // gameManager.game.debug.body(enemy1.sprite);
+    // gameManager.game.debug.body(enemy2.sprite);
+    // gameManager.game.debug.body(enemy3.sprite);
 
   }
 }

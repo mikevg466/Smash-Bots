@@ -38,6 +38,7 @@ export default class GameManager{
     const curInputManager = new InputManager(this.game);
     curInputManager.init(this[name]);
     this.inputManagerList.push(curInputManager);
+    return this[name]; // returns sprite.
   }
   endGame() {
     this.game.cache.destroy()

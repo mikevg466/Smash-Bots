@@ -18,8 +18,8 @@ export default class Sprite{
     this.game.physics.arcade.enable(this.sprite, hasPhysics);
   }
 
-  setAnimation(name, framesArray, frameRate){
-    this.sprite.animations.add(name, framesArray, frameRate, true);
+  setAnimation(name, framesArray, frameRate, loopTrue){
+    this.sprite.animations.add(name, framesArray, frameRate, loopTrue);
   }
 
   setDefault(){
