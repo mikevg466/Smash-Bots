@@ -41,7 +41,7 @@ export default class GameManager{
     return this[name]; // returns sprite.
   }
   endGame() {
-    this.game.cache.destroy()
+    this.game.cache.destroy();
     this.game.destroy();
     emitEndGame();
   }

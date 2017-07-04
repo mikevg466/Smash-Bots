@@ -30,7 +30,6 @@ export default class InputManager{
       }
     }
     // else if (moving) {
-    //   console.log('hi', moving)
     //   this.player.stop();
     //   moving = false;
     //   console.log('=====>', moving)
