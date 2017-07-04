@@ -1,5 +1,5 @@
 
-export default function Update(){
+export default function Update(gameState){
   this.inputManagerList
-    .forEach(inputManager => inputManager.update())
+    .forEach(inputManager => inputManager.update(gameState))
 }

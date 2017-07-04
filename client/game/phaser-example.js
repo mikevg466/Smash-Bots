@@ -3,7 +3,7 @@ import GameManager from './GameObjects/GameManager';
 import { updateLocalState } from '../redux/game';
 import { emitPlayerStateChanges } from '../sockets/client';
 import store from '../store';
-// import throttle from 'lodash.throttle';
+import throttle from 'lodash.throttle';
 
 let hitBoxR,
   hitBoxL;
@@ -133,7 +133,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 
     // gameManager.game.physics.arcade.overlap(gameManager.localPlayer.sprite, gameManager.remote1.sprite, overlapCallback); // default. change to collide when player attacks.
 
-    gameManager.update();
+    gameManager.update(store.getState().game);
 
     let arrayLives = [];
     gameManager.inputManagerList.forEach(inputManager => arrayLives.push(inputManager.player.lives))
@@ -144,19 +144,20 @@ export function runGame(localPlayerNum, remotePlayerNums) {
       console.log(winner[0].player.playerNumber);
       gameManager.endGame();
     }
-    console.log(totalLives)
-
-    // handle position changes
-    const localPlayerState = localPlayerNum  ? {
-      xCoord: gameManager.localPlayer.sprite.position.x,
-      yCoord: gameManager.localPlayer.sprite.position.y,
-      number: gameManager.localPlayer.playerNumber
-    } :
-    {};
-    // TODO: update remote player damage if collision occurs
-    const remotePlayersState = {};
 
     // throttle(() => {
+      // handle position changes
+      const localPlayerState = localPlayerNum  ? {
+        xCoord: gameManager.localPlayer.sprite.position.x,
+        yCoord: gameManager.localPlayer.sprite.position.y,
+        number: gameManager.localPlayer.playerNumber,
+        animation: gameManager.localPlayer.animation,
+      } :
+      {};
+      // TODO: update remote player damage if collision occurs
+      const remotePlayersState = {};
+
+
       store.dispatch(updateLocalState(localPlayerState, remotePlayersState));
       emitPlayerStateChanges(store.getState().game.playerStateChanges);
       const remotePlayerState = store.getState().game.remotePlayers;
@@ -164,7 +165,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
         const { xCoord, yCoord } = remotePlayerState[playerNum]
         gameManager['remote' + playerNum].sprite.position.set(xCoord, yCoord);
       });
-    // }, 15);
+    // }, 30);
   }
 
   function collideCallback(){
