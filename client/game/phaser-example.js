@@ -95,12 +95,29 @@ export function runGame(localPlayerNum, remotePlayerNums) {
   assignHitBoxProperties(hitBoxR, 'hitBoxR');
   assignHitBoxProperties(hitBoxL, 'hitBoxL');
 
+  
+
 
 
     // ------ Set Collisions -------
-
-
   }
+  // function enableHitbox(hitboxName){
+  //   function enableHitbox(hitboxName){ 
+  //   // search all the hitboxes     
+  //   for (var i = 0; i < gameManager.localPlayer.sprite.children.length; i++){          
+  //     // if we find the hitbox with the “name” specified          
+  //     // if(gameManager.localPlayer.sprite.children[i].name === hitboxName){               
+  //       // reset it               
+  //       gameManager.localPlayer.sprite.children[i].reset(0,0);         
+  //     // }     
+  //   }
+  // }
+  // disable all active hitboxesfunction 
+  function disableAllHitboxes() {
+    console.log(gameManager)
+    gameManager.localPlayer.sprite.children.forEach(function(hitbox) {          
+      hitbox.kill();     
+    });}
 
 
   // ------ Update -------
@@ -161,7 +178,8 @@ export function runGame(localPlayerNum, remotePlayerNums) {
         gameManager['remote' + playerNum].sprite.position.set(xCoord, yCoord);
       });
     // }, 15);
-  if (gameManager.remote1) {
+   //   need this
+   if (gameManager.remote1) {
   gameManager.game.physics.arcade.overlap(hitBoxR, gameManager.remote1.sprite,
     overlapCallbackHit);
   gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote1.sprite,
@@ -188,11 +206,15 @@ export function runGame(localPlayerNum, remotePlayerNums) {
   }
 
   function collideCallback(){
-    console.log('collided');
+    // console.log('collided');
   }
   function overlapCallbackHit(hitBox, enemy){
     console.log('overlap')
     enemy.isHit = true;
+    enemy.body.velocity.x = -5000;
+    disableAllHitboxes();
+    // enableHitbox();
+
     // console.log(enemy);
     // enemy.isHit = false;
     // console.log(enemy);
@@ -224,10 +246,10 @@ export function runGame(localPlayerNum, remotePlayerNums) {
   // ------ Render -------
   function render() {
 
-    // gameManager.game.debug.bodyInfo(slayer.sprite, 100, 100);
+    gameManager.game.debug.bodyInfo(gameManager.localPlayer.sprite, 100, 100);
     // gameManager.game.debug.body(slayer.sprite);
-    // gameManager.game.debug.body(hitBoxR);
-    // gameManager.game.debug.body(hitBoxL);
+    gameManager.game.debug.body(hitBoxR);
+    gameManager.game.debug.body(hitBoxL);
 
     // gameManager.game.debug.body(enemy1.sprite);
     // gameManager.game.debug.body(enemy2.sprite);
