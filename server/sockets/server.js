@@ -91,6 +91,7 @@ socketServer.makeSocketServer = server => {
         // first, add player info's to clients :
         client.number = index+1
         client.health = 100
+        client.damage = 0
         client.characterGraphic = characterGraphic[index]
         client.weaponGraphic = client.clientWeapon.graphic;
         // second, hash it inside an empty obj with {playerNum: playerObj} format. :
