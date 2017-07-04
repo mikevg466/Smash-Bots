@@ -111,18 +111,14 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 //     gameManager.game.physics.arcade.collide(slayer.sprite, enemy1.sprite, collideCallback);
 //     gameManager.game.physics.arcade.collide(slayer.sprite, enemy2.sprite, collideCallback);
 //     gameManager.game.physics.arcade.collide(slayer.sprite, enemy3.sprite, collideCallback);
-//     gameManager.game.physics.arcade.collide(slayer.sprite, enemy3.sprite, collideCallback);
-
-//     gameManager.game.physics.arcade.overlap(hitBoxR, enemy1.sprite,
-//     overlapCallbackHit);
-//     gameManager.game.physics.arcade.overlap(hitBoxR, enemy2.sprite,
-//     overlapCallbackHit);
-//     gameManager.game.physics.arcade.overlap(hitBoxR, enemy3.sprite, overlapCallbackHit);
-//     gameManager.game.physics.arcade.overlap(hitBoxL, enemy1.sprite,
-//     overlapCallbackHit);
-//     gameManager.game.physics.arcade.overlap(hitBoxL, enemy2.sprite,
-//     overlapCallbackHit);
-//     gameManager.game.physics.arcade.overlap(hitBoxL, enemy3.sprite, overlapCallbackHit);
+//     gameManager.game.physics.arcade.collide(slayer.sprite, enemy3.sprite, collideCallback);    
+    // gameManager.game.physics.arcade.overlap(hitBoxR, enemy2.sprite,
+    // overlapCallbackHit);
+    // gameManager.game.physics.arcade.overlap(hitBoxR, enemy3.sprite, overlapCallbackHit);
+    
+    // gameManager.game.physics.arcade.overlap(hitBoxL, enemy2.sprite,
+    // overlapCallbackHit);
+    // gameManager.game.physics.arcade.overlap(hitBoxL, enemy3.sprite, overlapCallbackHit);
 
     // manage collisions
     const players = [];
@@ -165,23 +161,52 @@ export function runGame(localPlayerNum, remotePlayerNums) {
         gameManager['remote' + playerNum].sprite.position.set(xCoord, yCoord);
       });
     // }, 15);
+  if (gameManager.remote1) {
+  gameManager.game.physics.arcade.overlap(hitBoxR, gameManager.remote1.sprite,
+    overlapCallbackHit);
+  gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote1.sprite,
+    overlapCallbackHit);
+  }
+  if (gameManager.remote2) {
+  gameManager.game.physics.arcade.overlap(hitBoxR, gameManager.remote2.sprite, overlapCallbackHit);
+  gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote2.sprite,
+    overlapCallbackHit);
+  }
+  if (gameManager.remote3) {
+  gameManager.game.physics.arcade.overlap(hitBoxR, gameManager.remote3.sprite,
+    overlapCallbackHit);
+  gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote3.sprite,
+    overlapCallbackHit);
+  }
+  if (gameManager.remote4) {
+  gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote4.sprite,
+    overlapCallbackHit);
+  gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote4.sprite,
+    overlapCallbackHit);
+  }
+    console.log(gameManager)
   }
 
   function collideCallback(){
-    //console.log('collided');
+    console.log('collided');
   }
   function overlapCallbackHit(hitBox, enemy){
     console.log('overlap')
-    if (enemy.isFlying) return;
-    enemy.isFlying = true;
-    let randomY = Math.random() * 200 - 100;
-    enemy.body.moves = true;
-    if (hitBox.name === 'hitBoxR') {
-      setVelocity(enemy, 100, randomY);
-    } else {
-      setVelocity(enemy, -100, randomY);
-    }
+    enemy.isHit = true;
+    // console.log(enemy);
+    // enemy.isHit = false;
+    // console.log(enemy);
+    // if (enemy.isFlying) return;
+    // enemy.isFlying = true;
+    // let randomY = Math.random() * 200 - 100;
+    // enemy.body.moves = true;
+    // if (hitBox.name === 'hitBoxR') {
+    //   setVelocity(enemy, 100, randomY);
+    // } else {
+    //   setVelocity(enemy, -100, randomY);
+    // }
   }
+
   // function isFirstHit(hitBox, enemy){
 
   // }
