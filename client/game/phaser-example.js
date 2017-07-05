@@ -39,6 +39,10 @@ export function runGame(localPlayerNum, remotePlayerNums) {
       smashbot: {
         png: 'ourAssets/smashbot/robot_hammer_swing.png',
         json: 'ourAssets/smashbot/robot_hammer_swing.json'
+      },
+      explodingSmashbot: {
+        png: 'ourAssets/smashbot/robot_explosion_short.png',
+        json: 'ourAssets/smashbot/robot_explosion_short.json'
       }
     };
 
@@ -76,6 +80,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 
     // ------ Add Platforms -------
     gameManager.addSprite('platform', Platform, 'platform', 500, 650);
+    
 
     // ------ Add HitBoxes -------
 
@@ -95,16 +100,31 @@ export function runGame(localPlayerNum, remotePlayerNums) {
   assignHitBoxProperties(hitBoxR, 'hitBoxR');
   assignHitBoxProperties(hitBoxL, 'hitBoxL');
 
+  
+
 
 
     // ------ Set Collisions -------
-
-
   }
+  // function enableHitbox(hitboxName){
+  //   function enableHitbox(hitboxName){ 
+  //   // search all the hitboxes     
+  //   for (var i = 0; i < gameManager.localPlayer.sprite.children.length; i++){          
+  //     // if we find the hitbox with the “name” specified          
+  //     // if(gameManager.localPlayer.sprite.children[i].name === hitboxName){               
+  //       // reset it               
+  //       gameManager.localPlayer.sprite.children[i].reset(0,0);         
+  //     // }     
+  //   }
+  // }
+  // disable all active hitboxesfunction 
+  
+  
 
 
   // ------ Update -------
   function update(){
+
 
 //     // adding smashbot collisions
 //     //gameManager.game.physics.arcade.overlap(slayer.sprite, enemy1.sprite, overlapCallback); // default. change to collide when player attacks.
@@ -127,45 +147,40 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     // manage collisions/ IF people bump into each other or platform:
     const players = [];
     localPlayerNum && players.push('localPlayer');
-    remotePlayerNums.forEach(playerNum => players.push('remote' + playerNum))
+    remotePlayerNums.forEach(playerNum => players.push('remote' + playerNum));
     gameManager.addCollisions(players, 'platform');
     players.forEach(player => gameManager.addCollisions(players, player));
 
     // gameManager.game.physics.arcade.overlap(gameManager.localPlayer.sprite, gameManager.remote1.sprite, overlapCallback); // default. change to collide when player attacks.
 
-    //changing sprite animation according to each keyboard inputs:
-    gameManager.update();
+    gameManager.update(store.getState().game);
 
+    //ENDING THE GAME
     let arrayLives = [];
-    gameManager.inputManagerList.forEach(inputManager => arrayLives.push(inputManager.player.lives))
+    gameManager.inputManagerList.forEach(inputManager => arrayLives.push(inputManager.player.lives));
 
-    let totalLives = arrayLives.reduce((acc, cur) => acc + cur, 0)
+    let totalLives = arrayLives.reduce((acc, cur) => acc + cur, 0);
     if (totalLives === 1) {
-      var winner = gameManager.inputManagerList.filter(inputManager => inputManager.player.lives === 1);
+      const winner = gameManager.inputManagerList.filter(inputManager => inputManager.player.lives === 1);
       console.log(winner[0].player.playerNumber);
       gameManager.endGame();
     }
-    console.log(gameManager,'gameManager')
 
-    // handle position changes
-    // where player tells the server:
-    const localPlayerState = localPlayerNum  ? {
-      xCoord: gameManager.localPlayer.sprite.position.x,
-      yCoord: gameManager.localPlayer.sprite.position.y,
-      number: gameManager.localPlayer.playerNumber
-    } :
-    {};
-    // TODO: update remote player damage if collision occurs
-
-    const remotePlayersState = {}
-    // remotePlayerNums.forEach(playerNum => {
-    //   remotePlayersState['remote' + playerNum] = {
-    //     isHit: store.getState().playerStateChanges[playerNum].isHit
-    //   } 
-    // }); 
+    console.log(totalLives);
 
     // throttle(() => {
-      //update redux
+      // handle position changes
+      const localPlayerState = localPlayerNum  ? {
+        xCoord: gameManager.localPlayer.sprite.position.x,
+        yCoord: gameManager.localPlayer.sprite.position.y,
+        number: gameManager.localPlayer.playerNumber,
+        animation: gameManager.localPlayer.animation,
+      } :
+      {};
+      // TODO: update remote player damage if collision occurs
+      const remotePlayersState = {};
+
+
       store.dispatch(updateLocalState(localPlayerState, remotePlayersState));
       //emit to server
       emitPlayerStateChanges(store.getState().game.playerStateChanges);
@@ -175,53 +190,125 @@ export function runGame(localPlayerNum, remotePlayerNums) {
       const remotePlayerState = store.getState().game.remotePlayers;
       // ^^^^^^^^^^ from Server -> Player
       remotePlayerNums.forEach(playerNum => {
-        const { xCoord, yCoord } = remotePlayerState[playerNum]
+        const { xCoord, yCoord } = remotePlayerState[playerNum];
         gameManager['remote' + playerNum].sprite.position.set(xCoord, yCoord);
       });
     // }, 15);
+
+    // if player is hit, player flies off screen:
+    // flyWhenHit() // TODO: connect with store.
+
+    //Sets up overlap hitboxes
+    if (gameManager.remote1) {
+    gameManager.game.physics.arcade.overlap(hitBoxR, gameManager.remote1.sprite, overlapCallbackHit);
+    gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote1.sprite, overlapCallbackHit);
+    }
+    if (gameManager.remote2) {
+    gameManager.game.physics.arcade.overlap(hitBoxR, gameManager.remote2.sprite, overlapCallbackHit);
+    gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote2.sprite, overlapCallbackHit);
+    }
+    if (gameManager.remote3) {
+    gameManager.game.physics.arcade.overlap(hitBoxR, gameManager.remote3.sprite, overlapCallbackHit);
+    gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote3.sprite, overlapCallbackHit);
+    }
+    if (gameManager.remote4) {
+    gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote4.sprite, overlapCallbackHit);
+    gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote4.sprite, overlapCallbackHit);
+    }
+
+    //disables hitboxes if theyre active, so theyll immediately be disabled after a swing
+    if (gameManager.localPlayer.sprite.children[0].alive) {
+      gameManager.localPlayer.sprite.children.forEach(function(hitbox) {        
+        hitbox.kill(); 
+      })
+    }
   }
 
   function collideCallback(){
-    //console.log('collided');
+    // console.log('collided');
   }
+
+  //sends enemy flying
   function overlapCallbackHit(hitBox, enemy){
     console.log('overlap')
-    if (enemy.isFlying) return;
-    enemy.isFlying = true;
-    let randomY = Math.random() * 200 - 100;
-    enemy.body.moves = true;
-    if (hitBox.name === 'hitBoxR') {
-      setVelocity(enemy, 100, randomY);
+
+    enemy.isHit = true
+    enemy.body.velocity.x = -5000;
+    if  (hitBox.name === "hitBoxR" && gameManager.localPlayer.direction === 'right') {
+      enemy.flyRight = true
+      enemy.body.velocity.x = 5000;
+    }
+    if  (hitBox.name === "hitBoxL" && gameManager.localPlayer.direction === 'left') {
+      enemy.flyRight = false
+      enemy.body.velocity.x = -5000;
+      }
+  }
+
+  function regainControl() {
+    const player = gameManager.localPlayer;
+    if (player.lives === 0 && player.health === 0) {
+      player.explodePlayer();
     } else {
-      setVelocity(enemy, -100, randomY);
+      player.sprite.body.velocity.setTo(0, 0);
+      player.setGravity(500);
+      gameManager.game.input.enabled = true;
     }
   }
-  // function isFirstHit(hitBox, enemy){
 
-  // }
-
-  function setVelocity(enemy, x, y){
-    console.log(enemy.body.velocity)
-    enemy.body.velocity.setTo(x, y);
-    console.log(enemy.body.velocity)
+  function flyWhenHit() {
+    const player = gameManager.localPlayer;
+    //const hitTrue = store.getState().game.localPlayer.hit; // pseudo code
+    let hitTrue = true; // TODO connect to store.
+    let flyRightTrue = false;
+    //player.lives = 0;
+    player.health = 3;
+    if (hitTrue) {
+      const flyAngle = flyRightTrue ? 680 : 600;
+      const vectorX = flyRightTrue ? 200 : -200;
+      player.sprite.animations.play('fly');
+      player.setGravity(0);
+      gameManager.game.input.enabled = false;
+      player.sprite.body.onMoveComplete.add(regainControl, this);
+      switch(player.health){
+        case 3:
+          player.sprite.body.moveTo(1000, 200, flyAngle);
+          break;
+        case 2:
+          player.sprite.body.moveTo(1000, 300, flyAngle);
+          break;
+        case 1:
+          player.sprite.body.moveTo(1000, 400, flyAngle);
+          break;
+        default:
+          if (player.lives === 0) {
+            player.sprite.body.moveTo(1000, 300, flyAngle);
+          } else {
+            player.sprite.body.velocity.setTo(vectorX, -200);
+          }
+      }
+    }
   }
 
-  function overlapCallback(){
-    //console.log('overlapped');
-  }
 
   // ------ Render -------
   function render() {
 
-    // gameManager.game.debug.bodyInfo(slayer.sprite, 100, 100);
+    gameManager.game.debug.bodyInfo(gameManager.localPlayer.sprite, 100, 100);
     // gameManager.game.debug.body(slayer.sprite);
-    // gameManager.game.debug.body(hitBoxR);
-    // gameManager.game.debug.body(hitBoxL);
+    gameManager.game.debug.body(hitBoxR);
+    gameManager.game.debug.body(hitBoxL);
 
     // gameManager.game.debug.body(enemy1.sprite);
     // gameManager.game.debug.body(enemy2.sprite);
     // gameManager.game.debug.body(enemy3.sprite);
 
   }
-}
+
+// function winAnimation() {
+//   const p1 = new Player(gameManager.game, 'smashbot', 200, 200);
+//   p1.play('move');
 // }
+
+
+  //setTimeout(flyWhenHit, 3000);
+}
