@@ -148,7 +148,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 
     // gameManager.game.physics.arcade.overlap(gameManager.localPlayer.sprite, gameManager.remote1.sprite, overlapCallback); // default. change to collide when player attacks.
 
-    gameManager.update();
+    gameManager.update(store.getState().game);
 
     //ENDING THE GAME
     let arrayLives = [];
@@ -160,6 +160,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
       console.log(winner[0].player.playerNumber);
       gameManager.endGame();
     }
+
     console.log(totalLives);
 
     // handle position changes
@@ -173,6 +174,18 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     const remotePlayersState = {};
 
     // throttle(() => {
+      // handle position changes
+      const localPlayerState = localPlayerNum  ? {
+        xCoord: gameManager.localPlayer.sprite.position.x,
+        yCoord: gameManager.localPlayer.sprite.position.y,
+        number: gameManager.localPlayer.playerNumber,
+        animation: gameManager.localPlayer.animation,
+      } :
+      {};
+      // TODO: update remote player damage if collision occurs
+      const remotePlayersState = {};
+
+
       store.dispatch(updateLocalState(localPlayerState, remotePlayersState));
       emitPlayerStateChanges(store.getState().game.playerStateChanges);
       const remotePlayerState = store.getState().game.remotePlayers;
@@ -221,11 +234,11 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 
     enemy.isHit = true
     enemy.body.velocity.x = -5000;
-    if  (hitBox.name === "hitBoxR") {
+    if  (hitBox.name === "hitBoxR" && gameManager.localPlayer.direction === 'right') {
       enemy.flyRight = true
       enemy.body.velocity.x = 5000;
     }
-    if  (hitBox.name === "hitBoxL") {
+    if  (hitBox.name === "hitBoxL" && gameManager.localPlayer.direction === 'left') {
       enemy.flyRight = false
       enemy.body.velocity.x = -5000;
       }

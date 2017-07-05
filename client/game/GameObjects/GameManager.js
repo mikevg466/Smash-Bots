@@ -29,8 +29,8 @@ export default class GameManager{
     this.onCreate(background);
   }
 
-  update(){
-    this.onUpdate();
+  update(gameState){
+    this.onUpdate(gameState);
   }
 
   addPlayer(name, objType, spriteName, xCoord, yCoord, playerNumber){

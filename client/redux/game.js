@@ -5,6 +5,7 @@ const UPDATE_PLAYERS_STATE = 'UPDATE_PLAYERS_STATE';
 const SET_PLAYER = 'SET_PLAYER';
 const INIT_PLAYERS = 'INIT_PLAYERS';
 const UPDATE_LOCAL_STATE = 'UPDATE_LOCAL_STATE';
+const SET_ANIMATION = 'SET_ANIMATION';
 
 // ------ ACTION CREATORS -------
 export const startGame = () => ({ type: START_GAME });
@@ -25,6 +26,7 @@ export const initPlayers = (localPlayer, remotePlayers) => ({
   localPlayer,
   remotePlayers
 });
+export const setAnimation = animation => ({ type: SET_ANIMATION, animation });
 
 // ------- INIT STATE --------
 
@@ -59,7 +61,8 @@ const initState = {
 const defaultPlayer = {
   damage: 0,
   xCoord: 0,
-  yCoord: 0
+  yCoord: 0,
+  animation: ''
 };
 
 
@@ -92,10 +95,11 @@ export default function (state = initState, action) {
     case UPDATE_LOCAL_STATE:
       const stateChanges = {};
       // position changes
-      const { xCoord, yCoord, number } = action.localPlayer;
+      const { xCoord, yCoord, animation, number } = action.localPlayer;
       stateChanges[number] = {};
       stateChanges[number].xCoord = xCoord;
       stateChanges[number].yCoord = yCoord;
+      stateChanges[number].animation = animation;
       // damage changes
       Object.keys(action.remotePlayers)
         .forEach(playerNum => {
@@ -107,6 +111,12 @@ export default function (state = initState, action) {
 
     case SET_PLAYER:
       newState.playerNumber = action.playerNumber;
+      break;
+
+    case SET_ANIMATION:
+      const updatedLocalPlayer = Object.assign({}, newState.localPlayer);
+      updatedLocalPlayer.animation = action.animation;
+      newState.localPlayer = updatedLocalPlayer;
       break;
 
     default:

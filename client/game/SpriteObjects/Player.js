@@ -73,6 +73,7 @@ export default class Player extends Sprite{
 
   // default move
   move(direction){
+    console.log('remote ', this.playerNumber, ' direction', direction);
     switch(direction){
       case 'left':
         this.setDirection('left');
@@ -86,7 +87,7 @@ export default class Player extends Sprite{
 
       // default:
       //   this.sprite.body.velocity.x = 0;
-      //   // this.sprite.animations.stop();
+      //   this.sprite.animations.stop();
       //   break;
     }
   }
@@ -105,14 +106,14 @@ export default class Player extends Sprite{
         this.direction.left = true;
         this.direction.right = false;
         this.sprite.scale.x = -1;
-        if (this.sprite.children[0].name === 'hitBoxes') this.sprite.children[0].scale.x = -1;
+        // if (this.sprite.children[0].name === 'hitBoxes') this.sprite.children[0].scale.x = -1;
         break;
 
       case 'right':
         this.direction.right = true;
         this.direction.left = false;
         this.sprite.scale.x = 1;
-        if (this.sprite.children[0].name === 'hitBoxes') this.sprite.children[0].scale.x = 1;
+        // if (this.sprite.children[0].name === 'hitBoxes') this.sprite.children[0].scale.x = 1;
         break;
     }
   }
@@ -145,5 +146,8 @@ export default class Player extends Sprite{
     const explodingSmashbot = this.game.add.sprite(position.x - 300, position.y - 300, 'explodingSmashbot');
     explodingSmashbot.animations.add('explode', [0, 1, 2, 3]);
     explodingSmashbot.animations.play('explode', 5, false, true);
+  }
+  
+  updateAnimationState(){
   }
 }
