@@ -30,7 +30,6 @@ export default class InputManager{
       }
     }
     else {
-      console.log("hehe")
       // console.log('hi', moving)
       this.player.stop();
       // moving = false;
@@ -58,4 +57,5 @@ export default class InputManager{
   isDown(keyCode){
     return this.game.input.keyboard.isDown(Phaser.Keyboard[keyCode]);
   }
+  
 }
