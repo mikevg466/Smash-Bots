@@ -85,6 +85,10 @@ export default class Player extends Sprite{
         this.sprite.animations.play('move');
         break;
 
+      case 'swing':
+        this.sprite.animations.play('swing');
+        break;
+
       // default:
       //   this.sprite.body.velocity.x = 0;
       //   this.sprite.animations.stop();

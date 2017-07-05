@@ -163,16 +163,6 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 
     console.log(totalLives);
 
-    // handle position changes
-    const localPlayerState = localPlayerNum  ? {
-      xCoord: gameManager.localPlayer.sprite.position.x,
-      yCoord: gameManager.localPlayer.sprite.position.y,
-      number: gameManager.localPlayer.playerNumber
-    } :
-    {};
-    // TODO: update remote player damage if collision occurs
-    const remotePlayersState = {};
-
     // throttle(() => {
       // handle position changes
       const localPlayerState = localPlayerNum  ? {
