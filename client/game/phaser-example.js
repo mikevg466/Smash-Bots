@@ -151,10 +151,20 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     gameManager.update(store.getState().game);
 
     //ENDING THE GAME
-    let arrayLives = [];
-    gameManager.inputManagerList.forEach(inputManager => arrayLives.push(inputManager.player.lives));
+    let livingPlayersLives = [];
+    gameManager.inputManagerList.forEach(inputManager => livingPlayersLives.push(inputManager.player.lives));
 
-    let totalLives = arrayLives.reduce((acc, cur) => acc + cur, 0);
+    // let stillAlive = livingPlayersLives.length;
+    // for (var i = 0; i < livingPlayersLives.length; i++) {
+    //   if (livingPlayersLives[i] === 0) {
+    //   stillAlive--;
+    //   }
+    // }
+    // if (stillAlive === 1) {
+    //   gameManager.endGame();
+    // }
+
+    totalLives = livingPlayersLives.reduce((acc, cur) => acc + cur, 0);
     if (totalLives === 1) {
       const winner = gameManager.inputManagerList.filter(inputManager => inputManager.player.lives === 1);
       console.log(winner[0].player.playerNumber);
