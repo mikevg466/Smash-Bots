@@ -294,6 +294,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
   function render() {
 
     gameManager.game.debug.bodyInfo(gameManager.localPlayer.sprite, 100, 100);
+    gameManager.game.debug.body(gameManager.localPlayer.sprite)
     // gameManager.game.debug.body(slayer.sprite);
     gameManager.game.debug.body(hitBoxR);
     gameManager.game.debug.body(hitBoxL);
