@@ -40,6 +40,7 @@ export default class LocalPlayer extends Player{
         break;
         
       case 'swing':
+        this.attack();
         this.sprite.animations.play('swing');
         break;
 
@@ -50,12 +51,11 @@ export default class LocalPlayer extends Player{
   }
 
   //creates hitboxes for swing
-  attack(swingRightTrue){
+  attack(){
     const hitBoxR = this.sprite.children[0];
     const hitBoxL = this.sprite.children[1];
     hitBoxR.reset(150, -50)
     hitBoxL.reset(-150, -50)
-    this.sprite.animations.play('swing');
     // this.sprite.children.forEach(function(hitbox) {          
     //   hitbox.kill();
     // })    
