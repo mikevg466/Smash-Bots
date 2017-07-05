@@ -113,15 +113,13 @@ export function runGame(localPlayerNum, remotePlayerNums) {
   //   }
   // }
   // disable all active hitboxesfunction 
-  function disableAllHitboxes() {
-    console.log(gameManager)
-    gameManager.localPlayer.sprite.children.forEach(function(hitbox) {          
-      hitbox.kill();     
-    });}
+  
+  
 
 
   // ------ Update -------
   function update(){
+
 
 //     // adding smashbot collisions
 //     //gameManager.game.physics.arcade.overlap(slayer.sprite, enemy1.sprite, overlapCallback); // default. change to collide when player attacks.
@@ -148,6 +146,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 
     gameManager.update();
 
+    //ENDING THE GAME
     let arrayLives = [];
     gameManager.inputManagerList.forEach(inputManager => arrayLives.push(inputManager.player.lives))
 
@@ -178,43 +177,55 @@ export function runGame(localPlayerNum, remotePlayerNums) {
         gameManager['remote' + playerNum].sprite.position.set(xCoord, yCoord);
       });
     // }, 15);
-   //   need this
-   if (gameManager.remote1) {
-  gameManager.game.physics.arcade.overlap(hitBoxR, gameManager.remote1.sprite,
-    overlapCallbackHit);
-  gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote1.sprite,
-    overlapCallbackHit);
+  
+  //Sets up overlap hitboxes
+  if (gameManager.remote1) {
+  gameManager.game.physics.arcade.overlap(hitBoxR, gameManager.remote1.sprite, overlapCallbackHit);
+  gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote1.sprite, overlapCallbackHit);
   }
   if (gameManager.remote2) {
   gameManager.game.physics.arcade.overlap(hitBoxR, gameManager.remote2.sprite, overlapCallbackHit);
-  gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote2.sprite,
-    overlapCallbackHit);
+  gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote2.sprite, overlapCallbackHit);
   }
   if (gameManager.remote3) {
-  gameManager.game.physics.arcade.overlap(hitBoxR, gameManager.remote3.sprite,
-    overlapCallbackHit);
-  gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote3.sprite,
-    overlapCallbackHit);
+  gameManager.game.physics.arcade.overlap(hitBoxR, gameManager.remote3.sprite, overlapCallbackHit);
+  gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote3.sprite, overlapCallbackHit);
   }
   if (gameManager.remote4) {
-  gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote4.sprite,
-    overlapCallbackHit);
-  gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote4.sprite,
-    overlapCallbackHit);
+  gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote4.sprite, overlapCallbackHit);
+  gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote4.sprite, overlapCallbackHit);
   }
-    console.log(gameManager)
+
+  //disables hitboxes if theyre active, so theyll immediately be disabled after a swing
+  if (gameManager.localPlayer.sprite.children[0].alive) {
+  gameManager.localPlayer.sprite.children.forEach(function(hitbox) {        
+    hitbox.kill();
+    console.log("hi", hitbox) 
+  })
+  }
   }
 
   function collideCallback(){
     // console.log('collided');
   }
+
+  //sends enemy flying
   function overlapCallbackHit(hitBox, enemy){
     console.log('overlap')
-    enemy.isHit = true;
+    console.log(hitBox)
+    enemy.isHit = true
     enemy.body.velocity.x = -5000;
-    disableAllHitboxes();
+    if  (hitBox.name === "hitBoxR") {
+      enemy.flyRight = true
+      enemy.body.velocity.x = 5000;
+    }
+    if  (hitBox.name === "hitBoxL") {
+      enemy.flyRight = false
+      enemy.body.velocity.x = -5000;
+      }
+  }
+    //   disableAllHitboxes();
     // enableHitbox();
-
     // console.log(enemy);
     // enemy.isHit = false;
     // console.log(enemy);
@@ -227,7 +238,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     // } else {
     //   setVelocity(enemy, -100, randomY);
     // }
-  }
+  // }
 
   // function isFirstHit(hitBox, enemy){
 
@@ -242,6 +253,13 @@ export function runGame(localPlayerNum, remotePlayerNums) {
   function overlapCallback(){
     //console.log('overlapped');
   }
+  // function disableAllHitboxes() {
+  //   console.log(gameManager)
+  //   gameManager.localPlayer.sprite.children.forEach(function(hitbox) {          
+  //     hitbox.kill();     
+  //   });}
+  // disableAllHitboxes();
+  
 
   // ------ Render -------
   function render() {

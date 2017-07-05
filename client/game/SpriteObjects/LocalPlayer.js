@@ -37,17 +37,21 @@ export default class LocalPlayer extends Player{
 
       default:
         this.sprite.body.velocity.x = 0;
-        this.sprite.animations.play();
+        // this.sprite.animations.play();
         break;
     }
   }
 
+  //creates hitboxes for swing
   attack(swingRightTrue){
     const hitBoxR = this.sprite.children[0];
     const hitBoxL = this.sprite.children[1];
-
     hitBoxR.reset(150, -50)
     hitBoxL.reset(-150, -50)
+    this.sprite.animations.play('swing');
+    // this.sprite.children.forEach(function(hitbox) {          
+    //   hitbox.kill();
+    // })    
     // search all the hitboxes     
     // for (var i = 0; i < this.sprite.children.length; i++){          
     //   // if we find the hitbox with the “name” specified          
@@ -72,7 +76,6 @@ export default class LocalPlayer extends Player{
     // } else {
     //   // this.game.physics.arcade.collide(hitBoxL, enemy1);
     // }
-    this.sprite.animations.play('swing');
   }
 
   jump(){
