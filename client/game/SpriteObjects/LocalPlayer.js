@@ -100,7 +100,7 @@ export default class LocalPlayer extends Player{
     });
     if (controls.left.keys && this.isDown(controls.left.keys[0])){
       // moving = true;
-      this.move('left')
+      this.animation = 'left';
       // this.sprite.animations.play('swing')
       // console.log("^^^^^^", attackKey.onDown)
       // if (attackKey.onDown) {
@@ -116,7 +116,7 @@ export default class LocalPlayer extends Player{
     else if (controls.right.keys && this.isDown(controls.right.keys[0])){
       // moving = true;
       // console.log("********", controls)
-      this.move('right');
+      this.animation = 'right';
     }
 
     //   if (controls.attack.keys && this.isDown(controls.attack.keys[0])) {
@@ -127,13 +127,14 @@ export default class LocalPlayer extends Player{
     // }
     else {
       // console.log('hi', moving)
-      this.stop();
+      this.animation = 'stop';
+      //this.stop();
       // moving = false;
       // console.log('=====>', moving)
     }
 
     if (controls.attack.keys && this.isDown(controls.attack.keys[0])) {
-      this.sprite.animations.play('swing')
+      this.animation = 'swing'
     }
 
 
