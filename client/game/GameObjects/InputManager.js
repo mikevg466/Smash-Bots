@@ -52,7 +52,6 @@ export default class InputManager{
     }
 
     if (controls.attack.keys && this.isDown(controls.attack.keys[0])) {
-      console.log("OJDAOJSDOJASDOJAOJDSOAJOSDJ")
       this.player.sprite.animations.play('swing')
     }
 
