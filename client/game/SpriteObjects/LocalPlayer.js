@@ -93,14 +93,47 @@ export default class LocalPlayer extends Player{
 
   updateAnimationState(){
     const controls = this.controls;
+    const attackKey = this.game.input.keyboard.addKey(Phaser.Keyboard.L);
+    attackKey.onDown.add((L) => {
+      const swingRightTrue = this.direction.right;
+      this.attack(swingRightTrue);
+    });
     if (controls.left.keys && this.isDown(controls.left.keys[0])){
-      this.animation = 'left';
+      // moving = true;
+      this.move('left')
+      // this.sprite.animations.play('swing')
+      // console.log("^^^^^^", attackKey.onDown)
+      // if (attackKey.onDown) {
+      //   this.sprite.animations.play('swing')
+      // }
     }
+    //   if (controls.attack.keys && this.isDown(controls.attack.keys[0])) {
+    //     this.attack(false);
+    //   } else {
+    //     this.move('left');
+    //   }
+    // }
     else if (controls.right.keys && this.isDown(controls.right.keys[0])){
-      this.animation = 'right';
+      // moving = true;
+      // console.log("********", controls)
+      this.move('right');
     }
+
+    //   if (controls.attack.keys && this.isDown(controls.attack.keys[0])) {
+    //     this.attack(true);
+    //   } else {
+    //     this.move('right');
+    //   }
+    // }
     else {
-      this.animation = 'stop';
+      // console.log('hi', moving)
+      this.stop();
+      // moving = false;
+      // console.log('=====>', moving)
+    }
+
+    if (controls.attack.keys && this.isDown(controls.attack.keys[0])) {
+      this.sprite.animations.play('swing')
     }
 
 
@@ -114,11 +147,6 @@ export default class LocalPlayer extends Player{
       }
     });
 
-    const attackKey = this.game.input.keyboard.addKey(Phaser.Keyboard.L);
-    attackKey.onDown.add((L) => {
-      const swingRightTrue = this.direction.right;
-      this.attack(swingRightTrue);
-    });
   }
 
   isDown(keyCode){
