@@ -17,7 +17,7 @@ export default class RemotePlayer extends Player{
     );
     this.setAnimation(
       'fly',
-      [27], 60, true
+      [18], 60, true
     );
 
     this.direction = {
@@ -26,6 +26,7 @@ export default class RemotePlayer extends Player{
       left: false,
       right: true,
     };
+
   }
 
   jump(){

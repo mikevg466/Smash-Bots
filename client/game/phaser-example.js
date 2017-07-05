@@ -6,7 +6,8 @@ import store from '../store';
 // import throttle from 'lodash.throttle';
 
 let hitBoxR,
-  hitBoxL;
+  hitBoxL,
+  flyingStartTime;
 
 export function runGame(localPlayerNum, remotePlayerNums) {
 
@@ -172,18 +173,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 
 
     // if player is hit, player flies off screen:
-    // flyOffScreenIfIt() // TODO: connect with store.
-
-    // if player has enough health, player will stop flying.
-    const localPlayer = gameManager.localPlayer;
-    //stopFlying(localPlayer.health);
-
-    // explode player (once offscreen) if it was their finalHit and final life.
-    // if (localPlayer.finalHit === true && localPlayer.lives === 1) {
-    if (localPlayer.finalHit === true) {
-      localPlayer.checkWorldBounds = true;
-      localPlayer.events.onOutOfBounds.add(explodePlayer);
-    }
+    // flyWhenHit() // TODO: connect with store.
 
   }
 
@@ -217,60 +207,49 @@ export function runGame(localPlayerNum, remotePlayerNums) {
   }
 
 
+  function regainControl() {
+    const player = gameManager.localPlayer;
+    if (player.lives === 0 && player.health === 0) {
+      player.explodePlayer();
+    } else {
+      player.sprite.body.velocity.setTo(0, 0);
+      player.setGravity(500);
+      gameManager.game.input.enabled = true;
+    }
+  }
 
-  function flyOffScreenIfHit() {
-    const player = gameManager.localPlayer.sprite;
+  function flyWhenHit() {
+    const player = gameManager.localPlayer;
     //const hitTrue = store.getState().game.localPlayer.hit; // pseudo code
     let hitTrue = true; // TODO connect to store.
     let flyRightTrue = false;
-    let finalHit = true;
-    gameManager.localPlayer.finalHit = true;
+    player.lives = 0;
+    player.health = 0;
     if (hitTrue) {
-      player.body.gravity.y = 0;
-      if (flyRightTrue) {
-        player.body.velocity.setTo(200, -200);
-      } else {
-        player.body.velocity.setTo(-200, -200);
+      const flyAngle = flyRightTrue ? 300 : 600;
+      const vectorX = flyRightTrue ? 200 : -200;
+      player.sprite.animations.play('fly');
+      player.setGravity(0);
+      gameManager.game.input.enabled = false;
+      player.sprite.body.onMoveComplete.add(regainControl, this);
+      switch(player.health){
+        case 3:
+          player.sprite.body.moveTo(1000, 200, flyAngle);
+          break;
+        case 2:
+          player.sprite.body.moveTo(1000, 300, flyAngle);
+          break;
+        case 1:
+          player.sprite.body.moveTo(1000, 400, flyAngle);
+          break;
+        default:
+          if (player.lives === 0) {
+            player.sprite.body.moveTo(1000, 300, flyAngle);
+          } else {
+            player.sprite.body.velocity.setTo(vectorX, -200);
+          }
       }
-      player.animations.play('fly');
-      //stopFlying('3');
     }
-  }
-
-  function regainGravity() {
-    const player = gameManager.localPlayer.sprite;
-    player.body.velocity.setTo(0, 0);
-    player.body.gravity.y = 500;
-  }
-
-  function stopFlying(health) {
-    console.log('HITTTTTTT')
-    let flyRightTrue = false;
-    //let angle = flyRightTrue ? 90 : 270;
-    const player = gameManager.localPlayer.sprite;
-    // let health = ____;
-    player.body.onMoveComplete.add(regainGravity);
-    switch(health){
-      case '3':
-      player.body.moveTo(1000, 50);
-      console.log('MEEEEEEEE')
-        break;
-      case '2':
-      player.body.moveTo(1000, 150);
-        break;
-      case '1':
-      player.body.moveTo(1000, 250);
-        break;
-      case '0':
-        break;
-    }
-  }
-
-  function explodePlayer() {
-    const position = gameManager.localPlayer.getPosition();
-    const explodingSmashbot = gameManager.game.add.sprite(position.x, position.y,'explodingSmashbot');
-    explodingSmashbot.animations.add('explode', [0, 1, 2, 3]);
-    explodingSmashbot.animations.play('explode', 5, false, true);
   }
 
 
@@ -288,7 +267,11 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 
   }
 
-  setTimeout(flyOffScreenIfHit, 3000);
-  //const testMove = () => stopFlying('3');
-  //setTimeout(testMove, 3000);
+// function winAnimation() {
+//   const p1 = new Player(gameManager.game, 'smashbot', 200, 200);
+//   p1.play('move');
+// }
+
+
+  setTimeout(flyWhenHit, 3000);
 }

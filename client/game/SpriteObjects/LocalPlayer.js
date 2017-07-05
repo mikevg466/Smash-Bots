@@ -19,7 +19,8 @@ export default class LocalPlayer extends Player{
         keys:["SPACEBAR"],
       }
     }
-  }
+
+}
 
   move(direction){
     switch(direction){
