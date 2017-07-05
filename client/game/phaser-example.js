@@ -223,10 +223,10 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     //const hitTrue = store.getState().game.localPlayer.hit; // pseudo code
     let hitTrue = true; // TODO connect to store.
     let flyRightTrue = false;
-    player.lives = 0;
-    player.health = 0;
+    //player.lives = 0;
+    player.health = 3;
     if (hitTrue) {
-      const flyAngle = flyRightTrue ? 300 : 600;
+      const flyAngle = flyRightTrue ? 680 : 600;
       const vectorX = flyRightTrue ? 200 : -200;
       player.sprite.animations.play('fly');
       player.setGravity(0);
@@ -273,5 +273,5 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 // }
 
 
-  setTimeout(flyWhenHit, 3000);
+  //setTimeout(flyWhenHit, 3000);
 }
