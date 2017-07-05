@@ -11,6 +11,7 @@ export default class InputManager{
   }
 
   update(gameState){
+    this.player.updateAnimationState();
     const animation = gameState.remotePlayers[this.player.playerNumber] ?
       gameState.remotePlayers[this.player.playerNumber].animation :
       this.player.animation;
