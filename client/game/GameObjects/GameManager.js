@@ -60,7 +60,6 @@ export default class GameManager{
   // optional callbacks
   collideCallback(player){
       player.jumpCounter = 2
-      console.log("jumps", player.jumpCounter)
   }
 
   overlapCallback(){
