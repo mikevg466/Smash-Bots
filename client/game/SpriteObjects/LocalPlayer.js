@@ -38,6 +38,9 @@ export default class LocalPlayer extends Player{
         this.setDirection('right');
         this.sprite.animations.play('move');
         break;
+        
+      case 'swing':
+        this.sprite.animations.play('swing');
 
       default:
         this.sprite.body.velocity.x = 0;
