@@ -211,8 +211,17 @@ export function runGame(localPlayerNum, remotePlayerNums) {
   //sends enemy flying
   function overlapCallbackHit(hitBox, enemy){
     console.log('overlap')
-    enemy.isHit = true;
+    console.log(hitBox)
+    enemy.isHit = true
     enemy.body.velocity.x = -5000;
+    if  (hitBox.name === "hitBoxR") {
+      enemy.flyRight = true
+      enemy.body.velocity.x = 5000;
+    }
+    if  (hitBox.name === "hitBoxL") {
+      enemy.flyLeft = true
+      enemy.body.velocity.x = -5000;
+      }
   }
     //   disableAllHitboxes();
     // enableHitbox();
