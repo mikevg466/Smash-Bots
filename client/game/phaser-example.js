@@ -100,26 +100,26 @@ export function runGame(localPlayerNum, remotePlayerNums) {
   assignHitBoxProperties(hitBoxR, 'hitBoxR');
   assignHitBoxProperties(hitBoxL, 'hitBoxL');
 
-  
+
 
 
 
     // ------ Set Collisions -------
   }
   // function enableHitbox(hitboxName){
-  //   function enableHitbox(hitboxName){ 
-  //   // search all the hitboxes     
-  //   for (var i = 0; i < gameManager.localPlayer.sprite.children.length; i++){          
-  //     // if we find the hitbox with the “name” specified          
-  //     // if(gameManager.localPlayer.sprite.children[i].name === hitboxName){               
-  //       // reset it               
-  //       gameManager.localPlayer.sprite.children[i].reset(0,0);         
-  //     // }     
+  //   function enableHitbox(hitboxName){
+  //   // search all the hitboxes
+  //   for (var i = 0; i < gameManager.localPlayer.sprite.children.length; i++){
+  //     // if we find the hitbox with the “name” specified
+  //     // if(gameManager.localPlayer.sprite.children[i].name === hitboxName){
+  //       // reset it
+  //       gameManager.localPlayer.sprite.children[i].reset(0,0);
+  //     // }
   //   }
   // }
-  // disable all active hitboxesfunction 
-  
-  
+  // disable all active hitboxesfunction
+
+
 
 
   // ------ Update -------
@@ -132,6 +132,16 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 //     gameManager.game.physics.arcade.collide(slayer.sprite, enemy2.sprite, collideCallback);
 //     gameManager.game.physics.arcade.collide(slayer.sprite, enemy3.sprite, collideCallback);
 //     gameManager.game.physics.arcade.collide(slayer.sprite, enemy3.sprite, collideCallback);
+<<<<<<< HEAD
+=======
+    // gameManager.game.physics.arcade.overlap(hitBoxR, enemy2.sprite,
+    // overlapCallbackHit);
+    // gameManager.game.physics.arcade.overlap(hitBoxR, enemy3.sprite, overlapCallbackHit);
+
+    // gameManager.game.physics.arcade.overlap(hitBoxL, enemy2.sprite,
+    // overlapCallbackHit);
+    // gameManager.game.physics.arcade.overlap(hitBoxL, enemy3.sprite, overlapCallbackHit);
+>>>>>>> 876f042b30b8d5124704034313e3fdfd1aa9bba4
 
     // gameManager.game.physics.arcade.overlap(hitBoxR, gameManager.remote1.sprite,
     // overlapCallbackHit);
@@ -177,20 +187,51 @@ export function runGame(localPlayerNum, remotePlayerNums) {
         animation: gameManager.localPlayer.animation,
       } :
       {};
-      // TODO: update remote player damage if collision occurs
+
+      // Remote Player Collisions
+      remotePlayerNums.forEach(playerNumber => {
+        gameManager.game.physics.arcade.overlap(hitBoxR, gameManager[`remote${playerNumber}`].sprite, overlapCallbackHit);
+        gameManager.game.physics.arcade.overlap(hitBoxL, gameManager[`remote${playerNumber}`].sprite, overlapCallbackHit);
+      });
+
+      const origRemoteState = store.getState().game.remotePlayers;
       const remotePlayersState = {};
+      remotePlayerNums.forEach(playerNumber => {
+        if(gameManager['remote' + playerNumber].sprite.isHit && !origRemoteState[playerNumber].isHit){
+          remotePlayersState[playerNumber] = {
+            isHit: gameManager['remote' + playerNumber].sprite.isHit,
+            flyRight: gameManager['remote' + playerNumber].sprite.flyRight,
+            damage: origRemoteState[playerNumber].damage - 1
+          };
+          gameManager['remote' + playerNumber].sprite.isHit = false
+        }
+      });
+
+      //disables hitboxes if theyre active, so theyll immediately be disabled after a swing
+      if (gameManager.localPlayer.sprite.children[0].alive) {
+        gameManager.localPlayer.sprite.children.forEach(function(hitbox) {
+          hitbox.kill();
+        })
+      }
 
 
       store.dispatch(updateLocalState(localPlayerState, remotePlayersState));
       //emit to server
       emitPlayerStateChanges(store.getState().game.playerStateChanges);
+<<<<<<< HEAD
       // ^^^^^^^^^^ from Player -> Server
       // =========================================================================
       // then we expect to have the changes to remote players here:
       const remotePlayerState = store.getState().game.remotePlayers;
       // ^^^^^^^^^^ from Server -> Player
+=======
+      const { localPlayer, remotePlayers } = store.getState().game;
+      if(localPlayer.isHit){
+        flyWhenHit(localPlayer.flyRight, localPlayer.damage);
+      }
+>>>>>>> 876f042b30b8d5124704034313e3fdfd1aa9bba4
       remotePlayerNums.forEach(playerNum => {
-        const { xCoord, yCoord } = remotePlayerState[playerNum];
+        const { xCoord, yCoord } = remotePlayers[playerNum];
         gameManager['remote' + playerNum].sprite.position.set(xCoord, yCoord);
       });
     // }, 15);
@@ -199,29 +240,6 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     // flyWhenHit() // TODO: connect with store.
 
     //Sets up overlap hitboxes
-    if (gameManager.remote1) {
-    gameManager.game.physics.arcade.overlap(hitBoxR, gameManager.remote1.sprite, overlapCallbackHit);
-    gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote1.sprite, overlapCallbackHit);
-    }
-    if (gameManager.remote2) {
-    gameManager.game.physics.arcade.overlap(hitBoxR, gameManager.remote2.sprite, overlapCallbackHit);
-    gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote2.sprite, overlapCallbackHit);
-    }
-    if (gameManager.remote3) {
-    gameManager.game.physics.arcade.overlap(hitBoxR, gameManager.remote3.sprite, overlapCallbackHit);
-    gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote3.sprite, overlapCallbackHit);
-    }
-    if (gameManager.remote4) {
-    gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote4.sprite, overlapCallbackHit);
-    gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote4.sprite, overlapCallbackHit);
-    }
-
-    //disables hitboxes if theyre active, so theyll immediately be disabled after a swing
-    if (gameManager.localPlayer.sprite.children[0].alive) {
-      gameManager.localPlayer.sprite.children.forEach(function(hitbox) {        
-        hitbox.kill(); 
-      })
-    }
   }
 
   function collideCallback(){
@@ -230,23 +248,18 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 
   //sends enemy flying
   function overlapCallbackHit(hitBox, enemy){
-    console.log('overlap')
-
     enemy.isHit = true
-    enemy.body.velocity.x = -5000;
-    if  (hitBox.name === "hitBoxR" && gameManager.localPlayer.direction === 'right') {
+    if  (hitBox.name === "hitBoxR") {
       enemy.flyRight = true
-      enemy.body.velocity.x = 5000;
     }
-    if  (hitBox.name === "hitBoxL" && gameManager.localPlayer.direction === 'left') {
+    if  (hitBox.name === "hitBoxL") {
       enemy.flyRight = false
-      enemy.body.velocity.x = -5000;
       }
   }
 
   function regainControl() {
     const player = gameManager.localPlayer;
-    if (player.lives === 0 && player.health === 0) {
+    if (player.lives === 0 && player.damage === 0) {
       player.explodePlayer();
     } else {
       player.sprite.body.velocity.setTo(0, 0);
@@ -255,38 +268,39 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     }
   }
 
-  function flyWhenHit() {
+  function flyWhenHit(flyRightTrue, damage) {
     const player = gameManager.localPlayer;
-    //const hitTrue = store.getState().game.localPlayer.hit; // pseudo code
-    let hitTrue = true; // TODO connect to store.
-    let flyRightTrue = false;
-    //player.lives = 0;
-    player.health = 3;
-    if (hitTrue) {
-      const flyAngle = flyRightTrue ? 680 : 600;
-      const vectorX = flyRightTrue ? 200 : -200;
-      player.sprite.animations.play('fly');
-      player.setGravity(0);
-      gameManager.game.input.enabled = false;
-      player.sprite.body.onMoveComplete.add(regainControl, this);
-      switch(player.health){
-        case 3:
-          player.sprite.body.moveTo(1000, 200, flyAngle);
-          break;
-        case 2:
+    player.damage = damage;
+    const flyAngle = flyRightTrue ? 680 : 600;
+    const vectorX = flyRightTrue ? 200 : -200;
+    player.sprite.animations.play('fly');
+    player.setGravity(0);
+    gameManager.game.input.enabled = false;
+    player.sprite.body.onMoveComplete.add(regainControl, this);
+    switch(damage){
+      case 3:
+        player.sprite.body.moveTo(1000, 200, flyAngle);
+        break;
+      case 2:
+        player.sprite.body.moveTo(1000, 300, flyAngle);
+        break;
+      case 1:
+        player.sprite.body.moveTo(1000, 400, flyAngle);
+        break;
+      default:
+        if (player.lives === 0) {
           player.sprite.body.moveTo(1000, 300, flyAngle);
-          break;
-        case 1:
-          player.sprite.body.moveTo(1000, 400, flyAngle);
-          break;
-        default:
-          if (player.lives === 0) {
-            player.sprite.body.moveTo(1000, 300, flyAngle);
-          } else {
-            player.sprite.body.velocity.setTo(vectorX, -200);
-          }
-      }
+        } else {
+          player.sprite.body.velocity.setTo(vectorX, -200);
+        }
     }
+
+    emitPlayerStateChanges({
+      [player.playerNumber]: {
+        isHit: false,
+        flyRight: false,
+      }
+    });
   }
 
 

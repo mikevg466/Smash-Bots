@@ -62,7 +62,9 @@ const defaultPlayer = {
   damage: 0,
   xCoord: 0,
   yCoord: 0,
-  animation: ''
+  animation: '',
+  isHit: false,
+  flyRight: false,
 };
 
 
@@ -88,6 +90,8 @@ export default function (state = initState, action) {
     case UPDATE_PLAYERS_STATE:
       const updatedPlayer = Object.assign({}, newState.localPlayer);
       updatedPlayer.damage = action.localPlayer.damage;
+      updatedPlayer.isHit = action.localPlayer.isHit;
+      updatedPlayer.flyRight = action.localPlayer.flyRight;
       newState.localPlayer = updatedPlayer;
       newState.remotePlayers = action.remotePlayers;
       break;
@@ -101,12 +105,15 @@ export default function (state = initState, action) {
       stateChanges[number].yCoord = yCoord;
       stateChanges[number].isHit = isHit;
       stateChanges[number].animation = animation;
+      
       // damage changes
       Object.keys(action.remotePlayers)
         .forEach(playerNum => {
           stateChanges[playerNum] = {};
           stateChanges[playerNum].isHit = action.remotePlayers[playerNum].isHit
           stateChanges[playerNum].damage = action.remotePlayers[playerNum].damage;
+          stateChanges[playerNum].isHit = action.remotePlayers[playerNum].isHit;
+          stateChanges[playerNum].flyRight = action.remotePlayers[playerNum].flyRight;
         });
       newState.playerStateChanges = stateChanges;
       break;
