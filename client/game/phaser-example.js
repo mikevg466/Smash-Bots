@@ -39,6 +39,10 @@ export function runGame(localPlayerNum, remotePlayerNums) {
       smashbot: {
         png: 'ourAssets/smashbot/robot_hammer_swing.png',
         json: 'ourAssets/smashbot/robot_hammer_swing.json'
+      },
+      explodingSmashbot: {
+        png: 'ourAssets/smashbot/robot_explosion_short.png',
+        json: 'ourAssets/smashbot/robot_explosion_short.json'
       }
     };
 
@@ -138,7 +142,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     // manage collisions
     const players = [];
     localPlayerNum && players.push('localPlayer');
-    remotePlayerNums.forEach(playerNum => players.push('remote' + playerNum))
+    remotePlayerNums.forEach(playerNum => players.push('remote' + playerNum));
     gameManager.addCollisions(players, 'platform');
     players.forEach(player => gameManager.addCollisions(players, player));
 
@@ -148,15 +152,15 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 
     //ENDING THE GAME
     let arrayLives = [];
-    gameManager.inputManagerList.forEach(inputManager => arrayLives.push(inputManager.player.lives))
+    gameManager.inputManagerList.forEach(inputManager => arrayLives.push(inputManager.player.lives));
 
-    let totalLives = arrayLives.reduce((acc, cur) => acc + cur, 0)
+    let totalLives = arrayLives.reduce((acc, cur) => acc + cur, 0);
     if (totalLives === 1) {
-      var winner = gameManager.inputManagerList.filter(inputManager => inputManager.player.lives === 1);
+      const winner = gameManager.inputManagerList.filter(inputManager => inputManager.player.lives === 1);
       console.log(winner[0].player.playerNumber);
       gameManager.endGame();
     }
-    console.log(totalLives)
+    console.log(totalLives);
 
     // handle position changes
     const localPlayerState = localPlayerNum  ? {
@@ -173,36 +177,38 @@ export function runGame(localPlayerNum, remotePlayerNums) {
       emitPlayerStateChanges(store.getState().game.playerStateChanges);
       const remotePlayerState = store.getState().game.remotePlayers;
       remotePlayerNums.forEach(playerNum => {
-        const { xCoord, yCoord } = remotePlayerState[playerNum]
+        const { xCoord, yCoord } = remotePlayerState[playerNum];
         gameManager['remote' + playerNum].sprite.position.set(xCoord, yCoord);
       });
     // }, 15);
-  
-  //Sets up overlap hitboxes
-  if (gameManager.remote1) {
-  gameManager.game.physics.arcade.overlap(hitBoxR, gameManager.remote1.sprite, overlapCallbackHit);
-  gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote1.sprite, overlapCallbackHit);
-  }
-  if (gameManager.remote2) {
-  gameManager.game.physics.arcade.overlap(hitBoxR, gameManager.remote2.sprite, overlapCallbackHit);
-  gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote2.sprite, overlapCallbackHit);
-  }
-  if (gameManager.remote3) {
-  gameManager.game.physics.arcade.overlap(hitBoxR, gameManager.remote3.sprite, overlapCallbackHit);
-  gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote3.sprite, overlapCallbackHit);
-  }
-  if (gameManager.remote4) {
-  gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote4.sprite, overlapCallbackHit);
-  gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote4.sprite, overlapCallbackHit);
-  }
 
-  //disables hitboxes if theyre active, so theyll immediately be disabled after a swing
-  if (gameManager.localPlayer.sprite.children[0].alive) {
-  gameManager.localPlayer.sprite.children.forEach(function(hitbox) {        
-    hitbox.kill();
-    console.log("hi", hitbox) 
-  })
-  }
+    // if player is hit, player flies off screen:
+    // flyWhenHit() // TODO: connect with store.
+
+    //Sets up overlap hitboxes
+    if (gameManager.remote1) {
+    gameManager.game.physics.arcade.overlap(hitBoxR, gameManager.remote1.sprite, overlapCallbackHit);
+    gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote1.sprite, overlapCallbackHit);
+    }
+    if (gameManager.remote2) {
+    gameManager.game.physics.arcade.overlap(hitBoxR, gameManager.remote2.sprite, overlapCallbackHit);
+    gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote2.sprite, overlapCallbackHit);
+    }
+    if (gameManager.remote3) {
+    gameManager.game.physics.arcade.overlap(hitBoxR, gameManager.remote3.sprite, overlapCallbackHit);
+    gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote3.sprite, overlapCallbackHit);
+    }
+    if (gameManager.remote4) {
+    gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote4.sprite, overlapCallbackHit);
+    gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote4.sprite, overlapCallbackHit);
+    }
+
+    //disables hitboxes if theyre active, so theyll immediately be disabled after a swing
+    if (gameManager.localPlayer.sprite.children[0].alive) {
+      gameManager.localPlayer.sprite.children.forEach(function(hitbox) {        
+        hitbox.kill(); 
+      })
+    }
   }
 
   function collideCallback(){
@@ -212,7 +218,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
   //sends enemy flying
   function overlapCallbackHit(hitBox, enemy){
     console.log('overlap')
-    console.log(hitBox)
+
     enemy.isHit = true
     enemy.body.velocity.x = -5000;
     if  (hitBox.name === "hitBoxR") {
@@ -224,42 +230,52 @@ export function runGame(localPlayerNum, remotePlayerNums) {
       enemy.body.velocity.x = -5000;
       }
   }
-    //   disableAllHitboxes();
-    // enableHitbox();
-    // console.log(enemy);
-    // enemy.isHit = false;
-    // console.log(enemy);
-    // if (enemy.isFlying) return;
-    // enemy.isFlying = true;
-    // let randomY = Math.random() * 200 - 100;
-    // enemy.body.moves = true;
-    // if (hitBox.name === 'hitBoxR') {
-    //   setVelocity(enemy, 100, randomY);
-    // } else {
-    //   setVelocity(enemy, -100, randomY);
-    // }
-  // }
 
-  // function isFirstHit(hitBox, enemy){
-
-  // }
-
-  function setVelocity(enemy, x, y){
-    console.log(enemy.body.velocity)
-    enemy.body.velocity.setTo(x, y);
-    console.log(enemy.body.velocity)
+  function regainControl() {
+    const player = gameManager.localPlayer;
+    if (player.lives === 0 && player.health === 0) {
+      player.explodePlayer();
+    } else {
+      player.sprite.body.velocity.setTo(0, 0);
+      player.setGravity(500);
+      gameManager.game.input.enabled = true;
+    }
   }
 
-  function overlapCallback(){
-    //console.log('overlapped');
+  function flyWhenHit() {
+    const player = gameManager.localPlayer;
+    //const hitTrue = store.getState().game.localPlayer.hit; // pseudo code
+    let hitTrue = true; // TODO connect to store.
+    let flyRightTrue = false;
+    //player.lives = 0;
+    player.health = 3;
+    if (hitTrue) {
+      const flyAngle = flyRightTrue ? 680 : 600;
+      const vectorX = flyRightTrue ? 200 : -200;
+      player.sprite.animations.play('fly');
+      player.setGravity(0);
+      gameManager.game.input.enabled = false;
+      player.sprite.body.onMoveComplete.add(regainControl, this);
+      switch(player.health){
+        case 3:
+          player.sprite.body.moveTo(1000, 200, flyAngle);
+          break;
+        case 2:
+          player.sprite.body.moveTo(1000, 300, flyAngle);
+          break;
+        case 1:
+          player.sprite.body.moveTo(1000, 400, flyAngle);
+          break;
+        default:
+          if (player.lives === 0) {
+            player.sprite.body.moveTo(1000, 300, flyAngle);
+          } else {
+            player.sprite.body.velocity.setTo(vectorX, -200);
+          }
+      }
+    }
   }
-  // function disableAllHitboxes() {
-  //   console.log(gameManager)
-  //   gameManager.localPlayer.sprite.children.forEach(function(hitbox) {          
-  //     hitbox.kill();     
-  //   });}
-  // disableAllHitboxes();
-  
+
 
   // ------ Render -------
   function render() {
@@ -274,5 +290,12 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     // gameManager.game.debug.body(enemy3.sprite);
 
   }
-}
+
+// function winAnimation() {
+//   const p1 = new Player(gameManager.game, 'smashbot', 200, 200);
+//   p1.play('move');
 // }
+
+
+  //setTimeout(flyWhenHit, 3000);
+}

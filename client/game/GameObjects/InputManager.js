@@ -38,6 +38,7 @@ export default class InputManager{
       // console.log("********", controls)
       this.player.move('right');
     }
+
     //   if (controls.attack.keys && this.isDown(controls.attack.keys[0])) {
     //     this.player.attack(true);
     //   } else {
