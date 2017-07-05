@@ -58,8 +58,8 @@ export default class GameManager{
 
 
   // optional callbacks
-  collideCallback(){
-    console.log("vvvvvvvv", this.localPlayer)
+  collideCallback(sprite, sprote){
+    // console.log("vvvvvvvv", sprite, sprote)
   }
 
   overlapCallback(){

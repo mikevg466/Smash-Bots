@@ -35,6 +35,7 @@ export default class InputManager{
     // }
     else if (controls.right.keys && this.isDown(controls.right.keys[0])){
       // moving = true;
+      // console.log("********", controls)
       this.player.move('right');
     }
     //   if (controls.attack.keys && this.isDown(controls.attack.keys[0])) {
@@ -50,7 +51,7 @@ export default class InputManager{
       // console.log('=====>', moving)
     }
 
-    if (this.isDown("L")) {
+    if (controls.attack.keys && this.isDown(controls.attack.keys[0])) {
       console.log("OJDAOJSDOJASDOJAOJDSOAJOSDJ")
       this.player.sprite.animations.play('swing')
     }
