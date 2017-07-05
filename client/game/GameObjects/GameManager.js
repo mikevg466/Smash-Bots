@@ -41,7 +41,7 @@ export default class GameManager{
     return this[name]; // returns sprite.
   }
   endGame() {
-    this.game.cache.destroy()
+    this.game.cache.destroy();
     this.game.destroy();
     emitEndGame();
   }
@@ -52,14 +52,14 @@ export default class GameManager{
 
   addCollisions(aObjNameList, bObjName){
     aObjNameList.forEach(aObjName =>
-      this.game.physics.arcade.collide(this[aObjName].sprite, this[bObjName].sprite, this.collideCallback)
+      this.game.physics.arcade.collide(this[aObjName].sprite, this[bObjName].sprite, () => this.collideCallback(this[aObjName]))
     );
   }
 
 
   // optional callbacks
-  collideCallback(){
-    // console.log('collided');
+  collideCallback(player){
+      player.jumpCounter = 2
   }
 
   overlapCallback(){
