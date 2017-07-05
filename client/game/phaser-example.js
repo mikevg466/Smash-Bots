@@ -6,8 +6,7 @@ import store from '../store';
 // import throttle from 'lodash.throttle';
 
 let hitBoxR,
-  hitBoxL,
-  flyingStartTime;
+  hitBoxL;
 
 export function runGame(localPlayerNum, remotePlayerNums) {
 
