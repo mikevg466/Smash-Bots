@@ -220,7 +220,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
       enemy.body.velocity.x = 5000;
     }
     if  (hitBox.name === "hitBoxL") {
-      enemy.flyLeft = true
+      enemy.flyRight = false
       enemy.body.velocity.x = -5000;
       }
   }
