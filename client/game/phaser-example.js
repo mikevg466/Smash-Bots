@@ -113,8 +113,8 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 //     gameManager.game.physics.arcade.collide(slayer.sprite, enemy3.sprite, collideCallback);
 //     gameManager.game.physics.arcade.collide(slayer.sprite, enemy3.sprite, collideCallback);
 
-//     gameManager.game.physics.arcade.overlap(hitBoxR, enemy1.sprite,
-//     overlapCallbackHit);
+    // gameManager.game.physics.arcade.overlap(hitBoxR, gameManager.remote1.sprite,
+    // overlapCallbackHit);
 //     gameManager.game.physics.arcade.overlap(hitBoxR, enemy2.sprite,
 //     overlapCallbackHit);
 //     gameManager.game.physics.arcade.overlap(hitBoxR, enemy3.sprite, overlapCallbackHit);
@@ -124,7 +124,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 //     overlapCallbackHit);
 //     gameManager.game.physics.arcade.overlap(hitBoxL, enemy3.sprite, overlapCallbackHit);
 
-    // manage collisions
+    // manage collisions/ IF people bump into each other or platform:
     const players = [];
     localPlayerNum && players.push('localPlayer');
     remotePlayerNums.forEach(playerNum => players.push('remote' + playerNum))
@@ -133,6 +133,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 
     // gameManager.game.physics.arcade.overlap(gameManager.localPlayer.sprite, gameManager.remote1.sprite, overlapCallback); // default. change to collide when player attacks.
 
+    //changing sprite animation according to each keyboard inputs:
     gameManager.update();
 
     let arrayLives = [];
@@ -144,9 +145,10 @@ export function runGame(localPlayerNum, remotePlayerNums) {
       console.log(winner[0].player.playerNumber);
       gameManager.endGame();
     }
-    console.log(totalLives)
+    console.log(gameManager,'gameManager')
 
     // handle position changes
+    // where player tells the server:
     const localPlayerState = localPlayerNum  ? {
       xCoord: gameManager.localPlayer.sprite.position.x,
       yCoord: gameManager.localPlayer.sprite.position.y,
@@ -154,12 +156,24 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     } :
     {};
     // TODO: update remote player damage if collision occurs
-    const remotePlayersState = {};
+
+    const remotePlayersState = {}
+    // remotePlayerNums.forEach(playerNum => {
+    //   remotePlayersState['remote' + playerNum] = {
+    //     isHit: store.getState().playerStateChanges[playerNum].isHit
+    //   } 
+    // }); 
 
     // throttle(() => {
+      //update redux
       store.dispatch(updateLocalState(localPlayerState, remotePlayersState));
+      //emit to server
       emitPlayerStateChanges(store.getState().game.playerStateChanges);
+      // ^^^^^^^^^^ from Player -> Server
+      // =========================================================================
+      // then we expect to have the changes to remote players here:
       const remotePlayerState = store.getState().game.remotePlayers;
+      // ^^^^^^^^^^ from Server -> Player
       remotePlayerNums.forEach(playerNum => {
         const { xCoord, yCoord } = remotePlayerState[playerNum]
         gameManager['remote' + playerNum].sprite.position.set(xCoord, yCoord);
