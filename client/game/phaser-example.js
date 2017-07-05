@@ -146,6 +146,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 
     gameManager.update();
 
+    //ENDING THE GAME
     let arrayLives = [];
     gameManager.inputManagerList.forEach(inputManager => arrayLives.push(inputManager.player.lives))
 

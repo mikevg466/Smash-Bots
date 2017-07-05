@@ -59,7 +59,7 @@ export default class GameManager{
 
   // optional callbacks
   collideCallback(){
-    // console.log('collided');
+    console.log("vvvvvvvv", this.localPlayer)
   }
 
   overlapCallback(){

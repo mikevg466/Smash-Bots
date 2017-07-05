@@ -37,7 +37,7 @@ export default class LocalPlayer extends Player{
 
       default:
         this.sprite.body.velocity.x = 0;
-        this.sprite.animations.play();
+        // this.sprite.animations.play();
         break;
     }
   }
