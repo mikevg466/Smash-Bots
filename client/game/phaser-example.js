@@ -100,34 +100,45 @@ export function runGame(localPlayerNum, remotePlayerNums) {
   assignHitBoxProperties(hitBoxR, 'hitBoxR');
   assignHitBoxProperties(hitBoxL, 'hitBoxL');
 
+  
+
 
 
     // ------ Set Collisions -------
-
-
   }
+  // function enableHitbox(hitboxName){
+  //   function enableHitbox(hitboxName){ 
+  //   // search all the hitboxes     
+  //   for (var i = 0; i < gameManager.localPlayer.sprite.children.length; i++){          
+  //     // if we find the hitbox with the “name” specified          
+  //     // if(gameManager.localPlayer.sprite.children[i].name === hitboxName){               
+  //       // reset it               
+  //       gameManager.localPlayer.sprite.children[i].reset(0,0);         
+  //     // }     
+  //   }
+  // }
+  // disable all active hitboxesfunction 
+  
+  
 
 
   // ------ Update -------
   function update(){
+
 
 //     // adding smashbot collisions
 //     //gameManager.game.physics.arcade.overlap(slayer.sprite, enemy1.sprite, overlapCallback); // default. change to collide when player attacks.
 //     gameManager.game.physics.arcade.collide(slayer.sprite, enemy1.sprite, collideCallback);
 //     gameManager.game.physics.arcade.collide(slayer.sprite, enemy2.sprite, collideCallback);
 //     gameManager.game.physics.arcade.collide(slayer.sprite, enemy3.sprite, collideCallback);
-//     gameManager.game.physics.arcade.collide(slayer.sprite, enemy3.sprite, collideCallback);
-
-//     gameManager.game.physics.arcade.overlap(hitBoxR, enemy1.sprite,
-//     overlapCallbackHit);
-//     gameManager.game.physics.arcade.overlap(hitBoxR, enemy2.sprite,
-//     overlapCallbackHit);
-//     gameManager.game.physics.arcade.overlap(hitBoxR, enemy3.sprite, overlapCallbackHit);
-//     gameManager.game.physics.arcade.overlap(hitBoxL, enemy1.sprite,
-//     overlapCallbackHit);
-//     gameManager.game.physics.arcade.overlap(hitBoxL, enemy2.sprite,
-//     overlapCallbackHit);
-//     gameManager.game.physics.arcade.overlap(hitBoxL, enemy3.sprite, overlapCallbackHit);
+//     gameManager.game.physics.arcade.collide(slayer.sprite, enemy3.sprite, collideCallback);    
+    // gameManager.game.physics.arcade.overlap(hitBoxR, enemy2.sprite,
+    // overlapCallbackHit);
+    // gameManager.game.physics.arcade.overlap(hitBoxR, enemy3.sprite, overlapCallbackHit);
+    
+    // gameManager.game.physics.arcade.overlap(hitBoxL, enemy2.sprite,
+    // overlapCallbackHit);
+    // gameManager.game.physics.arcade.overlap(hitBoxL, enemy3.sprite, overlapCallbackHit);
 
     // manage collisions
     const players = [];
@@ -140,6 +151,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 
     gameManager.update();
 
+    //ENDING THE GAME
     let arrayLives = [];
     gameManager.inputManagerList.forEach(inputManager => arrayLives.push(inputManager.player.lives));
 
@@ -171,41 +183,54 @@ export function runGame(localPlayerNum, remotePlayerNums) {
       });
     // }, 15);
 
-
     // if player is hit, player flies off screen:
     // flyWhenHit() // TODO: connect with store.
 
+    //Sets up overlap hitboxes
+    if (gameManager.remote1) {
+    gameManager.game.physics.arcade.overlap(hitBoxR, gameManager.remote1.sprite, overlapCallbackHit);
+    gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote1.sprite, overlapCallbackHit);
+    }
+    if (gameManager.remote2) {
+    gameManager.game.physics.arcade.overlap(hitBoxR, gameManager.remote2.sprite, overlapCallbackHit);
+    gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote2.sprite, overlapCallbackHit);
+    }
+    if (gameManager.remote3) {
+    gameManager.game.physics.arcade.overlap(hitBoxR, gameManager.remote3.sprite, overlapCallbackHit);
+    gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote3.sprite, overlapCallbackHit);
+    }
+    if (gameManager.remote4) {
+    gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote4.sprite, overlapCallbackHit);
+    gameManager.game.physics.arcade.overlap(hitBoxL, gameManager.remote4.sprite, overlapCallbackHit);
+    }
+
+    //disables hitboxes if theyre active, so theyll immediately be disabled after a swing
+    if (gameManager.localPlayer.sprite.children[0].alive) {
+      gameManager.localPlayer.sprite.children.forEach(function(hitbox) {        
+        hitbox.kill(); 
+      })
+    }
   }
 
   function collideCallback(){
-    //console.log('collided');
+    // console.log('collided');
   }
+
+  //sends enemy flying
   function overlapCallbackHit(hitBox, enemy){
     console.log('overlap')
-    if (enemy.isFlying) return;
-    enemy.isFlying = true;
-    let randomY = Math.random() * 200 - 100;
-    if (hitBox.name === 'hitBoxR') {
-      setVelocity(enemy, 100, randomY);
-    } else {
-      setVelocity(enemy, -100, randomY);
+
+    enemy.isHit = true
+    enemy.body.velocity.x = -5000;
+    if  (hitBox.name === "hitBoxR") {
+      enemy.flyRight = true
+      enemy.body.velocity.x = 5000;
     }
+    if  (hitBox.name === "hitBoxL") {
+      enemy.flyRight = false
+      enemy.body.velocity.x = -5000;
+      }
   }
-  // function isFirstHit(hitBox, enemy){
-
-  // }
-
-  function setVelocity(enemy, x, y){
-    enemy.body.gravity.y = 0;
-    console.log(enemy.body.velocity)
-    enemy.body.velocity.setTo(x, y);
-    console.log(enemy.body.velocity)
-  }
-
-  function overlapCallback(){
-    //console.log('overlapped');
-  }
-
 
   function regainControl() {
     const player = gameManager.localPlayer;
@@ -256,10 +281,10 @@ export function runGame(localPlayerNum, remotePlayerNums) {
   // ------ Render -------
   function render() {
 
-    // gameManager.game.debug.bodyInfo(slayer.sprite, 100, 100);
+    gameManager.game.debug.bodyInfo(gameManager.localPlayer.sprite, 100, 100);
     // gameManager.game.debug.body(slayer.sprite);
-    // gameManager.game.debug.body(hitBoxR);
-    // gameManager.game.debug.body(hitBoxL);
+    gameManager.game.debug.body(hitBoxR);
+    gameManager.game.debug.body(hitBoxL);
 
     // gameManager.game.debug.body(enemy1.sprite);
     // gameManager.game.debug.body(enemy2.sprite);
