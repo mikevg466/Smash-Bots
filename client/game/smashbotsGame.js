@@ -3,7 +3,7 @@ import GameManager from './GameObjects/GameManager';
 import { updateLocalState, setWinner } from '../redux/game';
 import { emitPlayerStateChanges } from '../sockets/client';
 import store from '../store';
-import throttle from 'lodash.throttle';
+// import throttle from 'lodash.throttle';
 
 let hitBoxR,
   hitBoxL;
