@@ -27,7 +27,6 @@ gameRedux.reducers = (state = initialState, action) => {
 
     case ADD_PLAYERS:
       newState.players = action.players
-      console.log(action.players,'action.players')
       break;
 
     case UPDATE_PLAYERS:
