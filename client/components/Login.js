@@ -11,7 +11,6 @@ const Main = props => {
 
   return (
       <div>
-        <h1>SMASHBOTS</h1>
         { loggedIn ?
             <nav>
               <Link to="/home">Home</Link>
