@@ -3,7 +3,7 @@ import GameManager from './GameObjects/GameManager';
 import { updateLocalState, setWinner } from '../redux/game';
 import { emitPlayerStateChanges } from '../sockets/client';
 import store from '../store';
-// import throttle from 'lodash.throttle';
+import throttle from 'lodash.throttle';
 
 let hitBoxR,
   hitBoxL;
@@ -89,8 +89,8 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 
     // ------ Add HitBoxes -------
 
-  hitBoxR = gameManager.localPlayer.sprite.addChild(gameManager.game.make.sprite(150, -50, 'hitBoxT'));
-  hitBoxL = gameManager.localPlayer.sprite.addChild(gameManager.game.make.sprite(-150, -50, 'hitBoxT'));
+  hitBoxR = gameManager.localPlayer.sprite.addChild(gameManager.game.make.sprite(50, -25, 'hitBoxT'));
+  hitBoxL = gameManager.localPlayer.sprite.addChild(gameManager.game.make.sprite(-40, -25, 'hitBoxT'));
   gameManager.game.physics.arcade.enable([hitBoxR, hitBoxL], true);
   //hitBoxR.body.setSize(68, 166, slayer.sprite.width / 6 - 50, 0);
   //hitBoxL.body.setSize(68, 166, -(slayer.sprite.width / 6), 0);
@@ -200,7 +200,8 @@ export function runGame(localPlayerNum, remotePlayerNums) {
       const origRemoteState = store.getState().game.remotePlayers;
       const remotePlayersState = {};
       remotePlayerNums.forEach(playerNumber => {
-        if(gameManager[`remote${playerNumber}`].sprite.isHit && !origRemoteState[playerNumber].isHit){
+        // if(gameManager[`remote${playerNumber}`].sprite.isHit && !origRemoteState[playerNumber].isHit){
+        if(gameManager[`remote${playerNumber}`].sprite.isHit){
           remotePlayersState[playerNumber] = {
             isHit: gameManager[`remote${playerNumber}`].sprite.isHit,
             flyRight: gameManager[`remote${playerNumber}`].sprite.flyRight,
@@ -209,7 +210,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
           gameManager[`remote${playerNumber}`].sprite.isHit = false
         }
       });
-
+      console.log(gameManager.localPlayer.sprite)
       //disables hitboxes if theyre active, so theyll immediately be disabled after a swing
       if (gameManager.localPlayer.sprite.children[0].alive)
         gameManager.localPlayer.sprite.children.forEach(hitbox => hitbox.kill());
@@ -226,7 +227,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
         const { xCoord, yCoord } = remotePlayers[playerNum];
         gameManager[`remote${playerNum}`].sprite.position.set(xCoord, yCoord);
       });
-    // }, 15);
+    //  }, 33);
 
     // if player is hit, player flies off screen:
     // flyWhenHit() // TODO: connect with store.
@@ -271,19 +272,20 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     player.sprite.body.onMoveComplete.add(regainControl, this);
     switch(damage){
       case 3:
-        player.sprite.body.moveTo(1000, 200, flyAngle);
+        player.sprite.body.moveTo(200, 200, flyAngle);
         break;
       case 2:
-        player.sprite.body.moveTo(1000, 300, flyAngle);
+        player.sprite.body.moveTo(200, 300, flyAngle);
         break;
       case 1:
-        player.sprite.body.moveTo(1000, 400, flyAngle);
+        player.sprite.body.moveTo(200, 400, flyAngle);
         break;
       default:
         if (player.lives === 0) {
-          player.sprite.body.moveTo(1000, 300, flyAngle);
+          player.sprite.body.moveTo(200, 300, flyAngle);
         } else {
           player.sprite.body.velocity.setTo(vectorX, -1000);
+          // player.sprite.body.moveTo(200, 2000, flyAngle)
         }
     }
 

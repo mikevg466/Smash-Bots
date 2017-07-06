@@ -53,8 +53,8 @@ export default class LocalPlayer extends Player{
   attack(){
     const hitBoxR = this.sprite.children[0];
     const hitBoxL = this.sprite.children[1];
-    hitBoxR.reset(90, -25);
-    hitBoxL.reset(-80, -25);
+    hitBoxR.reset(50, -25);
+    hitBoxL.reset(-40, -25);
     // this.sprite.children.forEach(function(hitbox) {          
     //   hitbox.kill();
     // })    
