@@ -27,7 +27,8 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     const images = {
       chick: 'assets/sprites/budbrain_chick.png',
       atari: 'assets/sprites/block.png',
-      background: 'assets/games/starstruck/background2.png',
+      // background: 'assets/games/starstruck/background2.png',
+      background: 'assets/pics/TheEnd_by_Iloe_and_Made.jpg',
       platform: 'ourAssets/platform_wood.png',
       bullet: 'assets/sprites/bullet.png',
       weapon: store.getState().game.localPlayer.weaponGraphic,
@@ -78,8 +79,13 @@ export function runGame(localPlayerNum, remotePlayerNums) {
       });
 
 
-    // ------ Add Platforms -------
-    gameManager.addSprite('platform', Platform, 'platform', 500, 650);
+    // ------ Add Platforms ------- 
+    // parameters are (platformName, ObjType, spriteName, xCoord, yCoord, xScale, yScale)
+    gameManager.addSprite('platformMain', Platform, 'platform', 650, 700, 1.5, 1.2);
+    gameManager.addSprite('platformSmall1', Platform, 'platform', 150, 500, 0.35, 0.4);
+    gameManager.addSprite('platformSmall2', Platform, 'platform', 575, 200, 0.5, 0.4);
+    gameManager.addSprite('platformSmall3', Platform, 'platform', 1200, 475, 0.7, 0.4);
+
 
     // ------ Add HitBoxes -------
 
@@ -123,8 +129,6 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 
   // ------ Update -------
   function update(){
-
-
 //     // adding smashbot collisions
 //     //gameManager.game.physics.arcade.overlap(slayer.sprite, enemy1.sprite, overlapCallback); // default. change to collide when player attacks.
 //     gameManager.game.physics.arcade.collide(slayer.sprite, enemy1.sprite, collideCallback);
@@ -139,11 +143,26 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     // overlapCallbackHit);
     // gameManager.game.physics.arcade.overlap(hitBoxL, enemy3.sprite, overlapCallbackHit);
 
-    // manage collisions
+    // gameManager.game.physics.arcade.overlap(hitBoxR, gameManager.remote1.sprite,
+    // overlapCallbackHit);
+//     gameManager.game.physics.arcade.overlap(hitBoxR, enemy2.sprite,
+//     overlapCallbackHit);
+//     gameManager.game.physics.arcade.overlap(hitBoxR, enemy3.sprite, overlapCallbackHit);
+//     gameManager.game.physics.arcade.overlap(hitBoxL, enemy1.sprite,
+//     overlapCallbackHit);
+//     gameManager.game.physics.arcade.overlap(hitBoxL, enemy2.sprite,
+//     overlapCallbackHit);
+//     gameManager.game.physics.arcade.overlap(hitBoxL, enemy3.sprite, overlapCallbackHit);
+
+    // manage collisions/ IF people bump into each other or platform:
     const players = [];
     localPlayerNum && players.push('localPlayer');
+
     remotePlayerNums.forEach(playerNum => players.push(`remote${playerNum}`));
-    gameManager.addCollisions(players, 'platform');
+    gameManager.addCollisions(players, 'platformMain');
+    gameManager.addCollisions(players, 'platformSmall1');
+    gameManager.addCollisions(players, 'platformSmall2');
+    gameManager.addCollisions(players, 'platformSmall3');
     players.forEach(player => gameManager.addCollisions(players, player));
 
     // gameManager.game.physics.arcade.overlap(gameManager.localPlayer.sprite, gameManager.remote1.sprite, overlapCallback); // default. change to collide when player attacks.
@@ -199,6 +218,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 
 
       store.dispatch(updateLocalState(localPlayerState, remotePlayersState));
+      //emit to server
       emitPlayerStateChanges(store.getState().game.playerStateChanges);
       const { localPlayer, remotePlayers } = store.getState().game;
       if(localPlayer.isHit){
@@ -237,7 +257,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
       player.explodePlayer();
     } else {
       player.sprite.body.velocity.setTo(0, 0);
-      player.setGravity(500);
+      player.setGravity(1200);
       gameManager.game.input.enabled = true;
     }
   }
@@ -265,7 +285,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
         if (player.lives === 0) {
           player.sprite.body.moveTo(1000, 300, flyAngle);
         } else {
-          player.sprite.body.velocity.setTo(vectorX, -200);
+          player.sprite.body.velocity.setTo(vectorX, -1000);
         }
     }
 

@@ -106,7 +106,9 @@ export default function (state = initState, action) {
     case UPDATE_LOCAL_STATE:
       const stateChanges = {};
       // position changes
+
       const { xCoord, yCoord, animation, lives, number } = action.localPlayer;
+
       stateChanges[number] = {};
       stateChanges[number].xCoord = xCoord;
       stateChanges[number].yCoord = yCoord;
