@@ -55,7 +55,7 @@ export default class Player extends Sprite{
     this.setDefault();
     this.sprite.body.setSize(68, 166, 44, 94); // hitBox
 
-    this.setGravity(500);
+    this.setGravity(1200);
     this.sprite.events.onOutOfBounds.add(function(){
       this.finalPosition = this.getPosition();
     }, this);
@@ -63,7 +63,7 @@ export default class Player extends Sprite{
       this.lives -= 1;
       if (this.lives > 0){
         this.sprite.reset(this.xCoord, this.yCoord);
-        this.setGravity(500);
+        this.setGravity(1200);
         this.game.input.enabled = true;
       // } else if (this.lives === 0){
       //   this.explodePlayer();

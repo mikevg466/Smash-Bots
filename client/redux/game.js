@@ -99,16 +99,18 @@ export default function (state = initState, action) {
     case UPDATE_LOCAL_STATE:
       const stateChanges = {};
       // position changes
-      const { xCoord, yCoord, animation, number } = action.localPlayer;
+      const { xCoord, yCoord, animation, number, isHit } = action.localPlayer;
       stateChanges[number] = {};
       stateChanges[number].xCoord = xCoord;
       stateChanges[number].yCoord = yCoord;
+      stateChanges[number].isHit = isHit;
       stateChanges[number].animation = animation;
       
       // damage changes
       Object.keys(action.remotePlayers)
         .forEach(playerNum => {
           stateChanges[playerNum] = {};
+          stateChanges[playerNum].isHit = action.remotePlayers[playerNum].isHit
           stateChanges[playerNum].damage = action.remotePlayers[playerNum].damage;
           stateChanges[playerNum].isHit = action.remotePlayers[playerNum].isHit;
           stateChanges[playerNum].flyRight = action.remotePlayers[playerNum].flyRight;
