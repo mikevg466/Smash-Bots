@@ -300,15 +300,15 @@ export function runGame(localPlayerNum, remotePlayerNums) {
   // ------ Render -------
   function render() {
 
-    gameManager.game.debug.bodyInfo(gameManager.localPlayer.sprite, 100, 100);
-    gameManager.game.debug.body(gameManager.localPlayer.sprite)
-    // gameManager.game.debug.body(slayer.sprite);
-    gameManager.game.debug.body(hitBoxR);
-    gameManager.game.debug.body(hitBoxL);
-
-    // gameManager.game.debug.body(enemy1.sprite);
-    // gameManager.game.debug.body(enemy2.sprite);
-    // gameManager.game.debug.body(enemy3.sprite);
+    // gameManager.game.debug.bodyInfo(gameManager.localPlayer.sprite, 100, 100);
+    // gameManager.game.debug.body(gameManager.localPlayer.sprite)
+    // // gameManager.game.debug.body(slayer.sprite);
+    // gameManager.game.debug.body(hitBoxR);
+    // gameManager.game.debug.body(hitBoxL);
+    //
+    // // gameManager.game.debug.body(enemy1.sprite);
+    // // gameManager.game.debug.body(enemy2.sprite);
+    // // gameManager.game.debug.body(enemy3.sprite);
 
   }
 
