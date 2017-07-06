@@ -129,7 +129,6 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 
   // ------ Update -------
   function update(){
-    console.log(this.platform, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
 //     // adding smashbot collisions
 //     //gameManager.game.physics.arcade.overlap(slayer.sprite, enemy1.sprite, overlapCallback); // default. change to collide when player attacks.
 //     gameManager.game.physics.arcade.collide(slayer.sprite, enemy1.sprite, collideCallback);
