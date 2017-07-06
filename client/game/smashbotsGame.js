@@ -15,7 +15,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     window.innerWidth,
     window.innerHeight,
     Phaser.CANVAS,
-    'phaser-example',
+    'smashbotsGame',
     {preload, create, update, render}
   );
 

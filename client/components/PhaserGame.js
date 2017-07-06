@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { runGame } from '../game/phaser-example';
+import { runGame } from '../game/smashbotsGame';
 import { onPlayerStateUpdates, emitEndGame, onStopGame } from '../sockets/client';
 import { processPlayerUpdate, endGame } from '../redux/game';
 
@@ -19,7 +19,7 @@ export class PhaserGame extends React.Component{
     onStopGame(this.props.handleEndGame);
 
   }
-  
+
   // endGame(){
   //   emitEndGame();
   // }
@@ -29,13 +29,13 @@ export class PhaserGame extends React.Component{
   render(){
     return (
       <div>
-        <div id='phaser-example'>
+        <div id='smashbotsGame'>
         </div>
         <button
             onClick= {this.endGame}
           >End Game</button>
       </div>
-      
+
     )
   }
 }

@@ -1,5 +1,7 @@
 body {
   font-family: sans-serif;
+  background-color: #131b6d;
+  color: #3d0c06;
 
   a {
     text-decoration: none;
@@ -28,4 +30,11 @@ body {
     position: relative;
     transform: translateY(100%);
   }
+
+  div img {
+    margin: 0 auto;
+    text-align: center;
+  }
+
 }
+
