@@ -94,8 +94,8 @@ export function runGame(localPlayerNum, remotePlayerNums) {
   gameManager.game.physics.arcade.enable([hitBoxR, hitBoxL], true);
   //hitBoxR.body.setSize(68, 166, slayer.sprite.width / 6 - 50, 0);
   //hitBoxL.body.setSize(68, 166, -(slayer.sprite.width / 6), 0);
-  hitBoxR.body.setSize(68, 166, gameManager.localPlayer.sprite.width / 6 - 50, 0);
-  hitBoxL.body.setSize(68, 166, -(gameManager.localPlayer.sprite.width / 6), 0);
+  hitBoxR.body.setSize(34, 83, gameManager.localPlayer.sprite.width / 6 - 50, 0);
+  hitBoxL.body.setSize(34, 83, -(gameManager.localPlayer.sprite.width / 6), 0);
   const assignHitBoxProperties = (hitBox, name) => {
     hitBox.name = name;
     hitBox.damage = 50;
@@ -179,9 +179,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
       store.dispatch(setWinner(winner));
       gameManager.endGame();
     }
-
-    console.log(totalLives);
-
+    
     // throttle(() => {
       // handle position changes
       const localPlayerState = localPlayerNum  ? {
@@ -302,6 +300,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
   function render() {
 
     gameManager.game.debug.bodyInfo(gameManager.localPlayer.sprite, 100, 100);
+    gameManager.game.debug.body(gameManager.localPlayer.sprite)
     // gameManager.game.debug.body(slayer.sprite);
     gameManager.game.debug.body(hitBoxR);
     gameManager.game.debug.body(hitBoxL);
