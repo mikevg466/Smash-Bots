@@ -1,0 +1,132 @@
+{"frames": [
+
+{
+	"filename": "robot_fly_swatter_swing_000.png",
+	"frame": {"x":1,"y":1,"w":501,"h":315},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":501,"h":315},
+	"sourceSize": {"w":501,"h":315}
+},
+{
+	"filename": "robot_fly_swatter_swing_003.png",
+	"frame": {"x":504,"y":1,"w":501,"h":315},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":501,"h":315},
+	"sourceSize": {"w":501,"h":315}
+},
+{
+	"filename": "robot_fly_swatter_swing_006.png",
+	"frame": {"x":1007,"y":1,"w":501,"h":315},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":501,"h":315},
+	"sourceSize": {"w":501,"h":315}
+},
+{
+	"filename": "robot_fly_swatter_swing_007.png",
+	"frame": {"x":1510,"y":1,"w":501,"h":315},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":501,"h":315},
+	"sourceSize": {"w":501,"h":315}
+},
+{
+	"filename": "robot_fly_swatter_swing_008.png",
+	"frame": {"x":1,"y":318,"w":501,"h":315},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":501,"h":315},
+	"sourceSize": {"w":501,"h":315}
+},
+{
+	"filename": "robot_fly_swatter_swing_009.png",
+	"frame": {"x":504,"y":318,"w":501,"h":315},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":501,"h":315},
+	"sourceSize": {"w":501,"h":315}
+},
+{
+	"filename": "robot_fly_swatter_swing_012.png",
+	"frame": {"x":1007,"y":318,"w":501,"h":315},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":501,"h":315},
+	"sourceSize": {"w":501,"h":315}
+},
+{
+	"filename": "robot_fly_swatter_swing_016.png",
+	"frame": {"x":1510,"y":318,"w":501,"h":315},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":501,"h":315},
+	"sourceSize": {"w":501,"h":315}
+},
+{
+	"filename": "robot_fly_swatter_swing_020.png",
+	"frame": {"x":1,"y":635,"w":501,"h":315},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":501,"h":315},
+	"sourceSize": {"w":501,"h":315}
+},
+{
+	"filename": "robot_fly_swatter_swing_021.png",
+	"frame": {"x":504,"y":635,"w":501,"h":315},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":501,"h":315},
+	"sourceSize": {"w":501,"h":315}
+},
+{
+	"filename": "robot_fly_swatter_swing_022.png",
+	"frame": {"x":1007,"y":635,"w":501,"h":315},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":501,"h":315},
+	"sourceSize": {"w":501,"h":315}
+},
+{
+	"filename": "robot_fly_swatter_swing_023.png",
+	"frame": {"x":1510,"y":635,"w":501,"h":315},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":501,"h":315},
+	"sourceSize": {"w":501,"h":315}
+},
+{
+	"filename": "robot_fly_swatter_swing_024.png",
+	"frame": {"x":1,"y":952,"w":501,"h":315},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":501,"h":315},
+	"sourceSize": {"w":501,"h":315}
+},
+{
+	"filename": "robot_fly_swatter_swing_025.png",
+	"frame": {"x":504,"y":952,"w":501,"h":315},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":501,"h":315},
+	"sourceSize": {"w":501,"h":315}
+},
+{
+	"filename": "robot_fly_swatter_swing_027.png",
+	"frame": {"x":1007,"y":952,"w":501,"h":315},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":501,"h":315},
+	"sourceSize": {"w":501,"h":315}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "robot_fly_swatter_swing.png",
+	"format": "RGBA8888",
+	"size": {"w":2012,"h":1268},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:e8a2dcd95ff6230e973d11e62b2c60eb:25cbe1d9a898b408bbd81a368bf9d709:b41a0ed860a156f30d5b2c0a48663ca5$"
+}
+}

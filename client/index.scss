@@ -1,7 +1,7 @@
 body {
   font-family: sans-serif;
   background-color: #131b6d;
-  color: #3d0c06;
+  color: #1ebfe8;
 
   a {
     text-decoration: none;
@@ -31,7 +31,12 @@ body {
     transform: translateY(100%);
   }
 
-  div img {
+  div {
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  td {
     margin: 0 auto;
     text-align: center;
   }

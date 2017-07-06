@@ -55,6 +55,7 @@ export class Lobby extends React.Component{
       {isGamePlaying ?
         <PhaserGame /> :
         <div>
+          <div>
           {
             this.props.messages.map((message, idx) => (
               <p key={idx}>
@@ -63,6 +64,7 @@ export class Lobby extends React.Component{
               </p>
             ))
           }
+          </div>
           <form onSubmit={this.handleSubmit}>
             <input value={this.state.inputVal} onChange={this.handleChange}/>
             <button>Send</button>

@@ -29,13 +29,8 @@ export class PhaserGame extends React.Component{
   render(){
     return (
       <div>
-        <div id='smashbotsGame'>
-        </div>
-        <button
-            onClick= {this.endGame}
-          >End Game</button>
+        <div id="smashbotsGame" />
       </div>
-
     )
   }
 }
