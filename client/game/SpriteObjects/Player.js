@@ -66,8 +66,8 @@ export default class Player extends Sprite{
       this.lives -= 1;
       if (this.lives > 0){
         this.sprite.reset(this.xCoord, this.yCoord);
-        this.setGravity(1200);
-        this.game.input.enabled = true;
+        this.regainControl()
+        // this.game.input.enabled = true;
       // } else if (this.lives === 0){
       //   this.explodePlayer();
       }
@@ -157,4 +157,17 @@ export default class Player extends Sprite{
   
   updateAnimationState(){
   }
+
+  regainControl() {
+    const player = this;
+    if (player.lives === 0 && player.damage === 0) {
+      player.explodePlayer();
+    } else {
+      // console.log("VVVVVVVVVVVV")
+      player.sprite.body.velocity.setTo(0, 0);
+      player.setGravity(1200);
+      this.game.input.enabled = true;
+    }
+  }
+
 }
