@@ -1,6 +1,6 @@
 import { LocalPlayer, RemotePlayer, Platform } from './SpriteObjects';
 import GameManager from './GameObjects/GameManager';
-import { updateLocalState } from '../redux/game';
+import { updateLocalState, setWinner } from '../redux/game';
 import { emitPlayerStateChanges } from '../sockets/client';
 import store from '../store';
 // import throttle from 'lodash.throttle';
@@ -74,7 +74,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     remotePlayerNums
       .forEach(playerNum => {
         const { xCoord, yCoord } = playerList[playerNum - 1];
-        gameManager.addPlayer('remote' + playerNum, RemotePlayer, 'smashbot', xCoord, yCoord, playerNum);
+        gameManager.addPlayer(`remote${playerNum}`, RemotePlayer, 'smashbot', xCoord, yCoord, playerNum);
       });
 
 
@@ -142,7 +142,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     // manage collisions
     const players = [];
     localPlayerNum && players.push('localPlayer');
-    remotePlayerNums.forEach(playerNum => players.push('remote' + playerNum));
+    remotePlayerNums.forEach(playerNum => players.push(`remote${playerNum}`));
     gameManager.addCollisions(players, 'platform');
     players.forEach(player => gameManager.addCollisions(players, player));
 
@@ -151,13 +151,13 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     gameManager.update(store.getState().game);
 
     //ENDING THE GAME
-    let arrayLives = [];
-    gameManager.inputManagerList.forEach(inputManager => arrayLives.push(inputManager.player.lives));
-
-    let totalLives = arrayLives.reduce((acc, cur) => acc + cur, 0);
-    if (totalLives === 1) {
-      const winner = gameManager.inputManagerList.filter(inputManager => inputManager.player.lives === 1);
-      console.log(winner[0].player.playerNumber);
+    if (store.getState().game.activePlayers <= 1) {
+      let winner = '';
+      players.forEach(player => {
+        if(gameManager[player].lives) winner = `Player ${gameManager[player].playerNumber}`;
+      });
+      console.log(`${winner} Wins!`);
+      store.dispatch(setWinner(winner));
       gameManager.endGame();
     }
 
@@ -170,6 +170,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
         yCoord: gameManager.localPlayer.sprite.position.y,
         number: gameManager.localPlayer.playerNumber,
         animation: gameManager.localPlayer.animation,
+        lives: gameManager.localPlayer.lives,
       } :
       {};
 
@@ -182,22 +183,19 @@ export function runGame(localPlayerNum, remotePlayerNums) {
       const origRemoteState = store.getState().game.remotePlayers;
       const remotePlayersState = {};
       remotePlayerNums.forEach(playerNumber => {
-        if(gameManager['remote' + playerNumber].sprite.isHit && !origRemoteState[playerNumber].isHit){
+        if(gameManager[`remote${playerNumber}`].sprite.isHit && !origRemoteState[playerNumber].isHit){
           remotePlayersState[playerNumber] = {
-            isHit: gameManager['remote' + playerNumber].sprite.isHit,
-            flyRight: gameManager['remote' + playerNumber].sprite.flyRight,
+            isHit: gameManager[`remote${playerNumber}`].sprite.isHit,
+            flyRight: gameManager[`remote${playerNumber}`].sprite.flyRight,
             damage: origRemoteState[playerNumber].damage - 1
           };
-          gameManager['remote' + playerNumber].sprite.isHit = false
+          gameManager[`remote${playerNumber}`].sprite.isHit = false
         }
       });
 
       //disables hitboxes if theyre active, so theyll immediately be disabled after a swing
-      if (gameManager.localPlayer.sprite.children[0].alive) {
-        gameManager.localPlayer.sprite.children.forEach(function(hitbox) {
-          hitbox.kill();
-        })
-      }
+      if (gameManager.localPlayer.sprite.children[0].alive)
+        gameManager.localPlayer.sprite.children.forEach(hitbox => hitbox.kill());
 
 
       store.dispatch(updateLocalState(localPlayerState, remotePlayersState));
@@ -208,7 +206,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
       }
       remotePlayerNums.forEach(playerNum => {
         const { xCoord, yCoord } = remotePlayers[playerNum];
-        gameManager['remote' + playerNum].sprite.position.set(xCoord, yCoord);
+        gameManager[`remote${playerNum}`].sprite.position.set(xCoord, yCoord);
       });
     // }, 15);
 

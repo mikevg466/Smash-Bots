@@ -2,15 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { runGame } from '../game/phaser-example';
 import { onPlayerStateUpdates, emitEndGame, onStopGame } from '../sockets/client';
-import { processPlayerUpdate, endGame } from '../redux/game';
+import { processPlayerUpdate, endGame, setActivePlayers } from '../redux/game';
 
 export class PhaserGame extends React.Component{
   constructor(){
     super();
+    this.onPlayerStateUpdates = this.onPlayerStateUpdates.bind(this);
   }
 
   componentDidMount(){
-    onPlayerStateUpdates(this.props.handlePlayerStateUpdates);
+    onPlayerStateUpdates(this.onPlayerStateUpdates);
     const remotePlayerNumList = [];
     Object.keys(this.props.remotePlayers)
       .forEach(playerNum => remotePlayerNumList.push(playerNum));
@@ -19,35 +20,49 @@ export class PhaserGame extends React.Component{
     onStopGame(this.props.handleEndGame);
 
   }
-  
-  // endGame(){
-  //   emitEndGame();
-  // }
 
-  //need piece that initiates end game
+  onPlayerStateUpdates(players){
+    this.props.handleSetActivePlayers(
+      Object.keys(players)
+        .filter(player => players[player].lives)
+        .length
+    );
+    this.props.handlePlayerStateUpdates(players);
+  }
+
+  endGame(){
+    emitEndGame();
+  }
 
   render(){
     return (
       <div>
+        {
+          this.props.winner ?
+          <h3>{ this.props.winner }</h3> :
+          null
+        }
         <div id='phaser-example'>
         </div>
         <button
             onClick= {this.endGame}
           >End Game</button>
       </div>
-      
+
     )
   }
 }
 
 const mapState = ({ game }) => ({
   localPlayer: game.localPlayer,
-  remotePlayers: game.remotePlayers
+  remotePlayers: game.remotePlayers,
+  winner: game.winner,
 });
 
 const mapDispatch = dispatch => ({
   handlePlayerStateUpdates: state => dispatch(processPlayerUpdate(state)),
-  handleEndGame: () => dispatch(endGame())
+  handleEndGame: () => dispatch(endGame()),
+  handleSetActivePlayers: (numPlayers) => dispatch(setActivePlayers(numPlayers)),
 })
 
 export default connect(mapState, mapDispatch)(PhaserGame);

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PhaserGame from './PhaserGame';
 import { recieveMessage } from '../redux/lobby';
-import { processInitPlayers, setPlayer, startGame } from '../redux/game';
+import { processInitPlayers, setPlayer, startGame, setWinner } from '../redux/game';
 import { emitChatMessage, emitStartGame, onInitGame, onAddChatMessage, onInitPlayers, onPlayerAssignment } from '../sockets/client';
 
 // Component //
@@ -27,6 +27,7 @@ export class Lobby extends React.Component{
   }
 
   startGame(){
+    this.props.initializeWinner();
     emitStartGame();
   }
 
@@ -89,6 +90,7 @@ const mapDispatch = dispatch => ({
   handleInitPlayers: players => dispatch(processInitPlayers(players)),
   handlePlayerAssignment: playerNumber => dispatch(setPlayer(playerNumber)),
   handleStartGame: () => dispatch(startGame()),
+  initializeWinner: () => dispatch(setWinner('')),
 })
 
 export default connect(mapState, mapDispatch)(Lobby);
