@@ -39,18 +39,20 @@ componentDidMount(){
           <tbody>
             {this.props.rooms.map(room => (
               <tr key={room}>
-                <td> {room} </td>
-                <td> {/*room.clients.length /10*/}</td>
-                <td>
-                  <button
-                    onClick={() => {
-                      emitJoin(room, this.props.weapon, this.props.armor)
-                      this.initLobby()
-                    }}
-                    >
-                    Join Room
-                  </button>
-                </td>
+                <div>
+                  <td> {room} </td>
+                  <td> {/*room.clients.length /10*/}</td>
+                  <td>
+                    <button
+                      onClick={() => {
+                        emitJoin(room, this.props.weapon, this.props.armor)
+                        this.initLobby()
+                      }}
+                      >
+                      Join Lobby
+                    </button>
+                  </td>
+                </div>
               </tr>
             ))
             }

@@ -1,0 +1,204 @@
+{"frames": [
+
+{
+	"filename": "robot_sword_swing_000.png",
+	"frame": {"x":1,"y":1,"w":510,"h":331},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":510,"h":331},
+	"sourceSize": {"w":510,"h":331}
+},
+{
+	"filename": "robot_sword_swing_001.png",
+	"frame": {"x":513,"y":1,"w":510,"h":331},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":510,"h":331},
+	"sourceSize": {"w":510,"h":331}
+},
+{
+	"filename": "robot_sword_swing_002.png",
+	"frame": {"x":1025,"y":1,"w":510,"h":331},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":510,"h":331},
+	"sourceSize": {"w":510,"h":331}
+},
+{
+	"filename": "robot_sword_swing_003.png",
+	"frame": {"x":1537,"y":1,"w":510,"h":331},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":510,"h":331},
+	"sourceSize": {"w":510,"h":331}
+},
+{
+	"filename": "robot_sword_swing_004.png",
+	"frame": {"x":1,"y":334,"w":510,"h":331},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":510,"h":331},
+	"sourceSize": {"w":510,"h":331}
+},
+{
+	"filename": "robot_sword_swing_005.png",
+	"frame": {"x":513,"y":334,"w":510,"h":331},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":510,"h":331},
+	"sourceSize": {"w":510,"h":331}
+},
+{
+	"filename": "robot_sword_swing_006.png",
+	"frame": {"x":1025,"y":334,"w":510,"h":331},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":510,"h":331},
+	"sourceSize": {"w":510,"h":331}
+},
+{
+	"filename": "robot_sword_swing_007.png",
+	"frame": {"x":1537,"y":334,"w":510,"h":331},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":510,"h":331},
+	"sourceSize": {"w":510,"h":331}
+},
+{
+	"filename": "robot_sword_swing_008.png",
+	"frame": {"x":1,"y":667,"w":510,"h":331},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":510,"h":331},
+	"sourceSize": {"w":510,"h":331}
+},
+{
+	"filename": "robot_sword_swing_009.png",
+	"frame": {"x":513,"y":667,"w":510,"h":331},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":510,"h":331},
+	"sourceSize": {"w":510,"h":331}
+},
+{
+	"filename": "robot_sword_swing_011.png",
+	"frame": {"x":1025,"y":667,"w":510,"h":331},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":510,"h":331},
+	"sourceSize": {"w":510,"h":331}
+},
+{
+	"filename": "robot_sword_swing_012.png",
+	"frame": {"x":1537,"y":667,"w":510,"h":331},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":510,"h":331},
+	"sourceSize": {"w":510,"h":331}
+},
+{
+	"filename": "robot_sword_swing_014.png",
+	"frame": {"x":1,"y":1000,"w":510,"h":331},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":510,"h":331},
+	"sourceSize": {"w":510,"h":331}
+},
+{
+	"filename": "robot_sword_swing_015.png",
+	"frame": {"x":513,"y":1000,"w":510,"h":331},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":510,"h":331},
+	"sourceSize": {"w":510,"h":331}
+},
+{
+	"filename": "robot_sword_swing_016.png",
+	"frame": {"x":1025,"y":1000,"w":510,"h":331},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":510,"h":331},
+	"sourceSize": {"w":510,"h":331}
+},
+{
+	"filename": "robot_sword_swing_018.png",
+	"frame": {"x":1537,"y":1000,"w":510,"h":331},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":510,"h":331},
+	"sourceSize": {"w":510,"h":331}
+},
+{
+	"filename": "robot_sword_swing_019.png",
+	"frame": {"x":1,"y":1333,"w":510,"h":331},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":510,"h":331},
+	"sourceSize": {"w":510,"h":331}
+},
+{
+	"filename": "robot_sword_swing_020.png",
+	"frame": {"x":513,"y":1333,"w":510,"h":331},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":510,"h":331},
+	"sourceSize": {"w":510,"h":331}
+},
+{
+	"filename": "robot_sword_swing_021.png",
+	"frame": {"x":1025,"y":1333,"w":510,"h":331},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":510,"h":331},
+	"sourceSize": {"w":510,"h":331}
+},
+{
+	"filename": "robot_sword_swing_022.png",
+	"frame": {"x":1537,"y":1333,"w":510,"h":331},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":510,"h":331},
+	"sourceSize": {"w":510,"h":331}
+},
+{
+	"filename": "robot_sword_swing_023.png",
+	"frame": {"x":1,"y":1666,"w":510,"h":331},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":510,"h":331},
+	"sourceSize": {"w":510,"h":331}
+},
+{
+	"filename": "robot_sword_swing_024.png",
+	"frame": {"x":513,"y":1666,"w":510,"h":331},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":510,"h":331},
+	"sourceSize": {"w":510,"h":331}
+},
+{
+	"filename": "robot_sword_swing_025.png",
+	"frame": {"x":1025,"y":1666,"w":510,"h":331},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":510,"h":331},
+	"sourceSize": {"w":510,"h":331}
+},
+{
+	"filename": "robot_sword_swing_027.png",
+	"frame": {"x":1537,"y":1666,"w":510,"h":331},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":510,"h":331},
+	"sourceSize": {"w":510,"h":331}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "robot_sword_swing.png",
+	"format": "RGBA8888",
+	"size": {"w":2048,"h":1998},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:51b0d31e2b924d24c9e004dd6e2ee529:c96109dec6cb977b3df7988f71af73b4:5707a7e5c9111ead410cf90304b0b850$"
+}
+}
