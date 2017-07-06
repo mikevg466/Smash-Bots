@@ -79,7 +79,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
       });
 
 
-    // ------ Add Platforms ------- 
+    // ------ Add Platforms -------
     // parameters are (platformName, ObjType, spriteName, xCoord, yCoord, xScale, yScale)
     gameManager.addSprite('platformMain', Platform, 'platform', 650, 700, 1.5, 1.2);
     gameManager.addSprite('platformSmall1', Platform, 'platform', 150, 500, 0.35, 0.4);
@@ -179,7 +179,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
       store.dispatch(setWinner(winner));
       gameManager.endGame();
     }
-    
+
     // throttle(() => {
       // handle position changes
       const localPlayerState = localPlayerNum  ? {
