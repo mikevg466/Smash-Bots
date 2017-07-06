@@ -1,6 +1,6 @@
 import { LocalPlayer, RemotePlayer, Platform } from './SpriteObjects';
 import GameManager from './GameObjects/GameManager';
-import { updateLocalState } from '../redux/game';
+import { updateLocalState, setWinner } from '../redux/game';
 import { emitPlayerStateChanges } from '../sockets/client';
 import store from '../store';
 // import throttle from 'lodash.throttle';
@@ -27,7 +27,8 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     const images = {
       chick: 'assets/sprites/budbrain_chick.png',
       atari: 'assets/sprites/block.png',
-      background: 'assets/games/starstruck/background2.png',
+      // background: 'assets/games/starstruck/background2.png',
+      background: 'assets/pics/TheEnd_by_Iloe_and_Made.jpg',
       platform: 'ourAssets/platform_wood.png',
       bullet: 'assets/sprites/bullet.png',
       weapon: store.getState().game.localPlayer.weaponGraphic,
@@ -74,12 +75,17 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     remotePlayerNums
       .forEach(playerNum => {
         const { xCoord, yCoord } = playerList[playerNum - 1];
-        gameManager.addPlayer('remote' + playerNum, RemotePlayer, 'smashbot', xCoord, yCoord, playerNum);
+        gameManager.addPlayer(`remote${playerNum}`, RemotePlayer, 'smashbot', xCoord, yCoord, playerNum);
       });
 
 
-    // ------ Add Platforms -------
-    gameManager.addSprite('platform', Platform, 'platform', 500, 650);
+    // ------ Add Platforms ------- 
+    // parameters are (platformName, ObjType, spriteName, xCoord, yCoord, xScale, yScale)
+    gameManager.addSprite('platformMain', Platform, 'platform', 650, 700, 1.5, 1.2);
+    gameManager.addSprite('platformSmall1', Platform, 'platform', 150, 500, 0.35, 0.4);
+    gameManager.addSprite('platformSmall2', Platform, 'platform', 575, 200, 0.5, 0.4);
+    gameManager.addSprite('platformSmall3', Platform, 'platform', 1200, 475, 0.7, 0.4);
+
 
     // ------ Add HitBoxes -------
 
@@ -88,8 +94,8 @@ export function runGame(localPlayerNum, remotePlayerNums) {
   gameManager.game.physics.arcade.enable([hitBoxR, hitBoxL], true);
   //hitBoxR.body.setSize(68, 166, slayer.sprite.width / 6 - 50, 0);
   //hitBoxL.body.setSize(68, 166, -(slayer.sprite.width / 6), 0);
-  hitBoxR.body.setSize(68, 166, gameManager.localPlayer.sprite.width / 6 - 50, 0);
-  hitBoxL.body.setSize(68, 166, -(gameManager.localPlayer.sprite.width / 6), 0);
+  hitBoxR.body.setSize(34, 83, gameManager.localPlayer.sprite.width / 6 - 50, 0);
+  hitBoxL.body.setSize(34, 83, -(gameManager.localPlayer.sprite.width / 6), 0);
   const assignHitBoxProperties = (hitBox, name) => {
     hitBox.name = name;
     hitBox.damage = 50;
@@ -123,8 +129,6 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 
   // ------ Update -------
   function update(){
-
-
 //     // adding smashbot collisions
 //     //gameManager.game.physics.arcade.overlap(slayer.sprite, enemy1.sprite, overlapCallback); // default. change to collide when player attacks.
 //     gameManager.game.physics.arcade.collide(slayer.sprite, enemy1.sprite, collideCallback);
@@ -139,11 +143,26 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     // overlapCallbackHit);
     // gameManager.game.physics.arcade.overlap(hitBoxL, enemy3.sprite, overlapCallbackHit);
 
-    // manage collisions
+    // gameManager.game.physics.arcade.overlap(hitBoxR, gameManager.remote1.sprite,
+    // overlapCallbackHit);
+//     gameManager.game.physics.arcade.overlap(hitBoxR, enemy2.sprite,
+//     overlapCallbackHit);
+//     gameManager.game.physics.arcade.overlap(hitBoxR, enemy3.sprite, overlapCallbackHit);
+//     gameManager.game.physics.arcade.overlap(hitBoxL, enemy1.sprite,
+//     overlapCallbackHit);
+//     gameManager.game.physics.arcade.overlap(hitBoxL, enemy2.sprite,
+//     overlapCallbackHit);
+//     gameManager.game.physics.arcade.overlap(hitBoxL, enemy3.sprite, overlapCallbackHit);
+
+    // manage collisions/ IF people bump into each other or platform:
     const players = [];
     localPlayerNum && players.push('localPlayer');
-    remotePlayerNums.forEach(playerNum => players.push('remote' + playerNum));
-    gameManager.addCollisions(players, 'platform');
+
+    remotePlayerNums.forEach(playerNum => players.push(`remote${playerNum}`));
+    gameManager.addCollisions(players, 'platformMain');
+    gameManager.addCollisions(players, 'platformSmall1');
+    gameManager.addCollisions(players, 'platformSmall2');
+    gameManager.addCollisions(players, 'platformSmall3');
     players.forEach(player => gameManager.addCollisions(players, player));
 
     // gameManager.game.physics.arcade.overlap(gameManager.localPlayer.sprite, gameManager.remote1.sprite, overlapCallback); // default. change to collide when player attacks.
@@ -151,18 +170,16 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     gameManager.update(store.getState().game);
 
     //ENDING THE GAME
-    let arrayLives = [];
-    gameManager.inputManagerList.forEach(inputManager => arrayLives.push(inputManager.player.lives));
-
-    let totalLives = arrayLives.reduce((acc, cur) => acc + cur, 0);
-    if (totalLives === 1) {
-      const winner = gameManager.inputManagerList.filter(inputManager => inputManager.player.lives === 1);
-      console.log(winner[0].player.playerNumber);
+    if (store.getState().game.activePlayers <= 1) {
+      let winner = '';
+      players.forEach(player => {
+        if(gameManager[player].lives) winner = `Player ${gameManager[player].playerNumber}`;
+      });
+      console.log(`${winner} Wins!`);
+      store.dispatch(setWinner(winner));
       gameManager.endGame();
     }
-
-    console.log(totalLives);
-
+    
     // throttle(() => {
       // handle position changes
       const localPlayerState = localPlayerNum  ? {
@@ -170,6 +187,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
         yCoord: gameManager.localPlayer.sprite.position.y,
         number: gameManager.localPlayer.playerNumber,
         animation: gameManager.localPlayer.animation,
+        lives: gameManager.localPlayer.lives,
       } :
       {};
 
@@ -182,25 +200,23 @@ export function runGame(localPlayerNum, remotePlayerNums) {
       const origRemoteState = store.getState().game.remotePlayers;
       const remotePlayersState = {};
       remotePlayerNums.forEach(playerNumber => {
-        if(gameManager['remote' + playerNumber].sprite.isHit && !origRemoteState[playerNumber].isHit){
+        if(gameManager[`remote${playerNumber}`].sprite.isHit && !origRemoteState[playerNumber].isHit){
           remotePlayersState[playerNumber] = {
-            isHit: gameManager['remote' + playerNumber].sprite.isHit,
-            flyRight: gameManager['remote' + playerNumber].sprite.flyRight,
+            isHit: gameManager[`remote${playerNumber}`].sprite.isHit,
+            flyRight: gameManager[`remote${playerNumber}`].sprite.flyRight,
             damage: origRemoteState[playerNumber].damage - 1
           };
-          gameManager['remote' + playerNumber].sprite.isHit = false
+          gameManager[`remote${playerNumber}`].sprite.isHit = false
         }
       });
 
       //disables hitboxes if theyre active, so theyll immediately be disabled after a swing
-      if (gameManager.localPlayer.sprite.children[0].alive) {
-        gameManager.localPlayer.sprite.children.forEach(function(hitbox) {
-          hitbox.kill();
-        })
-      }
+      if (gameManager.localPlayer.sprite.children[0].alive)
+        gameManager.localPlayer.sprite.children.forEach(hitbox => hitbox.kill());
 
 
       store.dispatch(updateLocalState(localPlayerState, remotePlayersState));
+      //emit to server
       emitPlayerStateChanges(store.getState().game.playerStateChanges);
       const { localPlayer, remotePlayers } = store.getState().game;
       if(localPlayer.isHit){
@@ -208,7 +224,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
       }
       remotePlayerNums.forEach(playerNum => {
         const { xCoord, yCoord } = remotePlayers[playerNum];
-        gameManager['remote' + playerNum].sprite.position.set(xCoord, yCoord);
+        gameManager[`remote${playerNum}`].sprite.position.set(xCoord, yCoord);
       });
     // }, 15);
 
@@ -239,7 +255,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
       player.explodePlayer();
     } else {
       player.sprite.body.velocity.setTo(0, 0);
-      player.setGravity(500);
+      player.setGravity(1200);
       gameManager.game.input.enabled = true;
     }
   }
@@ -267,7 +283,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
         if (player.lives === 0) {
           player.sprite.body.moveTo(1000, 300, flyAngle);
         } else {
-          player.sprite.body.velocity.setTo(vectorX, -200);
+          player.sprite.body.velocity.setTo(vectorX, -1000);
         }
     }
 
@@ -284,6 +300,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
   function render() {
 
     gameManager.game.debug.bodyInfo(gameManager.localPlayer.sprite, 100, 100);
+    gameManager.game.debug.body(gameManager.localPlayer.sprite)
     // gameManager.game.debug.body(slayer.sprite);
     gameManager.game.debug.body(hitBoxR);
     gameManager.game.debug.body(hitBoxL);

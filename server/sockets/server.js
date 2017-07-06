@@ -31,18 +31,21 @@ socketServer.makeSocketServer = server => {
     let rooms = server.sockets.adapter.rooms ? Object.keys(server.sockets.adapter.rooms) : [];
     rooms = rooms.filter(room => room.length > 5 && room.slice(0, 5) === 'room-');
     return rooms
-  }
+  };
 
   const findRoomForClient = client => {
     const rooms = client.rooms ? Object.keys(client.rooms) : [];
     const room = rooms.find(room => room.length > 5 && room.slice(0, 5) === 'room-');
     return room;
-  }
+  };
 
   server.on('connection', client => {
+    // ID used for interval call in startGame, terminiated in endGame
+    let gameUpdateIntervalId;
+
     client.on('roomMounted', ()=>{
       server.sockets.emit('update', findRoomsOnServer())
-    })
+    });
     broadcastDebugMsg(client.id + ' has joined the server');
 
     // disconnect updates room list for clients but does not need to leave
@@ -52,7 +55,7 @@ socketServer.makeSocketServer = server => {
       serverReduxStore.dispatch(removeClient({
           id: client.id
         })
-      )
+      );
       client.leave(findRoomForClient(client));
       server.sockets.emit('update', findRoomsOnServer());
       broadcastDebugMsg(client.id + ' has disconnected from the server');
@@ -68,7 +71,7 @@ socketServer.makeSocketServer = server => {
           id: client.id,
           clientWeapon,
           clientArmor
-        }))
+        }));
 
       // join or create room
       client.join(curRoomId);
@@ -83,10 +86,10 @@ socketServer.makeSocketServer = server => {
       // const playersAmount = serverReduxStore.getState().users.players.length
 
     client.on('startGame', () => {
-      const weaponGraphic = ['spite1','sprite2', 'sprite3', 'sprite4']
-      const characterGraphic = ['spite1','sprite2', 'sprite3', 'sprite4']
+      const weaponGraphic = ['spite1','sprite2', 'sprite3', 'sprite4'];
+      const characterGraphic = ['spite1','sprite2', 'sprite3', 'sprite4'];
 
-      var clientsAsPlayers = {}
+      var clientsAsPlayers = {};
       serverReduxStore.getState().lobby.clients.forEach((client,index) => {
         // first, add player info's to clients :
         client.number = index+1;
@@ -98,37 +101,36 @@ socketServer.makeSocketServer = server => {
         client.animation = '';
         client.isHit = false;
         client.flyRight = false;
+        client.lives = 3;
         // second, hash it inside an empty obj with {playerNum: playerObj} format. :
         clientsAsPlayers[client.number] = client
-      })
-      serverReduxStore.dispatch(addPlayers(clientsAsPlayers))
+      });
+      serverReduxStore.dispatch(addPlayers(clientsAsPlayers));
 
       for(let playerNumberKey in clientsAsPlayers){
         server.to(clientsAsPlayers[playerNumberKey].id).emit('playerAssignment', +playerNumberKey)
-      }
+      };
 
       server.sockets.emit('initPlayers', clientsAsPlayers);
       server.sockets.emit('initGame');
 
-    })
+      // send periodic updates to the clients about game state
+      // emit(playersStates, activePlayers)
+      gameUpdateIntervalId = setInterval(
+        () => server.sockets.emit('playerStateUpdates', serverReduxStore.getState().game.players),
+        30
+      );
+    });
 
     client.on('endGame', () => {
-      server.sockets.emit('stopGame')
-    })
-
-    client.on('clientStateChange', (playerState) => {
-      // update global state
-      serverReduxStore.dispatch({
-        type: 'UPDATE_PLAYER',
-        player: playerState
-      })
+      if(gameUpdateIntervalId) clearInterval(gameUpdateIntervalId);
+      server.sockets.emit('stopGame');
     });
 
     client.on('playerStateChanges', (playersStates) => {
       //playersStates is an object with only the changes about a client and his enemies that he affected.
-      serverReduxStore.dispatch(updatePlayers(playersStates))
-      server.sockets.emit('playerStateUpdates', serverReduxStore.getState().game.players)
-    })
+      serverReduxStore.dispatch(updatePlayers(playersStates));
+    });
 
     // chatMessage uses new findRoomForClient helper method that find's the room
     //   for the client that starts with "lobby-",  this removes the rooms that
@@ -141,9 +143,9 @@ socketServer.makeSocketServer = server => {
 
     function broadcastDebugMsg(msg) {
       server.sockets.emit('debugMessage', msg);
-    }
+    };
   });
-}
+};
 
 
 module.exports = socketServer;

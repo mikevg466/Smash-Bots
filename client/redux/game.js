@@ -6,6 +6,8 @@ const SET_PLAYER = 'SET_PLAYER';
 const INIT_PLAYERS = 'INIT_PLAYERS';
 const UPDATE_LOCAL_STATE = 'UPDATE_LOCAL_STATE';
 const SET_ANIMATION = 'SET_ANIMATION';
+const SET_ACTIVE_PLAYERS = 'SET_ACTIVE_PLAYERS';
+const SET_WINNER = 'SET_WINNER';
 
 // ------ ACTION CREATORS -------
 export const startGame = () => ({ type: START_GAME });
@@ -27,6 +29,8 @@ export const initPlayers = (localPlayer, remotePlayers) => ({
   remotePlayers
 });
 export const setAnimation = animation => ({ type: SET_ANIMATION, animation });
+export const setActivePlayers = numPlayers => ({ type: SET_ACTIVE_PLAYERS, numPlayers });
+export const setWinner = player => ({ type: SET_WINNER, player });
 
 // ------- INIT STATE --------
 
@@ -56,15 +60,18 @@ const initState = {
   localPlayer: {},
   remotePlayers: {},
   playerStateChanges: {},
+  activePlayers: 4,
+  winner: '',
 };
 
 const defaultPlayer = {
-  damage: 0,
+  damage: 4,
   xCoord: 0,
   yCoord: 0,
   animation: '',
   isHit: false,
   flyRight: false,
+  lives: 3,
 };
 
 
@@ -99,12 +106,15 @@ export default function (state = initState, action) {
     case UPDATE_LOCAL_STATE:
       const stateChanges = {};
       // position changes
-      const { xCoord, yCoord, animation, number } = action.localPlayer;
+
+      const { xCoord, yCoord, animation, lives, number } = action.localPlayer;
+
       stateChanges[number] = {};
       stateChanges[number].xCoord = xCoord;
       stateChanges[number].yCoord = yCoord;
       stateChanges[number].animation = animation;
-      
+      stateChanges[number].lives = lives;
+
       // damage changes
       Object.keys(action.remotePlayers)
         .forEach(playerNum => {
@@ -124,6 +134,14 @@ export default function (state = initState, action) {
       const updatedLocalPlayer = Object.assign({}, newState.localPlayer);
       updatedLocalPlayer.animation = action.animation;
       newState.localPlayer = updatedLocalPlayer;
+      break;
+
+    case SET_ACTIVE_PLAYERS:
+      newState.activePlayers = action.numPlayers;
+      break;
+
+    case SET_WINNER:
+      newState.winner = action.player;
       break;
 
     default:

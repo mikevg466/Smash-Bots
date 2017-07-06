@@ -2,15 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { runGame } from '../game/smashbotsGame';
 import { onPlayerStateUpdates, emitEndGame, onStopGame } from '../sockets/client';
-import { processPlayerUpdate, endGame } from '../redux/game';
+import { processPlayerUpdate, endGame, setActivePlayers } from '../redux/game';
 
 export class PhaserGame extends React.Component{
   constructor(){
     super();
+    this.onPlayerStateUpdates = this.onPlayerStateUpdates.bind(this);
   }
 
   componentDidMount(){
-    onPlayerStateUpdates(this.props.handlePlayerStateUpdates);
+    onPlayerStateUpdates(this.onPlayerStateUpdates);
     const remotePlayerNumList = [];
     Object.keys(this.props.remotePlayers)
       .forEach(playerNum => remotePlayerNumList.push(playerNum));
@@ -20,11 +21,18 @@ export class PhaserGame extends React.Component{
 
   }
 
-  // endGame(){
-  //   emitEndGame();
-  // }
+  onPlayerStateUpdates(players){
+    this.props.handleSetActivePlayers(
+      Object.keys(players)
+        .filter(player => players[player].lives)
+        .length
+    );
+    this.props.handlePlayerStateUpdates(players);
+  }
 
-  //need piece that initiates end game
+  endGame(){
+    emitEndGame();
+  }
 
   render(){
     return (
@@ -37,12 +45,14 @@ export class PhaserGame extends React.Component{
 
 const mapState = ({ game }) => ({
   localPlayer: game.localPlayer,
-  remotePlayers: game.remotePlayers
+  remotePlayers: game.remotePlayers,
+  winner: game.winner,
 });
 
 const mapDispatch = dispatch => ({
   handlePlayerStateUpdates: state => dispatch(processPlayerUpdate(state)),
-  handleEndGame: () => dispatch(endGame())
+  handleEndGame: () => dispatch(endGame()),
+  handleSetActivePlayers: (numPlayers) => dispatch(setActivePlayers(numPlayers)),
 })
 
 export default connect(mapState, mapDispatch)(PhaserGame);
