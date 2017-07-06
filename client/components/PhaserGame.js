@@ -37,11 +37,6 @@ export class PhaserGame extends React.Component{
   render(){
     return (
       <div>
-        {
-          this.props.winner ?
-          <h3>{ this.props.winner }</h3> :
-          null
-        }
         <div id='phaser-example'>
         </div>
         <button

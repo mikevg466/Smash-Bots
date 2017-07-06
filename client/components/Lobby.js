@@ -82,7 +82,8 @@ const mapState = ({ user, game, lobby }) => ({
   weapon: user.weapon,
   armor: user.armor,
   isGamePlaying: game.isGamePlaying,
-  messages: lobby.messages
+  messages: lobby.messages,
+  winner: game.winner,
 });
 
 const mapDispatch = dispatch => ({

@@ -138,6 +138,10 @@ export default function (state = initState, action) {
       newState.activePlayers = action.numPlayers;
       break;
 
+    case SET_WINNER:
+      newState.winner = action.player;
+      break;
+
     default:
       break;
   }
