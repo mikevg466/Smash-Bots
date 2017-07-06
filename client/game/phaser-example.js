@@ -27,7 +27,8 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     const images = {
       chick: 'assets/sprites/budbrain_chick.png',
       atari: 'assets/sprites/block.png',
-      background: 'assets/games/starstruck/background2.png',
+      // background: 'assets/games/starstruck/background2.png',
+      background: 'assets/pics/TheEnd_by_Iloe_and_Made.jpg',
       platform: 'ourAssets/platform_wood.png',
       bullet: 'assets/sprites/bullet.png',
       weapon: store.getState().game.localPlayer.weaponGraphic,
@@ -78,7 +79,8 @@ export function runGame(localPlayerNum, remotePlayerNums) {
       });
 
 
-    // ------ Add Platforms -------u
+    // ------ Add Platforms ------- 
+    // parameters are (platformName, ObjType, spriteName, xCoord, yCoord, xScale, yScale)
     gameManager.addSprite('platformMain', Platform, 'platform', 650, 700, 1.5, 1.2);
     gameManager.addSprite('platformSmall1', Platform, 'platform', 150, 500, 0.35, 0.4);
     gameManager.addSprite('platformSmall2', Platform, 'platform', 575, 200, 0.5, 0.4);
