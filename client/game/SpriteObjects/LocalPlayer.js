@@ -85,7 +85,7 @@ export default class LocalPlayer extends Player{
   }
 
   jump(){
-    this.sprite.body.velocity.y = -320;
+    this.sprite.body.velocity.y = -700;
   }
   overlapCallbackHit(hitBox, enemy){
     // console.log('overlap')
