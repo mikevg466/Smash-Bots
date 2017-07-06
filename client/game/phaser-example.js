@@ -88,8 +88,8 @@ export function runGame(localPlayerNum, remotePlayerNums) {
   gameManager.game.physics.arcade.enable([hitBoxR, hitBoxL], true);
   //hitBoxR.body.setSize(68, 166, slayer.sprite.width / 6 - 50, 0);
   //hitBoxL.body.setSize(68, 166, -(slayer.sprite.width / 6), 0);
-  hitBoxR.body.setSize(68, 166, gameManager.localPlayer.sprite.width / 6 - 50, 0);
-  hitBoxL.body.setSize(68, 166, -(gameManager.localPlayer.sprite.width / 6), 0);
+  hitBoxR.body.setSize(34, 83, gameManager.localPlayer.sprite.width / 6 - 50, 0);
+  hitBoxL.body.setSize(34, 83, -(gameManager.localPlayer.sprite.width / 6), 0);
   const assignHitBoxProperties = (hitBox, name) => {
     hitBox.name = name;
     hitBox.damage = 50;
