@@ -46,8 +46,8 @@ export default class GameManager{
     emitEndGame();
   }
 
-  addSprite(name, objType, spriteName, xCoord, yCoord){
-    this[name] = new objType(this.game, spriteName, xCoord, yCoord);
+  addSprite(name, objType, spriteName, xCoord, yCoord, xScale, yScale){
+    this[name] = new objType(this.game, spriteName, xCoord, yCoord, xScale, yScale);
   }
 
   addCollisions(aObjNameList, bObjName){
