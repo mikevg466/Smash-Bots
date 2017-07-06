@@ -101,6 +101,7 @@ socketServer.makeSocketServer = server => {
         client.animation = '';
         client.isHit = false;
         client.flyRight = false;
+        client.lives = 3;
         // second, hash it inside an empty obj with {playerNum: playerObj} format. :
         clientsAsPlayers[client.number] = client
       });
@@ -114,6 +115,7 @@ socketServer.makeSocketServer = server => {
       server.sockets.emit('initGame');
 
       // send periodic updates to the clients about game state
+      // emit(playersStates, activePlayers)
       gameUpdateIntervalId = setInterval(
         () => server.sockets.emit('playerStateUpdates', serverReduxStore.getState().game.players),
         30
