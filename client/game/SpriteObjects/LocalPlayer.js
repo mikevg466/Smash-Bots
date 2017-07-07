@@ -23,6 +23,8 @@ export default class LocalPlayer extends Player{
       }
     }
 
+    this.setGravity(1200);
+
 }
 
   move(direction){
@@ -92,7 +94,9 @@ export default class LocalPlayer extends Player{
     // enemy.isHit = true;
     // enemy.body.velocity.x = -5000;
   }
-
+  setGravity(num){
+    this.sprite.body.gravity.y = num;
+  }
 
   updateAnimationState(){
     const controls = this.controls;
@@ -151,6 +155,17 @@ export default class LocalPlayer extends Player{
       }
     });
 
+  }
+    regainControl() {
+    const player = this;
+    if (player.lives === 0 && player.damage === 0) {
+      player.explodePlayer();
+    } else {
+      // console.log("VVVVVVVVVVVV")
+      player.sprite.body.velocity.setTo(0, 0);
+      player.setGravity(1200);
+      this.game.input.enabled = true;
+    }
   }
 
   isDown(keyCode){
