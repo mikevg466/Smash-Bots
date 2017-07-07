@@ -38,8 +38,8 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     };
     const atlasJSONs = {
       smashbot: {
-        png: 'ourAssets/smashbot/robot_hammer_swing.png',
-        json: 'ourAssets/smashbot/robot_hammer_swing.json'
+        png: 'ourAssets/smashbot/robot_lightsaber_swing.png',
+        json: 'ourAssets/smashbot/robot_lightsaber_swing.json'
       },
       explodingSmashbot: {
         png: 'ourAssets/smashbot/robot_explosion_short.png',
