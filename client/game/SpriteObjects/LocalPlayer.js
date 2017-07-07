@@ -15,11 +15,11 @@ export default class LocalPlayer extends Player{
         keys: ["RIGHT"],
       },
       attack:{
-        keys:["L"],
+        keys:["SPACEBAR"],
         timeCount: 0,
       },
       jump:{
-        keys:["SPACEBAR"],
+        keys:["W"],
       }
     }
 
@@ -38,7 +38,7 @@ export default class LocalPlayer extends Player{
         this.setDirection('right');
         this.sprite.animations.play('move');
         break;
-        
+
       case 'swing':
         this.sprite.animations.play('swing');
         break;
@@ -55,16 +55,16 @@ export default class LocalPlayer extends Player{
     const hitBoxL = this.sprite.children[1];
     hitBoxR.reset(50, -25);
     hitBoxL.reset(-40, -25);
-    // this.sprite.children.forEach(function(hitbox) {          
+    // this.sprite.children.forEach(function(hitbox) {
     //   hitbox.kill();
-    // })    
-    // search all the hitboxes     
-    // for (var i = 0; i < this.sprite.children.length; i++){          
-    //   // if we find the hitbox with the “name” specified          
-    //   // if(gameManager.localPlayer.sprite.children[i].name === hitboxName){               
-    //     // reset it               
-    //     this.sprite.children[i].reset(150, -50);         
-    //   // }     
+    // })
+    // search all the hitboxes
+    // for (var i = 0; i < this.sprite.children.length; i++){
+    //   // if we find the hitbox with the “name” specified
+    //   // if(gameManager.localPlayer.sprite.children[i].name === hitboxName){
+    //     // reset it
+    //     this.sprite.children[i].reset(150, -50);
+    //   // }
 
     // console.log("=======>", swingRightTrue)
     // if (swingRightTrue){
@@ -96,8 +96,8 @@ export default class LocalPlayer extends Player{
 
   updateAnimationState(){
     const controls = this.controls;
-    const attackKey = this.game.input.keyboard.addKey(Phaser.Keyboard.L);
-    attackKey.onDown.add((L) => {
+    const attackKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    attackKey.onDown.add((SPACEBAR) => {
       const swingRightTrue = this.direction.right;
       this.attack(swingRightTrue);
     });
@@ -141,8 +141,8 @@ export default class LocalPlayer extends Player{
     }
 
 
-    const jumpKey = this.game.input.keyboard.addKey(Phaser.Keyboard.U);
-    jumpKey.onDown.add((U) => {
+    const jumpKey = this.game.input.keyboard.addKey(Phaser.Keyboard.W);
+    jumpKey.onDown.add((W) => {
       if (jumpKey.justDown) {
       this.jumpCounter -= 1;
       }
