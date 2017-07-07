@@ -224,7 +224,8 @@ export function runGame(localPlayerNum, remotePlayerNums) {
       }
       remotePlayerNums.forEach(playerNum => {
         const { xCoord, yCoord } = remotePlayers[playerNum];
-        gameManager[`remote${playerNum}`].sprite.position.set(xCoord, yCoord);
+        const remoteSprite = gameManager[`remote${playerNum}`].sprite;
+        gameManager.game.physics.arcade.moveToXY(remoteSprite, xCoord, yCoord, null, 15);
       });
     //  }, 33);
 
