@@ -157,13 +157,15 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     // manage collisions/ IF people bump into each other or platform:
     const players = [];
     localPlayerNum && players.push('localPlayer');
+    const localPlayerList = [];
+    localPlayerNum && localPlayerList.push('localPlayer');
 
     remotePlayerNums.forEach(playerNum => players.push(`remote${playerNum}`));
-    gameManager.addCollisions(players, 'platformMain');
-    gameManager.addCollisions(players, 'platformSmall1');
-    gameManager.addCollisions(players, 'platformSmall2');
-    gameManager.addCollisions(players, 'platformSmall3');
-    players.forEach(player => gameManager.addCollisions(players, player));
+    gameManager.addCollisions(localPlayerList, 'platformMain');
+    gameManager.addCollisions(localPlayerList, 'platformSmall1');
+    gameManager.addCollisions(localPlayerList, 'platformSmall2');
+    gameManager.addCollisions(localPlayerList, 'platformSmall3');
+    //players.forEach(player => gameManager.addCollisions(players, player));
 
     // gameManager.game.physics.arcade.overlap(gameManager.localPlayer.sprite, gameManager.remote1.sprite, overlapCallback); // default. change to collide when player attacks.
 
