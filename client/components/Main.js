@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 
 const Main = (props) => {
   const isGamePlaying = props.isGamePlaying;
-
+  console.log(props);
   return (
       <div>
       {isGamePlaying ?
@@ -20,13 +20,17 @@ const Main = (props) => {
               </div>
             </div>
           </nav>
-          <div className="row">
-            <div className="col-md-4" />
-            <div className="container-fluid col-md-4 col-sm-12">
-              <img src="ourAssets/smashbot/smashbots_title_page.gif" alt="smashbotsLogo" />
-            </div>
-            <div className="col-md-4" />
-          </div>
+          {
+            props.router.location.pathname === '/itemStore' ?
+              null :
+              <div className="row">
+                <div className="col-md-4" />
+                <div className="container-fluid col-md-4 col-sm-12">
+                  <img src="ourAssets/smashbot/smashbots_title_page.gif" alt="smashbotsLogo" />
+                </div>
+                <div className="col-md-4" />
+              </div>
+          }
         </div>
       }
         <div>
