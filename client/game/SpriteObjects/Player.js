@@ -65,6 +65,7 @@ export default class Player extends Sprite{
         this.setAnchor(0.34, 0.5);
         this.sprite.body.setSize(68, 166, 70, 144);
       break;
+      //(sprite.body.offset.x + sprite.body.width) / 2
 
       case 'smashbotFlyswatter':
         this.setAnchor(0.34, 0.5);

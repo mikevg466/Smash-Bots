@@ -119,16 +119,16 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     gameManager.addSprite('platformSmall2', Platform, 'platform', 575, 200, 0.5, 0.4);
     gameManager.addSprite('platformSmall3', Platform, 'platform', 1200, 475, 0.7, 0.4);
 
-
+console.log(gameManager.localPlayer.sprite)
       // ------ Add HitBoxes -------
 
-    hitBoxR = gameManager.localPlayer.sprite.addChild(gameManager.game.make.sprite(50, -25, 'hitBoxT'));
-    hitBoxL = gameManager.localPlayer.sprite.addChild(gameManager.game.make.sprite(-40, -25, 'hitBoxT'));
+    hitBoxR = gameManager.localPlayer.sprite.addChild(gameManager.game.make.sprite(0, 0, 'hitBoxT'));
+    hitBoxL = gameManager.localPlayer.sprite.addChild(gameManager.game.make.sprite(0, 0, 'hitBoxT'));
     gameManager.game.physics.arcade.enable([hitBoxR, hitBoxL], true);
-    //hitBoxR.body.setSize(68, 166, slayer.sprite.width / 6 - 50, 0);
-    //hitBoxL.body.setSize(68, 166, -(slayer.sprite.width / 6), 0);
-    hitBoxR.body.setSize(34, 83, gameManager.localPlayer.sprite.width / 6 - 50, 0);
-    hitBoxL.body.setSize(34, 83, -(gameManager.localPlayer.sprite.width / 6), 0);
+    const playerWidth = gameManager.localPlayer.sprite.body.width / 2;  // 34
+    const playerHeight = gameManager.localPlayer.sprite.body.height / 2;  // 83
+    hitBoxR.body.setSize(playerWidth + 10, playerHeight, (playerWidth * 1.25), -14);
+    hitBoxL.body.setSize(playerWidth + 10, playerHeight, -(playerWidth * 2.25), -14);
     const assignHitBoxProperties = (hitBox, name) => {
       hitBox.name = name;
       hitBox.damage = 50;
