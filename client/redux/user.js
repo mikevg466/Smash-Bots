@@ -85,6 +85,7 @@ export const equipWeapon = (user, weapon) =>
   dispatch =>
     axios.post(`/api/users/${user.id}/weapon`, weapon)
       .then(res => {
+        console.log(res, '<=================')
         dispatch(getUser(res.data));
       })
       .catch(console.error.bind(console));

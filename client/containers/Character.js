@@ -14,13 +14,22 @@ export class Character extends React.Component {
     }
 
     componentWillMount() {
-      this.setState({
-        weapon: this.props.user.weapon,
-        armor: this.props.user.armor
-      });
+      if(Object.keys(this.props.user.weapon).length){
+        this.setState({
+          weapon: this.props.user.weapon,
+          armor: this.props.user.armor
+        })
+      } else if(this.props.user.items.length){
+        this.props.handleSubmit(this.props.user, this.props.user.items[0], null)
+        this.setState({
+          weapon: this.props.user.items[0],
+        })
+      }
     }
 
     handleChange(event) {
+      console.log(this.props.user.items
+          .find(item => Number(item.id) === Number(event.target.value)))
       this.setState({
         [event.target.id]: this.props.user.items
           .find(item => Number(item.id) === Number(event.target.value))
@@ -28,6 +37,7 @@ export class Character extends React.Component {
     }
 
     onSubmit(){
+      console.log(this.state.weapon)
       this.props.handleSubmit(this.props.user, this.state.weapon, this.state.armor)
     }
 
@@ -38,7 +48,7 @@ export class Character extends React.Component {
               <div>
                 <label>Choose Weapon:</label>
                 <div>
-                  <select id="weapon" defaultValue={this.state.weapon.id} onChange={this.handleChange}>
+                  <select id="weapon" defaultValue={this.props.user.weapon.id} onChange={this.handleChange}>
                     {this.props.user.items &&
                     this.props.user.items
                       .filter(item => item.type === 'weapon')
@@ -88,7 +98,7 @@ const mapState = state => {
 const mapDispatch = dispatch => ({
    handleSubmit: (user, weapon, armor) => {
     weapon.id && dispatch(equipWeapon(user, weapon));
-    armor.id && dispatch(equipArmor(user, armor));
+    armor && dispatch(equipArmor(user, armor));
    }
 });
 

@@ -6,6 +6,8 @@ export default class Player extends Sprite{
     super(game, spriteName, xCoord, yCoord);
     this.playerNumber = playerNumber;
     this.game = game;
+    
+    console.log(spriteName, "<=================")
 
     // ------ Animations -------
     this.setAnimation(
@@ -53,7 +55,8 @@ export default class Player extends Sprite{
     this.setAnchor(0.27, 0.5);
     this.setPhysics(true);
     this.setDefault();
-    this.sprite.body.setSize(68, 166, 44, 94); // hitBox
+    this.sprite.body.setSize(68, 166, 44, 94); // hitBox ( widthOfHitbox, heightOfHitbox ,topLeftXOfRobotWithinImage, topLeftYOfRobotWithinImage )
+                                              // ^^^ should be based on spriteName
 
     this.sprite.scale.setTo(0.5);
 
@@ -74,7 +77,6 @@ export default class Player extends Sprite{
 
   // default move
   move(direction){
-    console.log('remote ', this.playerNumber, ' direction', direction);
     switch(direction){
       case 'left':
         this.setDirection('left');
@@ -101,7 +103,9 @@ export default class Player extends Sprite{
   //   this.sprite.animations.play('swing');
   // }
 
-
+  setGravity(num){
+    this.sprite.body.gravity.y = num;
+  }
 
   setDirection(direction){
     switch (direction){

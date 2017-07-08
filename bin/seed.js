@@ -26,13 +26,33 @@ const data = {
     power: 5,
     unlockLevel: 12
   },
+  // {
+  //   name: 'Axe',
+  //   graphic: 'ourAssets/weapons/hammer_thors.png',
+  //   image: 'https://openclipart.org/download/85753/Axe-001.svg',
+  //   price: 10000,
+  //   type: 'weapon',
+  //   description: 'You have my hammer',
+  //   power: 5,
+  //   unlockLevel: 12
+  // },
   {
-    name: 'Axe',
+    name: 'Lightsaber',
     graphic: 'ourAssets/weapons/hammer_thors.png',
-    image: 'https://openclipart.org/download/85753/Axe-001.svg',
-    price: 10000,
+    image: 'https://target.scene7.com/is/image/Target/17131120?wid=520&hei=520&fmt=pjpeg',
+    price: 550,
     type: 'weapon',
-    description: 'You have my hammer',
+    description: 'may the force be with you',
+    power: 5,
+    unlockLevel: 12
+  },
+  {
+    name: 'Fly Swatter',
+    graphic: 'ourAssets/weapons/hammer_thors.png',
+    image: 'http://graphics8.nytimes.com/images/2012/05/27/magazine/27wmt/27wmt-articleLarge.jpg',
+    price: 50,
+    type: 'weapon',
+    description: 'You have my swatter',
     power: 5,
     unlockLevel: 12
   }

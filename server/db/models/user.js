@@ -45,7 +45,7 @@ const User = db.define('user', {
   },
   gold: {
     type: Sequelize.INTEGER,
-    defaultValue: 0
+    defaultValue: 600
   },
   level: {
     type: Sequelize.INTEGER,
