@@ -45,7 +45,7 @@ componentDidMount(){
                   <td>
                     <button
                       onClick={() => {
-                        emitJoin(room, this.props.weapon, this.props.armor)
+                        emitJoin(room, this.props.weapon, this.props.armor, this.props.username)
                         this.initLobby()
                       }}
                       >
@@ -60,7 +60,7 @@ componentDidMount(){
         </table>
         <button
           onClick={() => {
-            emitJoin(null, this.props.weapon, this.props.armor)
+            emitJoin(null, this.props.weapon, this.props.armor, this.props.username)
             this.initLobby()
           }}
           >
@@ -77,6 +77,7 @@ componentDidMount(){
 const mapUserState = ({ user, lobby }) => ({
   weapon: user.weapon,
   armor: user.armor,
+  username: user.username,
   rooms: lobby.rooms
 });
 

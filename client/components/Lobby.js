@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PhaserGame from './PhaserGame';
 import { recieveMessage } from '../redux/lobby';
 import { processInitPlayers, setPlayer, startGame, setWinner } from '../redux/game';
-import { emitChatMessage, emitStartGame, onInitGame, onAddChatMessage, onInitPlayers, onPlayerAssignment } from '../sockets/client';
+import { emitChatMessage, emitStartGame, onUsernamesInLobby, onInitGame, onAddChatMessage, onInitPlayers, onPlayerAssignment } from '../sockets/client';
 
 // Component //
 
@@ -12,7 +12,7 @@ export class Lobby extends React.Component{
     super();
     this.state = {
       inputVal: '',
-      currentUsers: []
+      usersInLobby: []
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -25,13 +25,11 @@ export class Lobby extends React.Component{
     onInitPlayers(this.props.handleInitPlayers);
     onPlayerAssignment(this.props.handlePlayerAssignment);
     onInitGame(this.props.handleStartGame);
+    onUsernamesInLobby((usersInLobby) => this.setState({
+      usersInLobby: usersInLobby
+    }))
 
-    emitChatMessage('has joined the room!', this.props.username);
-    var currentUsersPlusMe = this.state.currentUsers
-    currentUsersPlusMe.push(this.props.username)
-    this.setState({
-      currentUsers: currentUsersPlusMe
-    })
+    emitChatMessage('has joined the lobby!', this.props.username);
   }
 
   startGame(){
@@ -44,6 +42,7 @@ export class Lobby extends React.Component{
   }
 
   handleChange(e){
+    console.log(this.state)
     this.setState({
       inputVal: e.target.value
     });
@@ -51,6 +50,7 @@ export class Lobby extends React.Component{
 
   handleSubmit(e){
     e.preventDefault();
+    console.log(this.state)
     this.setState({
       inputVal: ''
     })
@@ -59,7 +59,6 @@ export class Lobby extends React.Component{
 
   render(){
     const isGamePlaying = this.props.isGamePlaying;
-    console.log(this.state)
     return (
       <div>
         {isGamePlaying ?
@@ -69,8 +68,10 @@ export class Lobby extends React.Component{
             {
               this.props.messages.map((message, idx) => (
                 <p key={idx}>
-                  {message.username + ": "}
-                  <span>{message.msg}</span>
+                  { message.msg.indexOf('has joined the lobby!') > -1 ?
+                  <span>{message.username + ' ' + message.msg }</span>
+                  :  <span>{message.username + ": " + message.msg }</span>
+                  }
                 </p>
               ))
             }
@@ -88,9 +89,9 @@ export class Lobby extends React.Component{
         <h4> Current Users :</h4>
           <ul>
             {
-              this.state.currentUsers.length ?
-              this.state.currentUsers.map((username)=>{
-                return <li> <h3>{username}</h3></li>
+              this.state.usersInLobby.length ?
+              this.state.usersInLobby.map((username, index)=>{
+                return <li key={index}> <h3>{username}</h3></li>
               }) : null
             }
           </ul>
