@@ -6,7 +6,7 @@ export default class Player extends Sprite{
     super(game, spriteName, xCoord, yCoord);
     this.playerNumber = playerNumber;
     this.game = game;
-    
+
     console.log(spriteName, "<=================")
 
     // ------ Animations -------
@@ -52,11 +52,30 @@ export default class Player extends Sprite{
     this.lives = 3;
     this.jumpCounter = 2;
 
-    this.setAnchor(0.27, 0.5);
     this.setPhysics(true);
     this.setDefault();
-    this.sprite.body.setSize(68, 166, 44, 94); // hitBox ( widthOfHitbox, heightOfHitbox ,topLeftXOfRobotWithinImage, topLeftYOfRobotWithinImage )
-                                              // ^^^ should be based on spriteName
+
+    switch(spriteName){
+      case 'smashbotSword':
+        this.setAnchor(0.31, 0.5);
+        this.sprite.body.setSize(68, 166, 70, 127);
+      break;
+
+      case 'smashbotLightsaber':
+        this.setAnchor(0.34, 0.5);
+        this.sprite.body.setSize(68, 166, 70, 144);
+      break;
+
+      case 'smashbotFlyswatter':
+        this.setAnchor(0.34, 0.5);
+        this.sprite.body.setSize(68, 166, 70, 126);
+      break;
+
+      default:  // for 'smashbotHammer':
+      this.setAnchor(0.27, 0.5);
+      this.sprite.body.setSize(68, 166, 44, 94); // hitBox ( widthOfHitbox, heightOfHitbox ,topLeftXOfRobotWithinImage, topLeftYOfRobotWithinImage )
+      break;
+    }
 
     this.sprite.scale.setTo(0.5);
 
@@ -155,7 +174,7 @@ export default class Player extends Sprite{
     explodingSmashbot.animations.add('explode', [0, 1, 2, 3]);
     explodingSmashbot.animations.play('explode', 5, false, true);
   }
-  
+
   updateAnimationState(){
   }
 

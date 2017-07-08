@@ -49,8 +49,8 @@ export function runGame(localPlayerNum, remotePlayerNums) {
         json: 'ourAssets/smashbot/robot_lightsaber_swing.json'
       },
       smashbotFlyswatter: {
-        png: 'ourAssets/smashbot/robot_flyswatter_swing.png',
-        json: 'ourAssets/smashbot/robot_flyswatter_swing.json'
+        png: 'ourAssets/smashbot/robot_fly_swatter_swing.png',
+        json: 'ourAssets/smashbot/robot_fly_swatter_swing.json'
       },
       explodingSmashbot: {
         png: 'ourAssets/smashbot/robot_explosion_short.png',
@@ -286,10 +286,10 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 
   // ------ Render -------
   function render() {
-    // gameManager.game.debug.bodyInfo(gameManager.localPlayer.sprite, 100, 100);
-    // gameManager.game.debug.body(gameManager.localPlayer.sprite)
-    // gameManager.game.debug.body(hitBoxR);
-    // gameManager.game.debug.body(hitBoxL);
+    gameManager.game.debug.bodyInfo(gameManager.localPlayer.sprite, 100, 100);
+    gameManager.game.debug.body(gameManager.localPlayer.sprite)
+    gameManager.game.debug.body(hitBoxR);
+    gameManager.game.debug.body(hitBoxL);
   }
 
   // function winAnimation() {
