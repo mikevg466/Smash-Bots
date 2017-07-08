@@ -7,6 +7,6 @@ export default createStore(
   reducer,
   applyMiddleware(
     thunkMiddleware,
-    createLogger({ collapsed: true })
+    // createLogger({ collapsed: true })
   )
 );
