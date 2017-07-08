@@ -66,7 +66,6 @@ export function runGame(localPlayerNum, remotePlayerNums) {
   function create() {
     // ------ Initialize -------
     console.log(store.getState(), "<<<<<<<<<<+++++++++++++++++++++++==============")
-    const storeState = store.getState()
 
     gameManager.create('background');
 
@@ -78,18 +77,29 @@ export function runGame(localPlayerNum, remotePlayerNums) {
       { xCoord: 1100, yCoord: 200 },
     ];
 
+    const storeState = store.getState();
+
     if (localPlayerNum){
       const { xCoord, yCoord } = playerList[localPlayerNum - 1];
-      // TODO: Hard Coding Four weapons for now, but this can be modularized later: =>
+      // TODO: Hard Coding Four weapons for now, but this can be modularized later 
+      //        for adding more weapons:
       let weaponSprite;
-      if(storeState.game.localPlayer.clientWeapon.id === 2){
-        weaponSprite = 'smashbotSword'
-      } else if(storeState.game.localPlayer.clientWeapon.id === 3){
-        weaponSprite = 'smashbotLightsaber'
-      } else if(storeState.game.localPlayer.clientWeapon.id === 4){
-        weaponSprite = 'smashbotFlyswatter'
-      } else {
-        weaponSprite = 'smashbotHammer'
+      switch(storeState.game.localPlayer.clientWeapon.id){
+        case 2:
+          weaponSprite = 'smashbotSword';
+          break;
+        
+        case 3:
+          weaponSprite = 'smashbotLightsaber';
+          break;
+
+        case 4:
+          weaponSprite = 'smashbotFlyswatter';
+          break;
+
+        default:
+          weaponSprite = 'smashbotHammer';
+          break;
       }
 
       gameManager.addPlayer('localPlayer', LocalPlayer, weaponSprite, xCoord, yCoord, localPlayerNum);
@@ -99,15 +109,24 @@ export function runGame(localPlayerNum, remotePlayerNums) {
         const { xCoord, yCoord } = playerList[playerNum - 1];
       // TODO: Hard Coding Four weapons for now, but this can be modularized later: =>
       let weaponSprite;
-      if(storeState.game.remotePlayers[playerNum].clientWeapon.id === 2){
-        weaponSprite = 'smashbotSword'
-      } else if(storeState.game.remotePlayers[playerNum].clientWeapon.id === 3){
-        weaponSprite = 'smashbotLightsaber'
-      } else if(storeState.game.remotePlayers[playerNum].clientWeapon.id === 4){
-        weaponSprite = 'smashbotFlyswatter'
-      } else {
-        weaponSprite = 'smashbotHammer'
+      switch(storeState.game.remotePlayers[playerNum].clientWeapon.id){
+        case 2:
+          weaponSprite = 'smashbotSword';
+          break;
+        
+        case 3:
+          weaponSprite = 'smashbotLightsaber';
+          break;
+
+        case 4:
+          weaponSprite = 'smashbotFlyswatter';
+          break;
+
+        default:
+          weaponSprite = 'smashbotHammer';
+          break;
       }
+
         gameManager.addPlayer(`remote${playerNum}`, RemotePlayer, weaponSprite, xCoord, yCoord, playerNum);
       });
 
@@ -286,10 +305,10 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 
   // ------ Render -------
   function render() {
-    // gameManager.game.debug.bodyInfo(gameManager.localPlayer.sprite, 100, 100);
-    // gameManager.game.debug.body(gameManager.localPlayer.sprite)
-    // gameManager.game.debug.body(hitBoxR);
-    // gameManager.game.debug.body(hitBoxL);
+    gameManager.game.debug.bodyInfo(gameManager.localPlayer.sprite, 100, 100);
+    gameManager.game.debug.body(gameManager.localPlayer.sprite)
+    gameManager.game.debug.body(hitBoxR);
+    gameManager.game.debug.body(hitBoxL);
   }
 
   // function winAnimation() {

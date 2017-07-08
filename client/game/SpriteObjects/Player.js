@@ -52,13 +52,33 @@ export default class Player extends Sprite{
     this.lives = 3;
     this.jumpCounter = 2;
 
-    this.setAnchor(0.27, 0.5);
     this.setPhysics(true);
     this.setDefault();
-    this.sprite.body.setSize(68, 166, 44, 94); // hitBox ( widthOfHitbox, heightOfHitbox ,topLeftXOfRobotWithinImage, topLeftYOfRobotWithinImage )
-                                              // ^^^ should be based on spriteName
-
     this.sprite.scale.setTo(0.5);
+
+    switch(spriteName){
+      case 'smashbotSword':
+        this.setAnchor(0.27, 0.5);
+        this.sprite.body.setSize(68, 166, 44, 94);
+      break;
+
+      case 'smashbotLightsaber':
+        this.setAnchor(0.27, 0.5);
+        this.sprite.body.setSize(68, 166, 44, 94);
+      break;
+
+      case 'smashbotFlyswatter':
+        this.setAnchor(0.27, 0.5);
+        this.sprite.body.setSize(68, 166, 44, 94);
+      break;
+
+      default:  // for 'smashbotHammer':
+      this.setAnchor(0.27, 0.5);
+      this.sprite.body.setSize(68, 166, 44, 94); // hitBox ( widthOfHitbox, heightOfHitbox ,topLeftXOfRobotWithinImage, topLeftYOfRobotWithinImage )
+                                                // ^^^ should be based on spriteName
+      break;                              
+    }
+
 
     this.sprite.events.onOutOfBounds.add(function(){
       this.finalPosition = this.getPosition();
