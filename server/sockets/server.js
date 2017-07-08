@@ -104,7 +104,7 @@ socketServer.makeSocketServer = server => {
         client.flyRight = false;
         client.lives = 3;
         // second, hash it inside an empty obj with {playerNum: playerObj} format. :
-        clientsAsPlayers[client.number] = client
+        clientsAsPlayers[client.number] = client;
       });
       serverReduxStore.dispatch(addPlayers(clientsAsPlayers));
 

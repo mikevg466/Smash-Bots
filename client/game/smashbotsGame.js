@@ -83,17 +83,19 @@ export function runGame(localPlayerNum, remotePlayerNums) {
       // TODO: Hard Coding Four weapons for now, but this can be modularized later: =>
       let weaponSprite;
       if(storeState.game.localPlayer.clientWeapon.id === 2){
-        weaponSprite = 'smashbotSword'
+        weaponSprite = 'smashbotSword';
       } else if(storeState.game.localPlayer.clientWeapon.id === 3){
-        weaponSprite = 'smashbotLightsaber'
+        weaponSprite = 'smashbotLightsaber';
       } else if(storeState.game.localPlayer.clientWeapon.id === 4){
-        weaponSprite = 'smashbotFlyswatter'
+        weaponSprite = 'smashbotFlyswatter';
       } else {
-        weaponSprite = 'smashbotHammer'
+        weaponSprite = 'smashbotHammer';
       }
 
       gameManager.addPlayer('localPlayer', LocalPlayer, weaponSprite, xCoord, yCoord, localPlayerNum);
+      gameManager.localPlayer.setColor();
     }
+
     remotePlayerNums
       .forEach(playerNum => {
         const { xCoord, yCoord } = playerList[playerNum - 1];
@@ -109,6 +111,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
         weaponSprite = 'smashbotHammer'
       }
         gameManager.addPlayer(`remote${playerNum}`, RemotePlayer, weaponSprite, xCoord, yCoord, playerNum);
+        gameManager[`remote${playerNum}`].setColor();
       });
 
 
@@ -119,9 +122,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     gameManager.addSprite('platformSmall2', Platform, 'platform', 575, 200, 0.5, 0.4);
     gameManager.addSprite('platformSmall3', Platform, 'platform', 1200, 475, 0.7, 0.4);
 
-console.log(gameManager.localPlayer.sprite)
-      // ------ Add HitBoxes -------
-
+    // ------ Add HitBoxes -------
     hitBoxR = gameManager.localPlayer.sprite.addChild(gameManager.game.make.sprite(0, 0, 'hitBoxT'));
     hitBoxL = gameManager.localPlayer.sprite.addChild(gameManager.game.make.sprite(0, 0, 'hitBoxT'));
     gameManager.game.physics.arcade.enable([hitBoxR, hitBoxL], true);
@@ -138,7 +139,6 @@ console.log(gameManager.localPlayer.sprite)
     assignHitBoxProperties(hitBoxR, 'hitBoxR');
     assignHitBoxProperties(hitBoxL, 'hitBoxL');
   }
-
 
   // ------ Update -------
   function update(){
@@ -223,11 +223,14 @@ console.log(gameManager.localPlayer.sprite)
   function overlapCallbackHit(hitBox, enemy){
     enemy.isHit = true
     if  (hitBox.name === "hitBoxR") {
-      enemy.flyRight = true
+      enemy.flyRight = true;
+    } else if (hitBox.name === "hitBoxL") {
+      enemy.flyRight = false;
     }
-    if  (hitBox.name === "hitBoxL") {
-      enemy.flyRight = false
-      }
+    // const enemyTint = enemy.tint;  //  remote player flashes red.
+    // enemy.tint = 14683454;
+    // const regainColor = () => { enemy.tint = enemyTint; };
+    // setTimeout(regainColor, 100);
   }
 
   function regainControl() {
@@ -237,6 +240,7 @@ console.log(gameManager.localPlayer.sprite)
     } else {
       player.sprite.body.velocity.setTo(0, 0);
       player.setGravity(1200);
+      // player.setColor();
       gameManager.game.input.enabled = true;
     }
   }
@@ -248,6 +252,7 @@ console.log(gameManager.localPlayer.sprite)
     const flyAngle = flyRightTrue ? 680 : 600;
     const vectorX = flyRightTrue ? 200 : -200;
     player.sprite.animations.play('fly');
+    // player.setColor('hit');
     player.setGravity(0);
     gameManager.game.input.enabled = false;
     player.sprite.body.onMoveComplete.add(regainControl, this);
@@ -288,10 +293,10 @@ console.log(gameManager.localPlayer.sprite)
 
   // ------ Render -------
   function render() {
-    gameManager.game.debug.bodyInfo(gameManager.localPlayer.sprite, 100, 100);
-    gameManager.game.debug.body(gameManager.localPlayer.sprite)
-    gameManager.game.debug.body(hitBoxR);
-    gameManager.game.debug.body(hitBoxL);
+    // gameManager.game.debug.bodyInfo(gameManager.localPlayer.sprite, 100, 100);
+    // gameManager.game.debug.body(gameManager.localPlayer.sprite)
+    // gameManager.game.debug.body(hitBoxR);
+    // gameManager.game.debug.body(hitBoxL);
   }
 
   // function winAnimation() {

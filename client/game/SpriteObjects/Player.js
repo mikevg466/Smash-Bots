@@ -123,6 +123,15 @@ export default class Player extends Sprite{
   //   this.sprite.animations.play('swing');
   // }
 
+  setColor(color) {
+    if (color === 'hit') {
+      this.sprite.tint = 14683454;
+    } else {
+    const playerColors = [16777215, 877024, 14731021, 769044];  //  brown, blue, yellow, green
+    this.sprite.tint = playerColors[this.playerNumber - 1];
+    }
+  }
+
   setGravity(num){
     this.sprite.body.gravity.y = num;
   }
