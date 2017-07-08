@@ -74,7 +74,6 @@ export default class Player extends Sprite{
 
   // default move
   move(direction){
-    console.log('remote ', this.playerNumber, ' direction', direction);
     switch(direction){
       case 'left':
         this.setDirection('left');
@@ -151,7 +150,7 @@ export default class Player extends Sprite{
     explodingSmashbot.animations.add('explode', [0, 1, 2, 3]);
     explodingSmashbot.animations.play('explode', 5, false, true);
   }
-  
+
   updateAnimationState(){
   }
 

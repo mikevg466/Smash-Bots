@@ -20,6 +20,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 
   let totalLives;
   let gameText;
+  let playerName;
 
   // ------ PreLoad -------
   function preload() {
@@ -66,6 +67,10 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     if (localPlayerNum){
       const { xCoord, yCoord } = playerList[localPlayerNum - 1];
       gameManager.addPlayer('localPlayer', LocalPlayer, 'smashbot', xCoord, yCoord, localPlayerNum);
+      var style = { font: "20px Arial", fill: "#2222ff", align: "center"};
+
+      playerName = gameManager.game.add.text(0, 0, store.getState().user.username, style);
+      playerName.anchor.set(0.5);
     }
     remotePlayerNums
       .forEach(playerNum => {
@@ -174,6 +179,10 @@ export function runGame(localPlayerNum, remotePlayerNums) {
       const { xCoord, yCoord } = remotePlayers[playerNum];
       gameManager[`remote${playerNum}`].sprite.position.set(xCoord, yCoord);
     });
+
+    //move player name tag
+    playerName.x = Math.floor(gameManager.localPlayer.sprite.position.x);
+    playerName.y = Math.floor(gameManager.localPlayer.sprite.position.y - gameManager.localPlayer.sprite.height / 2);
   }
 
   function collideCallback(){
