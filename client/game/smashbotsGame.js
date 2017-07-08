@@ -66,8 +66,6 @@ export function runGame(localPlayerNum, remotePlayerNums) {
   // ------ Create -------
   function create() {
     // ------ Initialize -------
-    console.log(store.getState(), "<<<<<<<<<<+++++++++++++++++++++++==============")
-
     gameManager.create('background');
 
     // ------ Add Players -------
@@ -105,8 +103,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 
       gameManager.addPlayer('localPlayer', LocalPlayer, weaponSprite, xCoord, yCoord, localPlayerNum);
       var style = { font: "20px Arial", fill: "#2222ff", align: "center"};
-
-      playerName = gameManager.game.add.text(0, 0, store.getState().user.username, style);
+      playerName = gameManager.game.add.text(0, 0, storeState.user.username, style);
       playerName.anchor.set(0.5);
     }
     remotePlayerNums
@@ -184,6 +181,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     if (store.getState().game.activePlayers <= 1) {
       let winner = '';
       players.forEach(player => {
+        console.log(player, '<<<<<<<<<<<<<<<<<<==============================')
         if(gameManager[player].lives) winner = `Player ${gameManager[player].playerNumber}`;
       });
       console.log(`${winner} Wins!`);
