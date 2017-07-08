@@ -9,7 +9,7 @@ const UserHome = props => {
     <div className="container-fluid">
       <h3>Welcome, { username }</h3>
       <h3></h3>
-      <h3>Your Equipped Weapon is: {props.weapon.name || 'Thor\'s Hammer'}. (default: Thor/'s Hammer)</h3>
+      <h3>Your Equipped Weapon is: {props.weapon.name || 'Thor\'s Hammer'}. (default: Thor's Hammer)</h3>
 
       <h3></h3>
       <h3>Your currently have {props.gold} gold.</h3>
