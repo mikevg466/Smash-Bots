@@ -55,9 +55,7 @@ export default class Player extends Sprite{
     this.setDefault();
     this.sprite.body.setSize(68, 166, 44, 94); // hitBox
 
-
     this.sprite.scale.setTo(0.5);
-    this.setGravity(1200);
 
     this.sprite.events.onOutOfBounds.add(function(){
       this.finalPosition = this.getPosition();
@@ -103,9 +101,7 @@ export default class Player extends Sprite{
   //   this.sprite.animations.play('swing');
   // }
 
-  setGravity(num){
-    this.sprite.body.gravity.y = num;
-  }
+
 
   setDirection(direction){
     switch (direction){
@@ -124,6 +120,7 @@ export default class Player extends Sprite{
         break;
     }
   }
+
 
   getDirection(){
     for ( var key in this.direction){
@@ -158,16 +155,6 @@ export default class Player extends Sprite{
   updateAnimationState(){
   }
 
-  regainControl() {
-    const player = this;
-    if (player.lives === 0 && player.damage === 0) {
-      player.explodePlayer();
-    } else {
-      // console.log("VVVVVVVVVVVV")
-      player.sprite.body.velocity.setTo(0, 0);
-      player.setGravity(1200);
-      this.game.input.enabled = true;
-    }
-  }
+
 
 }
