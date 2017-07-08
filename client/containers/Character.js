@@ -37,7 +37,6 @@ export class Character extends React.Component {
     }
 
     onSubmit(){
-      console.log(this.state.weapon)
       this.props.handleSubmit(this.props.user, this.state.weapon, this.state.armor)
     }
 
