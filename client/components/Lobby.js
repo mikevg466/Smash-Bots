@@ -12,6 +12,7 @@ export class Lobby extends React.Component{
     super();
     this.state = {
       inputVal: '',
+      currentUsers: []
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -24,6 +25,13 @@ export class Lobby extends React.Component{
     onInitPlayers(this.props.handleInitPlayers);
     onPlayerAssignment(this.props.handlePlayerAssignment);
     onInitGame(this.props.handleStartGame);
+
+    emitChatMessage('has joined the room!', this.props.username);
+    var currentUsersPlusMe = this.state.currentUsers
+    currentUsersPlusMe.push(this.props.username)
+    this.setState({
+      currentUsers: currentUsersPlusMe
+    })
   }
 
   startGame(){
@@ -31,8 +39,8 @@ export class Lobby extends React.Component{
     emitStartGame();
   }
 
-  processMessage(msg, clientId){
-    this.props.handleMessage({ msg, clientId });
+  processMessage(msg, username){
+    this.props.handleMessage({ msg, username });
   }
 
   handleChange(e){
@@ -46,35 +54,47 @@ export class Lobby extends React.Component{
     this.setState({
       inputVal: ''
     })
-    emitChatMessage(this.state.inputVal);
+    emitChatMessage(this.state.inputVal, this.props.username);
   }
 
   render(){
     const isGamePlaying = this.props.isGamePlaying;
+    console.log(this.state)
     return (
       <div>
-      {isGamePlaying ?
-        <PhaserGame /> :
-        <div>
+        {isGamePlaying ?
+          <PhaserGame /> :
           <div>
-          {
-            this.props.messages.map((message, idx) => (
-              <p key={idx}>
-                {message.clientId}:
-                <span>{message.msg}</span>
-              </p>
-            ))
-          }
+            <div>
+            {
+              this.props.messages.map((message, idx) => (
+                <p key={idx}>
+                  {message.username + ": "}
+                  <span>{message.msg}</span>
+                </p>
+              ))
+            }
+            </div>
+            <form onSubmit={this.handleSubmit}>
+              <input value={this.state.inputVal} onChange={this.handleChange}/>
+              <button>Send</button>
+            </form>
+            <button
+              onClick= {this.startGame}
+            >Start Game</button>
           </div>
-          <form onSubmit={this.handleSubmit}>
-            <input value={this.state.inputVal} onChange={this.handleChange}/>
-            <button>Send</button>
-          </form>
-          <button
-            onClick= {this.startGame}
-          >Start Game</button>
+        }
+        <div>
+        <h4> Current Users :</h4>
+          <ul>
+            {
+              this.state.currentUsers.length ?
+              this.state.currentUsers.map((username)=>{
+                return <li> <h3>{username}</h3></li>
+              }) : null
+            }
+          </ul>
         </div>
-      }
       </div>
     )
   }
@@ -83,6 +103,7 @@ export class Lobby extends React.Component{
 const mapState = ({ user, game, lobby }) => ({
   weapon: user.weapon,
   armor: user.armor,
+  username: user.username,
   isGamePlaying: game.isGamePlaying,
   messages: lobby.messages,
   winner: game.winner,

@@ -59,7 +59,7 @@ export const auth = (email, password, username, method) =>
     axios.post(`/auth/${method}`, { email, password, username })
       .then(res => {
         dispatch(getUser(res.data));
-        browserHistory.push('/lobby');
+        browserHistory.push('/home');
       })
       .catch(error =>
         dispatch(getUser({ error })));
@@ -85,7 +85,6 @@ export const equipWeapon = (user, weapon) =>
   dispatch =>
     axios.post(`/api/users/${user.id}/weapon`, weapon)
       .then(res => {
-        console.log(res, '<=================')
         dispatch(getUser(res.data));
       })
       .catch(console.error.bind(console));
