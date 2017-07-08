@@ -118,7 +118,7 @@ socketServer.makeSocketServer = server => {
       // emit(playersStates, activePlayers)
       gameUpdateIntervalId = setInterval(
         () => server.sockets.emit('playerStateUpdates', serverReduxStore.getState().game.players),
-        60
+        16
       );
     });
 
