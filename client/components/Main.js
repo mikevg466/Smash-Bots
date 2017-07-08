@@ -19,7 +19,7 @@ const Main = (props) => {
                 <Link className="navbar-brand" to="loginHome">
                    SMASH BOTS
                 </Link>
-                <Link className="navbar-brand" to="itemStore">
+                <Link className="navbar-brand" to="home">
                   <span className="glyphicon glyphicon-home"></span>
                 User Home</Link>
                 <Link className="navbar-brand" to="itemStore">Purchase</Link>
