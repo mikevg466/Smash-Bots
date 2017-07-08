@@ -166,6 +166,7 @@ export default class LocalPlayer extends Player{
     } else {
       player.sprite.body.velocity.setTo(0, 0);
       player.setGravity(1200);
+      player.setColor();
       this.game.input.enabled = true;
     }
   }

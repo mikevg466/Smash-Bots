@@ -222,15 +222,15 @@ export function runGame(localPlayerNum, remotePlayerNums) {
   //sends enemy flying
   function overlapCallbackHit(hitBox, enemy){
     enemy.isHit = true
-    if  (hitBox.name === "hitBoxR") {
+    if  (hitBox.name === 'hitBoxR') {
       enemy.flyRight = true;
-    } else if (hitBox.name === "hitBoxL") {
+    } else if (hitBox.name === 'hitBoxL') {
       enemy.flyRight = false;
     }
-    // const enemyTint = enemy.tint;  //  remote player flashes red.
-    // enemy.tint = 14683454;
-    // const regainColor = () => { enemy.tint = enemyTint; };
-    // setTimeout(regainColor, 100);
+    const enemyTint = enemy.tint;  //  remote player flashes red.
+    enemy.tint = 14683454;
+    const regainColor = () => { enemy.tint = enemyTint; };
+    setTimeout(regainColor, 100);
   }
 
   function regainControl() {
@@ -240,7 +240,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     } else {
       player.sprite.body.velocity.setTo(0, 0);
       player.setGravity(1200);
-      // player.setColor();
+      player.setColor();
       gameManager.game.input.enabled = true;
     }
   }
@@ -252,7 +252,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     const flyAngle = flyRightTrue ? 680 : 600;
     const vectorX = flyRightTrue ? 200 : -200;
     player.sprite.animations.play('fly');
-    // player.setColor('hit');
+    player.setColor('hit');
     player.setGravity(0);
     gameManager.game.input.enabled = false;
     player.sprite.body.onMoveComplete.add(regainControl, this);
