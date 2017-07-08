@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import SingleItem from '../components/SingleItem';
 import CloudyItem from '../components/CloudyItem';
 import { connect } from 'react-redux';
-import { logout, purchaseItem } from '../redux/user';
+import { logout, purchaseItem, equipWeapon } from '../redux/user';
 import { fetchItems } from '../redux/item';
 
 export class ItemContainer extends React.Component{
@@ -62,6 +62,9 @@ export class ItemContainer extends React.Component{
   handleBuy(item){
     if (this.props.user.gold >= item.price ) {
       this.props.purchase(this.props.user, item);
+      if(Object.keys(this.props.user.weapon).length){
+        this.props.onFirstPurchase(this.props.user, this.state.weapon, this.state.armor)
+      }
     }
   }
 
@@ -108,7 +111,11 @@ const mapState = state => {
 
 const mapDispatch = dispatch => ({
   loadItems: () => dispatch(fetchItems()),
-  purchase: (user, item) => dispatch(purchaseItem(user, item))
+  purchase: (user, item) => dispatch(purchaseItem(user, item)),
+  onFirstPurchase: (user, weapon, armor) => {
+  weapon.id && dispatch(equipWeapon(user, weapon));
+  armor.id && dispatch(equipArmor(user, armor));
+  }
 });
 
 export default connect(mapState, mapDispatch)(ItemContainer);
