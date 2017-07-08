@@ -6,8 +6,6 @@ export default class Player extends Sprite{
     super(game, spriteName, xCoord, yCoord);
     this.playerNumber = playerNumber;
     this.game = game;
-    
-    console.log(spriteName, "<=================")
 
     // ------ Animations -------
     this.setAnimation(
