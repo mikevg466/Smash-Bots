@@ -197,7 +197,8 @@ console.log(gameManager.localPlayer.sprite)
       }
     });
     //disables hitboxes if theyre active, so theyll immediately be disabled after a swing
-    if (gameManager.localPlayer.sprite.children[0].alive)
+    const hitBoxes = gameManager.localPlayer.sprite.children;
+    if (hitBoxes[0].alive || hitBoxes[1].alive)
       gameManager.localPlayer.sprite.children.forEach(hitbox => hitbox.kill());
 
 
@@ -268,7 +269,8 @@ console.log(gameManager.localPlayer.sprite)
         break;
       default:
         if (player.lives === 0) {
-          player.sprite.body.moveTo(200, 300, flyAngle);
+          player.sprite.body.moveTo(vectorX, 50, flyAngle);
+          player.regainControl(); // calls player.explodePlayer();
         } else {
           player.sprite.body.velocity.setTo(vectorX, -1000);
           // player.sprite.body.moveTo(200, 2000, flyAngle)
