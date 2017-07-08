@@ -66,7 +66,6 @@ export function runGame(localPlayerNum, remotePlayerNums) {
   // ------ Create -------
   function create() {
     // ------ Initialize -------
-    console.log(store.getState(), "<<<<<<<<<<+++++++++++++++++++++++==============")
     const storeState = store.getState()
 
     gameManager.create('background');
