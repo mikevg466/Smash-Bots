@@ -31,8 +31,8 @@ export class Lobby extends React.Component{
     emitStartGame();
   }
 
-  processMessage(msg, clientId){
-    this.props.handleMessage({ msg, clientId });
+  processMessage(msg, username){
+    this.props.handleMessage({ msg, username });
   }
 
   handleChange(e){
@@ -46,7 +46,7 @@ export class Lobby extends React.Component{
     this.setState({
       inputVal: ''
     })
-    emitChatMessage(this.state.inputVal);
+    emitChatMessage(this.state.inputVal, this.props.username);
   }
 
   render(){
@@ -60,7 +60,7 @@ export class Lobby extends React.Component{
           {
             this.props.messages.map((message, idx) => (
               <p key={idx}>
-                {message.clientId}:
+                {message.username + ": "}
                 <span>{message.msg}</span>
               </p>
             ))
@@ -83,6 +83,7 @@ export class Lobby extends React.Component{
 const mapState = ({ user, game, lobby }) => ({
   weapon: user.weapon,
   armor: user.armor,
+  username: user.username,
   isGamePlaying: game.isGamePlaying,
   messages: lobby.messages,
   winner: game.winner,
