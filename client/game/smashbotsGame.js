@@ -203,6 +203,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
   }
 
   function flyWhenHit(flyRightTrue, damage) {
+    console.log('damage', damage);
     const player = gameManager.localPlayer;
     player.damage = damage;
     const flyAngle = flyRightTrue ? 680 : 600;
@@ -212,15 +213,21 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     gameManager.game.input.enabled = false;
     player.sprite.body.onMoveComplete.add(regainControl, this);
     switch(damage){
-      // case 3:
-      //   player.sprite.body.moveTo(200, 200, flyAngle);
-      //   break;
-      // case 2:
-      //   player.sprite.body.moveTo(200, 300, flyAngle);
-      //   break;
-      // case 1:
-      //   player.sprite.body.moveTo(200, 400, flyAngle);
-      //   break;
+      case 3:
+        player.sprite.body.velocity.setTo(vectorX, -1000);
+        setTimeout(() => player.regainControl(), 200);
+        // player.sprite.body.moveTo(200, 200, flyAngle);
+        break;
+      case 2:
+        player.sprite.body.velocity.setTo(vectorX, -1000);
+        setTimeout(() => player.regainControl(), 400);
+        // player.sprite.body.moveTo(200, 300, flyAngle);
+        break;
+      case 1:
+        player.sprite.body.velocity.setTo(vectorX, -1000);
+        setTimeout(() => player.regainControl(), 600);
+        // player.sprite.body.moveTo(200, 400, flyAngle);
+        break;
       default:
         if (player.lives === 0) {
           player.sprite.body.moveTo(200, 300, flyAngle);
