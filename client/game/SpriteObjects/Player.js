@@ -81,16 +81,7 @@ export default class Player extends Sprite{
     this.sprite.events.onOutOfBounds.add(function(){
       this.finalPosition = this.getPosition();
     }, this);
-    this.sprite.events.onKilled.add(function(){
-      this.lives -= 1;
-      if (this.lives > 0){
-        this.sprite.reset(this.xCoord, this.yCoord);
-        this.regainControl()
-        // this.game.input.enabled = true;
-      // } else if (this.lives === 0){
-      //   this.explodePlayer();
-      }
-    }, this);
+
   }
 
   // default move

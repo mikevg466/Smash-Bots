@@ -27,6 +27,17 @@ export default class RemotePlayer extends Player{
       right: true,
     };
 
+    this.sprite.events.onKilled.add(function(){
+      this.lives -= 1;
+      if (this.lives > 0){
+        this.sprite.reset(this.xCoord, this.yCoord);
+        //this.regainControl()
+        // this.game.input.enabled = true;
+      // } else if (this.lives === 0){
+      //   this.explodePlayer();
+      }
+    }, this);
+
   }
 
   jump(){
