@@ -255,10 +255,9 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 
   //sends enemy flying
   function overlapCallbackHit(hitBox, enemy){
-    enemy.isHit = true
-    if  (hitBox.name === 'hitBoxR') {
-      enemy.flyRight = true;
-    } else if (hitBox.name === 'hitBoxL') {
+    enemy.isHit = true;
+    enemy.flyRight = true;
+    if (hitBox.name === 'hitBoxL') {
       enemy.flyRight = false;
     }
     const enemyTint = enemy.tint;  //  remote player flashes red.
