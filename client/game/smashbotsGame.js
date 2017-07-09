@@ -177,8 +177,6 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 
     gameManager.update(store.getState().game);
 
-    console.log("6666666", gameManager)
-
     //ENDING THE GAME
     if (store.getState().game.activePlayers <= 1) {
       let winner = '';
