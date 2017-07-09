@@ -183,7 +183,6 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     if (store.getState().game.activePlayers <= 1) {
       let winner = '';
       players.forEach(player => {
-        console.log(player, '<<<<<<<<<<<<<<<<<<==============================')
         if(gameManager[player].lives) winner = `Player ${gameManager[player].playerNumber}`;
       });
       console.log(`${winner} Wins!`);
