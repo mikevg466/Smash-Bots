@@ -55,11 +55,14 @@ export default class LocalPlayer extends Player{
   attack(){
     const hitBoxR = this.sprite.children[0];
     const hitBoxL = this.sprite.children[1];
-    hitBoxR.reset(50, -25);
-    hitBoxL.reset(-40, -25);
-    
+    if (this.direction.right) {
+      hitBoxR.reset(0, 0);
+    } else {
+      hitBoxL.reset(0, 0);
+    }
+    // this.sprite.children.forEach(function(hitbox) {
     this.game.sound._sounds[2].play();
-    // this.sprite.children.forEach(function(hitbox) {          
+
     //   hitbox.kill();
     // })
     // search all the hitboxes
@@ -166,6 +169,7 @@ export default class LocalPlayer extends Player{
     } else {
       player.sprite.body.velocity.setTo(0, 0);
       player.setGravity(1200);
+      player.setColor();
       this.game.input.enabled = true;
     }
   }

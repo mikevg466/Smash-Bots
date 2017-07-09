@@ -52,31 +52,31 @@ export default class Player extends Sprite{
 
     this.setPhysics(true);
     this.setDefault();
-    this.sprite.scale.setTo(0.5);
 
     switch(spriteName){
       case 'smashbotSword':
-        this.setAnchor(0.27, 0.5);
-        this.sprite.body.setSize(68, 166, 44, 94);
+        this.setAnchor(0.31, 0.5);
+        this.sprite.body.setSize(68, 166, 70, 127);
       break;
 
       case 'smashbotLightsaber':
-        this.setAnchor(0.27, 0.5);
-        this.sprite.body.setSize(68, 166, 44, 94);
+        this.setAnchor(0.34, 0.5);
+        this.sprite.body.setSize(68, 166, 70, 144);
       break;
+      //(sprite.body.offset.x + sprite.body.width) / 2
 
       case 'smashbotFlyswatter':
-        this.setAnchor(0.27, 0.5);
-        this.sprite.body.setSize(68, 166, 44, 94);
+        this.setAnchor(0.34, 0.5);
+        this.sprite.body.setSize(68, 166, 70, 126);
       break;
 
       default:  // for 'smashbotHammer':
       this.setAnchor(0.27, 0.5);
       this.sprite.body.setSize(68, 166, 44, 94); // hitBox ( widthOfHitbox, heightOfHitbox ,topLeftXOfRobotWithinImage, topLeftYOfRobotWithinImage )
-                                                // ^^^ should be based on spriteName
-      break;                              
+      break;
     }
 
+    this.sprite.scale.setTo(0.5);
 
     this.sprite.events.onOutOfBounds.add(function(){
       this.finalPosition = this.getPosition();
@@ -120,6 +120,15 @@ export default class Player extends Sprite{
   // attack(){
   //   this.sprite.animations.play('swing');
   // }
+
+  setColor(color) {
+    if (color === 'hit') {
+      this.sprite.tint = 14683454;
+    } else {
+    const playerColors = [16777215, 877024, 14731021, 769044];  //  brown, blue, yellow, green
+    this.sprite.tint = playerColors[this.playerNumber - 1];
+    }
+  }
 
   setGravity(num){
     this.sprite.body.gravity.y = num;
@@ -176,7 +185,5 @@ export default class Player extends Sprite{
 
   updateAnimationState(){
   }
-
-
 
 }

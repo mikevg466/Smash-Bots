@@ -47,11 +47,11 @@ export function runGame(localPlayerNum, remotePlayerNums) {
       },
       smashbotLightsaber: {
         png: 'ourAssets/smashbot/robot_lightsaber_swing.png',
-        json: 'ourAssets/smashbot/robot_lightsaber_swing.json' 
+        json: 'ourAssets/smashbot/robot_lightsaber_swing.json'
       },
       smashbotFlyswatter: {
         png: 'ourAssets/smashbot/robot_fly_swatter_swing.png',
-        json: 'ourAssets/smashbot/robot_fly_swatter_swing.json' 
+        json: 'ourAssets/smashbot/robot_fly_swatter_swing.json'
       },
       explodingSmashbot: {
         png: 'ourAssets/smashbot/robot_explosion_short.png',
@@ -90,14 +90,14 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 
     if (localPlayerNum){
       const { xCoord, yCoord } = playerList[localPlayerNum - 1];
-      // TODO: Hard Coding Four weapons for now, but this can be modularized later 
+      // TODO: Hard Coding Four weapons for now, but this can be modularized later
       //        for adding more weapons:
       let weaponSprite;
       switch(storeState.game.localPlayer.clientWeapon.id){
         case 2:
           weaponSprite = 'smashbotSword';
           break;
-        
+
         case 3:
           weaponSprite = 'smashbotLightsaber';
           break;
@@ -116,6 +116,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
       playerName = gameManager.game.add.text(0, 0, storeState.user.username, style);
       playerName.anchor.set(0.5);
     }
+
     remotePlayerNums
       .forEach(playerNum => {
         const { xCoord, yCoord } = playerList[playerNum - 1];
@@ -125,7 +126,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
         case 2:
           weaponSprite = 'smashbotSword';
           break;
-        
+
         case 3:
           weaponSprite = 'smashbotLightsaber';
           break;
@@ -140,6 +141,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
       }
 
         gameManager.addPlayer(`remote${playerNum}`, RemotePlayer, weaponSprite, xCoord, yCoord, playerNum);
+        gameManager[`remote${playerNum}`].setColor();
       });
 
 
@@ -150,16 +152,14 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     gameManager.addSprite('platformSmall2', Platform, 'platform', 575, 200, 0.5, 0.4);
     gameManager.addSprite('platformSmall3', Platform, 'platform', 1200, 475, 0.7, 0.4);
 
-
-      // ------ Add HitBoxes -------
-
-    hitBoxR = gameManager.localPlayer.sprite.addChild(gameManager.game.make.sprite(50, -25, 'hitBoxT'));
-    hitBoxL = gameManager.localPlayer.sprite.addChild(gameManager.game.make.sprite(-40, -25, 'hitBoxT'));
+    // ------ Add HitBoxes -------
+    hitBoxR = gameManager.localPlayer.sprite.addChild(gameManager.game.make.sprite(0, 0, 'hitBoxT'));
+    hitBoxL = gameManager.localPlayer.sprite.addChild(gameManager.game.make.sprite(0, 0, 'hitBoxT'));
     gameManager.game.physics.arcade.enable([hitBoxR, hitBoxL], true);
-    //hitBoxR.body.setSize(68, 166, slayer.sprite.width / 6 - 50, 0);
-    //hitBoxL.body.setSize(68, 166, -(slayer.sprite.width / 6), 0);
-    hitBoxR.body.setSize(34, 83, gameManager.localPlayer.sprite.width / 6 - 50, 0);
-    hitBoxL.body.setSize(34, 83, -(gameManager.localPlayer.sprite.width / 6), 0);
+    const playerWidth = gameManager.localPlayer.sprite.body.width / 2;  // 34
+    const playerHeight = gameManager.localPlayer.sprite.body.height / 2;  // 83
+    hitBoxR.body.setSize(playerWidth + 10, playerHeight, (playerWidth * 1.25), -14);
+    hitBoxL.body.setSize(playerWidth + 10, playerHeight, -(playerWidth * 2.25), -14);
     const assignHitBoxProperties = (hitBox, name) => {
       hitBox.name = name;
       hitBox.damage = 50;
@@ -169,7 +169,6 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     assignHitBoxProperties(hitBoxR, 'hitBoxR');
     assignHitBoxProperties(hitBoxL, 'hitBoxL');
   }
-
 
   // ------ Update -------
   function update(){
@@ -228,7 +227,8 @@ export function runGame(localPlayerNum, remotePlayerNums) {
       }
     });
     //disables hitboxes if theyre active, so theyll immediately be disabled after a swing
-    if (gameManager.localPlayer.sprite.children[0].alive)
+    const hitBoxes = gameManager.localPlayer.sprite.children;
+    if (hitBoxes[0].alive || hitBoxes[1].alive)
       gameManager.localPlayer.sprite.children.forEach(hitbox => hitbox.kill());
 
 
@@ -255,13 +255,15 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 
   //sends enemy flying
   function overlapCallbackHit(hitBox, enemy){
-    enemy.isHit = true
-    if  (hitBox.name === "hitBoxR") {
-      enemy.flyRight = true
+    enemy.isHit = true;
+    enemy.flyRight = true;
+    if (hitBox.name === 'hitBoxL') {
+      enemy.flyRight = false;
     }
-    if  (hitBox.name === "hitBoxL") {
-      enemy.flyRight = false
-      }
+    const enemyTint = enemy.tint;  //  remote player flashes red.
+    enemy.tint = 14683454;
+    const regainColor = () => { enemy.tint = enemyTint; };
+    setTimeout(regainColor, 100);
   }
 
   function regainControl() {
@@ -271,6 +273,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     } else {
       player.sprite.body.velocity.setTo(0, 0);
       player.setGravity(1200);
+      player.setColor();
       gameManager.game.input.enabled = true;
     }
   }
@@ -281,6 +284,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     const flyAngle = flyRightTrue ? 680 : 600;
     const vectorX = flyRightTrue ? 200 : -200;
     player.sprite.animations.play('fly');
+    player.setColor('hit');
     player.setGravity(0);
     gameManager.game.input.enabled = false;
     player.sprite.body.onMoveComplete.add(regainControl, this);
@@ -302,7 +306,8 @@ export function runGame(localPlayerNum, remotePlayerNums) {
         break;
       default:
         if (player.lives === 0) {
-          player.sprite.body.moveTo(200, 300, flyAngle);
+          player.sprite.body.moveTo(vectorX, 50, flyAngle);
+          player.regainControl(); // calls player.explodePlayer();
         } else {
           player.sprite.body.velocity.setTo(vectorX, -1000);
           // player.sprite.body.moveTo(200, 2000, flyAngle)

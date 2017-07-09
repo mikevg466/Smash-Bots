@@ -2,131 +2,235 @@
 
 {
 	"filename": "robot_lightsaber_swing_000.png",
-	"frame": {"x":1,"y":1,"w":533,"h":356},
+	"frame": {"x":0,"y":0,"w":373,"h":333},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":533,"h":356},
-	"sourceSize": {"w":533,"h":356}
+	"spriteSourceSize": {"x":0,"y":0,"w":373,"h":333},
+	"sourceSize": {"w":373,"h":333}
+},
+{
+	"filename": "robot_lightsaber_swing_001.png",
+	"frame": {"x":373,"y":0,"w":373,"h":333},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":373,"h":333},
+	"sourceSize": {"w":373,"h":333}
+},
+{
+	"filename": "robot_lightsaber_swing_002.png",
+	"frame": {"x":746,"y":0,"w":373,"h":333},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":373,"h":333},
+	"sourceSize": {"w":373,"h":333}
 },
 {
 	"filename": "robot_lightsaber_swing_003.png",
-	"frame": {"x":536,"y":1,"w":533,"h":356},
+	"frame": {"x":1119,"y":0,"w":373,"h":333},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":533,"h":356},
-	"sourceSize": {"w":533,"h":356}
+	"spriteSourceSize": {"x":0,"y":0,"w":373,"h":333},
+	"sourceSize": {"w":373,"h":333}
+},
+{
+	"filename": "robot_lightsaber_swing_004.png",
+	"frame": {"x":1492,"y":0,"w":373,"h":333},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":373,"h":333},
+	"sourceSize": {"w":373,"h":333}
+},
+{
+	"filename": "robot_lightsaber_swing_005.png",
+	"frame": {"x":0,"y":333,"w":373,"h":333},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":373,"h":333},
+	"sourceSize": {"w":373,"h":333}
 },
 {
 	"filename": "robot_lightsaber_swing_006.png",
-	"frame": {"x":1071,"y":1,"w":533,"h":356},
+	"frame": {"x":373,"y":333,"w":373,"h":333},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":533,"h":356},
-	"sourceSize": {"w":533,"h":356}
+	"spriteSourceSize": {"x":0,"y":0,"w":373,"h":333},
+	"sourceSize": {"w":373,"h":333}
 },
 {
 	"filename": "robot_lightsaber_swing_007.png",
-	"frame": {"x":1,"y":359,"w":533,"h":356},
+	"frame": {"x":746,"y":333,"w":373,"h":333},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":533,"h":356},
-	"sourceSize": {"w":533,"h":356}
+	"spriteSourceSize": {"x":0,"y":0,"w":373,"h":333},
+	"sourceSize": {"w":373,"h":333}
 },
 {
 	"filename": "robot_lightsaber_swing_008.png",
-	"frame": {"x":536,"y":359,"w":533,"h":356},
+	"frame": {"x":1119,"y":333,"w":373,"h":333},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":533,"h":356},
-	"sourceSize": {"w":533,"h":356}
+	"spriteSourceSize": {"x":0,"y":0,"w":373,"h":333},
+	"sourceSize": {"w":373,"h":333}
 },
 {
 	"filename": "robot_lightsaber_swing_009.png",
-	"frame": {"x":1071,"y":359,"w":533,"h":356},
+	"frame": {"x":1492,"y":333,"w":373,"h":333},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":533,"h":356},
-	"sourceSize": {"w":533,"h":356}
+	"spriteSourceSize": {"x":0,"y":0,"w":373,"h":333},
+	"sourceSize": {"w":373,"h":333}
+},
+{
+	"filename": "robot_lightsaber_swing_010.png",
+	"frame": {"x":0,"y":666,"w":373,"h":333},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":373,"h":333},
+	"sourceSize": {"w":373,"h":333}
+},
+{
+	"filename": "robot_lightsaber_swing_011.png",
+	"frame": {"x":373,"y":666,"w":373,"h":333},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":373,"h":333},
+	"sourceSize": {"w":373,"h":333}
 },
 {
 	"filename": "robot_lightsaber_swing_012.png",
-	"frame": {"x":1,"y":717,"w":533,"h":356},
+	"frame": {"x":746,"y":666,"w":373,"h":333},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":533,"h":356},
-	"sourceSize": {"w":533,"h":356}
+	"spriteSourceSize": {"x":0,"y":0,"w":373,"h":333},
+	"sourceSize": {"w":373,"h":333}
+},
+{
+	"filename": "robot_lightsaber_swing_013.png",
+	"frame": {"x":1119,"y":666,"w":373,"h":333},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":373,"h":333},
+	"sourceSize": {"w":373,"h":333}
+},
+{
+	"filename": "robot_lightsaber_swing_014.png",
+	"frame": {"x":1492,"y":666,"w":373,"h":333},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":373,"h":333},
+	"sourceSize": {"w":373,"h":333}
+},
+{
+	"filename": "robot_lightsaber_swing_015.png",
+	"frame": {"x":0,"y":999,"w":373,"h":333},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":373,"h":333},
+	"sourceSize": {"w":373,"h":333}
 },
 {
 	"filename": "robot_lightsaber_swing_016.png",
-	"frame": {"x":536,"y":717,"w":533,"h":356},
+	"frame": {"x":373,"y":999,"w":373,"h":333},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":533,"h":356},
-	"sourceSize": {"w":533,"h":356}
+	"spriteSourceSize": {"x":0,"y":0,"w":373,"h":333},
+	"sourceSize": {"w":373,"h":333}
+},
+{
+	"filename": "robot_lightsaber_swing_017.png",
+	"frame": {"x":746,"y":999,"w":373,"h":333},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":373,"h":333},
+	"sourceSize": {"w":373,"h":333}
+},
+{
+	"filename": "robot_lightsaber_swing_018.png",
+	"frame": {"x":1119,"y":999,"w":373,"h":333},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":373,"h":333},
+	"sourceSize": {"w":373,"h":333}
+},
+{
+	"filename": "robot_lightsaber_swing_019.png",
+	"frame": {"x":1492,"y":999,"w":373,"h":333},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":373,"h":333},
+	"sourceSize": {"w":373,"h":333}
 },
 {
 	"filename": "robot_lightsaber_swing_020.png",
-	"frame": {"x":1071,"y":717,"w":533,"h":356},
+	"frame": {"x":0,"y":1332,"w":373,"h":333},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":533,"h":356},
-	"sourceSize": {"w":533,"h":356}
+	"spriteSourceSize": {"x":0,"y":0,"w":373,"h":333},
+	"sourceSize": {"w":373,"h":333}
 },
 {
 	"filename": "robot_lightsaber_swing_021.png",
-	"frame": {"x":1,"y":1075,"w":533,"h":356},
+	"frame": {"x":373,"y":1332,"w":373,"h":333},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":533,"h":356},
-	"sourceSize": {"w":533,"h":356}
+	"spriteSourceSize": {"x":0,"y":0,"w":373,"h":333},
+	"sourceSize": {"w":373,"h":333}
 },
 {
 	"filename": "robot_lightsaber_swing_022.png",
-	"frame": {"x":536,"y":1075,"w":533,"h":356},
+	"frame": {"x":746,"y":1332,"w":373,"h":333},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":533,"h":356},
-	"sourceSize": {"w":533,"h":356}
+	"spriteSourceSize": {"x":0,"y":0,"w":373,"h":333},
+	"sourceSize": {"w":373,"h":333}
 },
 {
 	"filename": "robot_lightsaber_swing_023.png",
-	"frame": {"x":1071,"y":1075,"w":533,"h":356},
+	"frame": {"x":1119,"y":1332,"w":373,"h":333},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":533,"h":356},
-	"sourceSize": {"w":533,"h":356}
+	"spriteSourceSize": {"x":0,"y":0,"w":373,"h":333},
+	"sourceSize": {"w":373,"h":333}
 },
 {
 	"filename": "robot_lightsaber_swing_024.png",
-	"frame": {"x":1,"y":1433,"w":533,"h":356},
+	"frame": {"x":1492,"y":1332,"w":373,"h":333},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":533,"h":356},
-	"sourceSize": {"w":533,"h":356}
+	"spriteSourceSize": {"x":0,"y":0,"w":373,"h":333},
+	"sourceSize": {"w":373,"h":333}
 },
 {
 	"filename": "robot_lightsaber_swing_025.png",
-	"frame": {"x":536,"y":1433,"w":533,"h":356},
+	"frame": {"x":0,"y":1665,"w":373,"h":333},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":533,"h":356},
-	"sourceSize": {"w":533,"h":356}
+	"spriteSourceSize": {"x":0,"y":0,"w":373,"h":333},
+	"sourceSize": {"w":373,"h":333}
+},
+{
+	"filename": "robot_lightsaber_swing_026.png",
+	"frame": {"x":373,"y":1665,"w":373,"h":333},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":373,"h":333},
+	"sourceSize": {"w":373,"h":333}
 },
 {
 	"filename": "robot_lightsaber_swing_027.png",
-	"frame": {"x":1071,"y":1433,"w":533,"h":356},
+	"frame": {"x":746,"y":1665,"w":373,"h":333},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":533,"h":356},
-	"sourceSize": {"w":533,"h":356}
+	"spriteSourceSize": {"x":0,"y":0,"w":373,"h":333},
+	"sourceSize": {"w":373,"h":333}
 }],
 "meta": {
 	"app": "http://www.codeandweb.com/texturepacker",
 	"version": "1.0",
 	"image": "robot_lightsaber_swing.png",
 	"format": "RGBA8888",
-	"size": {"w":1605,"h":1790},
+	"size": {"w":1865,"h":1998},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:2d64015c5849909cf6ec0c6b8c427a36:976d9aa8fb6a5590f097e2d110e0b600:adf55f1d3f5b0678be497a847a4090e3$"
+	"smartupdate": "$TexturePacker:SmartUpdate:4ff8cb10d068c466e0e3fdf29ef62b85:a26054e19acc7fa218afe29a43f3b65f:adf55f1d3f5b0678be497a847a4090e3$"
 }
 }
