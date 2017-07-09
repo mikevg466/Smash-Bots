@@ -28,8 +28,6 @@ export class Character extends React.Component {
     }
 
     handleChange(event) {
-      console.log(this.props.user.items
-          .find(item => Number(item.id) === Number(event.target.value)))
       this.setState({
         [event.target.id]: this.props.user.items
           .find(item => Number(item.id) === Number(event.target.value))
