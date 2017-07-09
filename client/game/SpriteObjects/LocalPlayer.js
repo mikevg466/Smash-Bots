@@ -161,7 +161,6 @@ export default class LocalPlayer extends Player{
     if (player.lives === 0 && player.damage === 0) {
       player.explodePlayer();
     } else {
-      // console.log("VVVVVVVVVVVV")
       player.sprite.body.velocity.setTo(0, 0);
       player.setGravity(1200);
       this.game.input.enabled = true;

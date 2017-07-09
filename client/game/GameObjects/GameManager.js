@@ -59,7 +59,8 @@ export default class GameManager{
 
   // optional callbacks
   collideCallback(player){
-      player.jumpCounter = 2
+      player.jumpCounter = 2;
+      player.regainControl();
   }
 
   overlapCallback(){
