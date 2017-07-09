@@ -135,9 +135,9 @@ socketServer.makeSocketServer = server => {
     // chatMessage uses new findRoomForClient helper method that find's the room
     //   for the client that starts with "lobby-",  this removes the rooms that
     //    are based on the clientId
-    client.on('chatMessage', msg => {
+    client.on('chatMessage', (msg, username) => {
       // find out which room the client is in
-      server.to(findRoomForClient(client)).emit('addChatMessage', msg, client.id);
+      server.to(findRoomForClient(client)).emit('addChatMessage', msg, username);
     });
 
 

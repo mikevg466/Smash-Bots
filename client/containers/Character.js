@@ -28,8 +28,6 @@ export class Character extends React.Component {
     }
 
     handleChange(event) {
-      console.log(this.props.user.items
-          .find(item => Number(item.id) === Number(event.target.value)))
       this.setState({
         [event.target.id]: this.props.user.items
           .find(item => Number(item.id) === Number(event.target.value))
@@ -37,7 +35,6 @@ export class Character extends React.Component {
     }
 
     onSubmit(){
-      console.log(this.state.weapon)
       this.props.handleSubmit(this.props.user, this.state.weapon, this.state.armor)
     }
 
@@ -98,7 +95,7 @@ const mapState = state => {
 const mapDispatch = dispatch => ({
    handleSubmit: (user, weapon, armor) => {
     weapon.id && dispatch(equipWeapon(user, weapon));
-    armor && dispatch(equipArmor(user, armor));
+//     armor.id && dispatch(equipArmor(user, armor));
    }
 });
 
