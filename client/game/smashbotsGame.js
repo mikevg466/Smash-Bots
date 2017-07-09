@@ -46,6 +46,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
         json: 'ourAssets/smashbot/robot_explosion_short.json'
       }
     };
+    gameManager.game.load.audio('boden', 'assets/audio/bodenstaendig_2000_in_rock_4bit.ogg');
 
     gameManager.preload(images, atlasJSONs);
   }
@@ -56,6 +57,9 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     // ------ Initialize -------
     gameManager.create('background');
 
+    const music = gameManager.game.add.audio('boden');
+
+    music.play();
     // ------ Add Players -------
 
 //     enemy1.sprite.body.velocity.setTo(100, 5);
