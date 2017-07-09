@@ -47,6 +47,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
       }
     };
     gameManager.game.load.audio('boden', 'assets/audio/bodenstaendig_2000_in_rock_4bit.ogg');
+    gameManager.game.load.audio('jump', 'ourAssets/sound/173326__soundnimja__jump-1.wav');
 
     gameManager.preload(images, atlasJSONs);
   }
@@ -58,6 +59,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     gameManager.create('background');
 
     const music = gameManager.game.add.audio('boden');
+    const jumpSound = gameManager.game.add.audio('jump');
 
     music.play();
     // ------ Add Players -------
@@ -172,6 +174,8 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     // gameManager.game.physics.arcade.overlap(gameManager.localPlayer.sprite, gameManager.remote1.sprite, overlapCallback); // default. change to collide when player attacks.
 
     gameManager.update(store.getState().game);
+
+    console.log("6666666", gameManager)
 
     //ENDING THE GAME
     if (store.getState().game.activePlayers <= 1) {
