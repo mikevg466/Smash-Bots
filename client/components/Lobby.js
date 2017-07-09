@@ -42,7 +42,6 @@ export class Lobby extends React.Component{
   }
 
   handleChange(e){
-    console.log(this.state)
     this.setState({
       inputVal: e.target.value
     });
@@ -50,7 +49,6 @@ export class Lobby extends React.Component{
 
   handleSubmit(e){
     e.preventDefault();
-    console.log(this.state)
     this.setState({
       inputVal: ''
     })
