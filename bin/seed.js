@@ -9,7 +9,7 @@ const data = {
     name: 'Thor\'s Hammer',
     graphic: 'ourAssets/weapons/hammer_thors.png',
     image: 'http://orig07.deviantart.net/a821/f/2013/251/c/7/thor_hammer_mjolnir__avengers_version__by_pannaus-d6lir5n.jpg',
-    price: 500,
+    price: 0,
     type: 'weapon',
     description: 'I shoot thunder at my foes',
     power: 5,
