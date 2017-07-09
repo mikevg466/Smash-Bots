@@ -69,7 +69,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
   // ------ Create -------
   function create() {
     // ------ Initialize -------
-    const storeState = store.getState()
+    const storeState = store.getState();
 
     gameManager.create('background');
 
@@ -85,8 +85,6 @@ export function runGame(localPlayerNum, remotePlayerNums) {
       { xCoord: 800, yCoord: 400 },
       { xCoord: 1100, yCoord: 200 },
     ];
-
-    const storeState = store.getState();
 
     if (localPlayerNum){
       const { xCoord, yCoord } = playerList[localPlayerNum - 1];

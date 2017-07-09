@@ -81,19 +81,17 @@ export class Lobby extends React.Component{
             <button
               onClick= {this.startGame}
             >Start Game</button>
+            <h4> Players in lobby :</h4>
+            <ul>
+              {
+                this.state.usersInLobby.length ?
+                this.state.usersInLobby.map((username, index)=>{
+                  return <li key={index}> <h3>{username}</h3></li>
+                }) : null
+              }
+            </ul>
           </div>
         }
-        <div>
-        <h4> Current Users :</h4>
-          <ul>
-            {
-              this.state.usersInLobby.length ?
-              this.state.usersInLobby.map((username, index)=>{
-                return <li key={index}> <h3>{username}</h3></li>
-              }) : null
-            }
-          </ul>
-        </div>
       </div>
     )
   }

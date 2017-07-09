@@ -25,6 +25,17 @@ export default class LocalPlayer extends Player{
 
     this.setGravity(1200);
 
+    this.sprite.events.onKilled.add(function(){
+      this.lives -= 1;
+      if (this.lives > 0){
+        this.sprite.reset(this.xCoord, this.yCoord);
+        this.regainControl()
+        // this.game.input.enabled = true;
+      // } else if (this.lives === 0){
+      //   this.explodePlayer();
+      }
+    }, this);
+
 }
 
   move(direction){
