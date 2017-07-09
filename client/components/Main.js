@@ -19,11 +19,11 @@ const Main = (props) => {
                 <Link className="navbar-brand" to="home">
                    SMASH BOTS
                 </Link>
+                <Link className="navbar-brand" to="lobby">Game Lobbies</Link> 
+                <Link className="navbar-brand" to="itemStore">Item Store</Link>
+                <Link className="navbar-brand" to="character">Inventory</Link> 
                 <Link className="navbar-brand" to="loginHome">
                 Signup/Login</Link>
-                <Link className="navbar-brand" to="itemStore">Purchase</Link>
-                <Link className="navbar-brand" to="character">Equip</Link> 
-                <Link className="navbar-brand" to="lobby">Game Lobbies</Link>  
                 <ul className="nav navbar-nav" />
               </div>
             </div>
