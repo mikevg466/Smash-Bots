@@ -66,8 +66,6 @@ export function runGame(localPlayerNum, remotePlayerNums) {
   // ------ Create -------
   function create() {
     // ------ Initialize -------
-    console.log(store.getState(), "<<<<<<<<<<+++++++++++++++++++++++==============")
-
     gameManager.create('background');
 
     // ------ Add Players -------
@@ -269,7 +267,6 @@ export function runGame(localPlayerNum, remotePlayerNums) {
   }
 
   function flyWhenHit(flyRightTrue, damage) {
-    console.log('damage', damage);
     const player = gameManager.localPlayer;
     player.damage = damage;
     const flyAngle = flyRightTrue ? 680 : 600;
