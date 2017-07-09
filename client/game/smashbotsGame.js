@@ -58,6 +58,9 @@ export function runGame(localPlayerNum, remotePlayerNums) {
         json: 'ourAssets/smashbot/robot_explosion_short.json'
       }
     };
+    gameManager.game.load.audio('boden', 'assets/audio/bodenstaendig_2000_in_rock_4bit.ogg');
+    gameManager.game.load.audio('jump', 'ourAssets/sound/173326__soundnimja__jump-1.wav');
+    gameManager.game.load.audio('attack', 'ourAssets/sound/367182__orangesheepdog__swing.mp3');
 
     gameManager.preload(images, this.atlasJSONs);
   }
@@ -66,8 +69,15 @@ export function runGame(localPlayerNum, remotePlayerNums) {
   // ------ Create -------
   function create() {
     // ------ Initialize -------
+    const storeState = store.getState()
+
     gameManager.create('background');
 
+    const music = gameManager.game.add.audio('boden');
+    const jumpSound = gameManager.game.add.audio('jump');
+    const hammerAttack = gameManager.game.add.audio('attack')
+
+    music.play();
     // ------ Add Players -------
     const playerList = [
       { xCoord: 200, yCoord: 200 },
@@ -270,7 +280,6 @@ export function runGame(localPlayerNum, remotePlayerNums) {
   }
 
   function flyWhenHit(flyRightTrue, damage) {
-    console.log('damage', damage);
     const player = gameManager.localPlayer;
     player.damage = damage;
     const flyAngle = flyRightTrue ? 680 : 600;

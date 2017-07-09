@@ -81,7 +81,6 @@ socketServer.makeSocketServer = server => {
       serverReduxStore.getState().lobby.clients.forEach(client => {
         usernames.push(client.username)
       })
-      console.log(usernames, 'suuuuuuuupppppppp')
       server.sockets.emit('usernamesInLobby', usernames )
 
       //tell everyone in the room to update

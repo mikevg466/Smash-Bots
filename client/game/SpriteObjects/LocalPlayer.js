@@ -61,6 +61,8 @@ export default class LocalPlayer extends Player{
       hitBoxL.reset(0, 0);
     }
     // this.sprite.children.forEach(function(hitbox) {
+    this.game.sound._sounds[2].play();
+
     //   hitbox.kill();
     // })
     // search all the hitboxes
@@ -91,6 +93,7 @@ export default class LocalPlayer extends Player{
 
   jump(){
     this.sprite.body.velocity.y = -700;
+    this.game.sound._sounds[1].play();
   }
   overlapCallbackHit(hitBox, enemy){
     // console.log('overlap')
