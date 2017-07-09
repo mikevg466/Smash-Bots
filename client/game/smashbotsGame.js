@@ -20,6 +20,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 
   let totalLives;
   let gameText;
+  let playerName;
 
   // ------ PreLoad -------
   function preload() {
@@ -103,6 +104,10 @@ export function runGame(localPlayerNum, remotePlayerNums) {
       }
 
       gameManager.addPlayer('localPlayer', LocalPlayer, weaponSprite, xCoord, yCoord, localPlayerNum);
+      var style = { font: "20px Arial", fill: "#2222ff", align: "center"};
+
+      playerName = gameManager.game.add.text(0, 0, store.getState().user.username, style);
+      playerName.anchor.set(0.5);
     }
     remotePlayerNums
       .forEach(playerNum => {
@@ -231,6 +236,10 @@ export function runGame(localPlayerNum, remotePlayerNums) {
       const { xCoord, yCoord } = remotePlayers[playerNum];
       gameManager[`remote${playerNum}`].sprite.position.set(xCoord, yCoord);
     });
+
+    //move player name tag
+    playerName.x = Math.floor(gameManager.localPlayer.sprite.position.x);
+    playerName.y = Math.floor(gameManager.localPlayer.sprite.position.y - gameManager.localPlayer.sprite.height / 2);
   }
 
   function collideCallback(){
@@ -260,7 +269,6 @@ export function runGame(localPlayerNum, remotePlayerNums) {
   }
 
   function flyWhenHit(flyRightTrue, damage) {
-    console.log('damage', damage);
     const player = gameManager.localPlayer;
     player.damage = damage;
     const flyAngle = flyRightTrue ? 680 : 600;
