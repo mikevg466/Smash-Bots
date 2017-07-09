@@ -95,7 +95,7 @@ const mapState = state => {
 const mapDispatch = dispatch => ({
    handleSubmit: (user, weapon, armor) => {
     weapon.id && dispatch(equipWeapon(user, weapon));
-    armor && dispatch(equipArmor(user, armor));
+//     armor.id && dispatch(equipArmor(user, armor));
    }
 });
 
