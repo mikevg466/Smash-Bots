@@ -16,15 +16,14 @@ const Main = (props) => {
           <nav className="navbar navbar-inverse" role="navigation">
             <div className="container">
               <div className="navbar-header">              
-                <Link className="navbar-brand" to="loginHome">
+                <Link className="navbar-brand" to="home">
                    SMASH BOTS
                 </Link>
-                <Link className="navbar-brand" to="home">
-                  <span className="glyphicon glyphicon-home"></span>
-                User Home</Link>
+                <Link className="navbar-brand" to="loginHome">
+                Signup/Login</Link>
                 <Link className="navbar-brand" to="itemStore">Purchase</Link>
                 <Link className="navbar-brand" to="character">Equip</Link> 
-                <Link className="navbar-brand" to="lobby">Game Rooms</Link>  
+                <Link className="navbar-brand" to="lobby">Game Lobbies</Link>  
                 <ul className="nav navbar-nav" />
               </div>
             </div>
