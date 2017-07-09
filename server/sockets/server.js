@@ -92,7 +92,6 @@ socketServer.makeSocketServer = server => {
       var clientsAsPlayers = {};
       serverReduxStore.getState().lobby.clients.forEach((client,index) => {
         // first, add player info's to clients :
-        console.log(client)
         client.number = index+1;
         client.damage = 4;
         client.characterGraphic = characterGraphic[index];
