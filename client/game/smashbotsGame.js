@@ -105,8 +105,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 
       gameManager.addPlayer('localPlayer', LocalPlayer, weaponSprite, xCoord, yCoord, localPlayerNum);
       var style = { font: "20px Arial", fill: "#2222ff", align: "center"};
-
-      playerName = gameManager.game.add.text(0, 0, store.getState().user.username, style);
+      playerName = gameManager.game.add.text(0, 0, storeState.user.username, style);
       playerName.anchor.set(0.5);
     }
     remotePlayerNums

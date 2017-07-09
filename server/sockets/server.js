@@ -64,17 +64,24 @@ socketServer.makeSocketServer = server => {
     // using join for both join and host
     //   use default roomId so that if they are not joining an existing room
     //    they are creating a new room
-    client.on('join', (roomId, clientWeapon, clientArmor) => {
+    client.on('join', (roomId, clientWeapon, clientArmor, username) => {
       const curRoomId = roomId || 'room-' + uuid.v4();
       // add client with items to ReduxStore
       serverReduxStore.dispatch(addClient({
           id: client.id,
           clientWeapon,
-          clientArmor
+          clientArmor,
+          username
         }));
-
       // join or create room
       client.join(curRoomId);
+
+      //tell everyone all the usernames in lobby just to display them.
+      const usernames = []
+      serverReduxStore.getState().lobby.clients.forEach(client => {
+        usernames.push(client.username)
+      })
+      server.sockets.emit('usernamesInLobby', usernames )
 
       //tell everyone in the room to update
       server.sockets.emit('update', findRoomsOnServer());
