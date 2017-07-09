@@ -48,6 +48,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
     };
     gameManager.game.load.audio('boden', 'assets/audio/bodenstaendig_2000_in_rock_4bit.ogg');
     gameManager.game.load.audio('jump', 'ourAssets/sound/173326__soundnimja__jump-1.wav');
+    gameManager.game.load.audio('attack', 'ourAssets/sound/367182__orangesheepdog__swing.mp3');
 
     gameManager.preload(images, atlasJSONs);
   }
@@ -60,6 +61,7 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 
     const music = gameManager.game.add.audio('boden');
     const jumpSound = gameManager.game.add.audio('jump');
+    const hammerAttack = gameManager.game.add.audio('attack')
 
     music.play();
     // ------ Add Players -------

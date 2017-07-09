@@ -55,6 +55,7 @@ export default class LocalPlayer extends Player{
     const hitBoxL = this.sprite.children[1];
     hitBoxR.reset(50, -25);
     hitBoxL.reset(-40, -25);
+    this.game.sound._sounds[2].play();
     // this.sprite.children.forEach(function(hitbox) {          
     //   hitbox.kill();
     // })    
