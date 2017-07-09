@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import SingleItem from '../components/SingleItem';
 import CloudyItem from '../components/CloudyItem';
 import { connect } from 'react-redux';
-import { logout, purchaseItem } from '../redux/user';
+import { logout, purchaseItem, equipWeapon } from '../redux/user';
 import { fetchItems } from '../redux/item';
 
 export class ItemContainer extends React.Component{
@@ -22,11 +22,21 @@ export class ItemContainer extends React.Component{
 
   componentWillMount() {
     this.props.loadItems()
-      .then(() => this.setState({
+      .then(() => {
+        this.setState({
         curItem: Object.assign({}, this.props.itemsList[0], {listId: 0}) || {},
         nextItem: Object.assign({}, this.props.itemsList[1], {listId: 1}) || {}
-      }))
-      .catch(console.error.bind(console));
+      })
+    })
+    .then( ()=>{
+      if(this.props.user.items.indexOf(this.props.itemsList[0])===-1){
+        this.props.purchase(this.props.user, this.props.itemsList[0])
+      }
+      })
+    .then(()=>{
+      this.props.onFirstPurchase(this.props.user, this.props.itemsList[0], null)
+    })
+    .catch(console.error.bind(console));
   }
 
   getNextItem() {
@@ -61,7 +71,7 @@ export class ItemContainer extends React.Component{
 
   handleBuy(item){
     if (this.props.user.gold >= item.price ) {
-      this.props.purchase(this.props.user, item);
+      this.props.purchase(this.props.user, item)
     }
   }
 
@@ -108,7 +118,10 @@ const mapState = state => {
 
 const mapDispatch = dispatch => ({
   loadItems: () => dispatch(fetchItems()),
-  purchase: (user, item) => dispatch(purchaseItem(user, item))
+  purchase: (user, item) => dispatch(purchaseItem(user, item)),
+  onFirstPurchase: (user, weapon, armor) => {
+    dispatch(equipWeapon(user, weapon));
+  }
 });
 
 export default connect(mapState, mapDispatch)(ItemContainer);

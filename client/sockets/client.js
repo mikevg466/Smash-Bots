@@ -3,8 +3,8 @@ export const client = io();
 
 // ------ LISTENERS -------
 export const onAddChatMessage = callbackFunc =>
-  client.on('addChatMessage', (msg, clientId) => {
-    callbackFunc(msg, clientId);
+  client.on('addChatMessage', (msg, username) => {
+    callbackFunc(msg, username);
   });
 
 export const onUpdate = callbackFunc =>
@@ -37,13 +37,18 @@ export const onPlayerStateUpdates = callbackFunc =>
     callbackFunc(state);
   });
 
+export const onUsernamesInLobby = callbackFunc =>
+  client.on('usernamesInLobby', usernames => {
+    callbackFunc(usernames);
+  });
+
 
 // ------ EMITTERS -------
-export const emitChatMessage = message =>
-  client.emit('chatMessage', message);
+export const emitChatMessage = (message, username) =>
+  client.emit('chatMessage', message, username);
 
-export const emitJoin = (room, weapon, armor) =>
-  client.emit('join', room, weapon, armor);
+export const emitJoin = (room, weapon, armor, username) =>
+  client.emit('join', room, weapon, armor, username);
 
 export const emitRoomMounted = () =>
   client.emit('roomMounted')
@@ -56,4 +61,3 @@ export const emitEndGame = () =>
 
 export const emitPlayerStateChanges = state =>
   client.emit('playerStateChanges', state);
-

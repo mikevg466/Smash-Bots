@@ -50,14 +50,33 @@ export default class Player extends Sprite{
     this.lives = 3;
     this.jumpCounter = 2;
 
-    this.setAnchor(0.27, 0.5);
     this.setPhysics(true);
     this.setDefault();
-    this.sprite.body.setSize(68, 166, 44, 94); // hitBox
-
-
     this.sprite.scale.setTo(0.5);
-    this.setGravity(1200);
+
+    switch(spriteName){
+      case 'smashbotSword':
+        this.setAnchor(0.27, 0.5);
+        this.sprite.body.setSize(68, 166, 44, 94);
+      break;
+
+      case 'smashbotLightsaber':
+        this.setAnchor(0.27, 0.5);
+        this.sprite.body.setSize(68, 166, 44, 94);
+      break;
+
+      case 'smashbotFlyswatter':
+        this.setAnchor(0.27, 0.5);
+        this.sprite.body.setSize(68, 166, 44, 94);
+      break;
+
+      default:  // for 'smashbotHammer':
+      this.setAnchor(0.27, 0.5);
+      this.sprite.body.setSize(68, 166, 44, 94); // hitBox ( widthOfHitbox, heightOfHitbox ,topLeftXOfRobotWithinImage, topLeftYOfRobotWithinImage )
+                                                // ^^^ should be based on spriteName
+      break;                              
+    }
+
 
     this.sprite.events.onOutOfBounds.add(function(){
       this.finalPosition = this.getPosition();
@@ -76,7 +95,6 @@ export default class Player extends Sprite{
 
   // default move
   move(direction){
-    console.log('remote ', this.playerNumber, ' direction', direction);
     switch(direction){
       case 'left':
         this.setDirection('left');
@@ -125,6 +143,7 @@ export default class Player extends Sprite{
     }
   }
 
+
   getDirection(){
     for ( var key in this.direction){
       if (this.direction[key]){
@@ -154,20 +173,10 @@ export default class Player extends Sprite{
     explodingSmashbot.animations.add('explode', [0, 1, 2, 3]);
     explodingSmashbot.animations.play('explode', 5, false, true);
   }
-  
+
   updateAnimationState(){
   }
 
-  regainControl() {
-    const player = this;
-    if (player.lives === 0 && player.damage === 0) {
-      player.explodePlayer();
-    } else {
-      // console.log("VVVVVVVVVVVV")
-      player.sprite.body.velocity.setTo(0, 0);
-      player.setGravity(1200);
-      this.game.input.enabled = true;
-    }
-  }
+
 
 }

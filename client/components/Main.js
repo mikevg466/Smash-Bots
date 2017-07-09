@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 // Component //
 
 const Main = (props) => {
-  const isGamePlaying = props.isGamePlaying;
+
+  const { children, handleClick, loggedIn, isGamePlaying } = props;
 
   return (
       <div>
@@ -14,8 +15,15 @@ const Main = (props) => {
         <div>
           <nav className="navbar navbar-inverse" role="navigation">
             <div className="container">
-              <div className="navbar-header">
-                <Link className="navbar-brand" to="lobby">SMASH-BOTS</Link>
+              <div className="navbar-header">              
+                <Link className="navbar-brand" to="home">
+                   SMASH BOTS
+                </Link>
+                <Link className="navbar-brand" to="lobby">Game Lobbies</Link> 
+                <Link className="navbar-brand" to="itemStore">Item Store</Link>
+                <Link className="navbar-brand" to="character">Inventory</Link> 
+                <Link className="navbar-brand" to="loginHome">
+                Signup/Login</Link>
                 <ul className="nav navbar-nav" />
               </div>
             </div>
@@ -36,8 +44,13 @@ const Main = (props) => {
   )
 }
 
-const mapState = ({ game }) => ({
-  isGamePlaying: game.isGamePlaying
+const mapState = ({ game, user }) => ({
+  isGamePlaying: game.isGamePlaying,
+  loggedIn: !!user.id
 });
-
-export default connect(mapState)(Main);
+const mapDispatch = dispatch => ({
+  handleClick () {
+    dispatch(logout());
+  }
+});
+export default connect(mapState, mapDispatch)(Main);
