@@ -17,7 +17,7 @@ const Main = (props) => {
             <div className="container">
               <div className="navbar-header">              
                 <Link className="navbar-brand" to="home">
-                   SMASH BOTS
+                   SMASH-BOTS
                 </Link>
                 <Link className="navbar-brand" to="lobby">Game Lobbies</Link> 
                 <Link className="navbar-brand" to="itemStore">Item Store</Link>
