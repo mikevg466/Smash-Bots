@@ -51,7 +51,7 @@ describe('Game Reducer', () => {
 
   it('has expected initial state', () => {
     expect(testStore.getState().game).to.be.deep.equal({
-      activePlayers: 3,
+      activePlayers: 4,
       isGamePlaying: false,
       playerNumber: 0,
       localPlayer: {},
