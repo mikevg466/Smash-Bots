@@ -14,6 +14,10 @@ describe('Game Reducer', () => {
     damage: 110,
     xCoord: 110,
     yCoord: 110,
+    lives: 3,
+    animation: 'swing',
+    isHit: false,
+    flyRigh: false,
     characterGraphic: 'newSpritePath',
     weaponGraphic: 'newSpritePath'
   };
@@ -24,6 +28,10 @@ describe('Game Reducer', () => {
       damage: 50,
       xCoord: 10,
       yCoord: 10,
+      lives: 2,
+      animation: 'stop',
+      isHit: true,
+      flyRigh: true,
       characterGraphic: 'newSpritePath',
       weaponGraphic: 'newSpritePath'
     },
@@ -32,6 +40,10 @@ describe('Game Reducer', () => {
       damage: 20,
       xCoord: 2,
       yCoord: 2,
+      lives: 1,
+      animation: 'left',
+      isHit: true,
+      flyRigh: false,
       characterGraphic: 'newSpritePath',
       weaponGraphic: 'newSpritePath'
     }
@@ -39,11 +51,13 @@ describe('Game Reducer', () => {
 
   it('has expected initial state', () => {
     expect(testStore.getState().game).to.be.deep.equal({
+      activePlayers: 4,
       isGamePlaying: false,
       playerNumber: 0,
       localPlayer: {},
       remotePlayers: {},
       playerStateChanges: {},
+      winner: "",
     });
   });
 
@@ -70,11 +84,14 @@ describe('Game Reducer', () => {
     it('changes all remote players states to the new states', () => {
       expect(testStore.getState().game.remotePlayers).to.deep.equal(testRemotePlayers);
     });
-    it('only updates damage for the local players state', () => {
+    it('only updates attack info for the local players state', () => {
       const storePlayer = testStore.getState().game.localPlayer;
       expect(storePlayer.damage).to.equal(testLocalPlayer.damage);
+      expect(storePlayer.isHit).to.equal(testLocalPlayer.isHit);
+      expect(storePlayer.flyRight).to.equal(testLocalPlayer.flyRight);
+      const equalKeys = ['damage', 'isHit', 'flyRight'];
       Object.keys(storePlayer).forEach(key => {
-        if(key !== 'damage')
+        if(!equalKeys.includes(key))
           expect(storePlayer[key]).to.not.equal(testLocalPlayer[key]);
       });
     });
@@ -105,12 +122,15 @@ describe('Game Reducer', () => {
       localPlayer: testLocalPlayer,
       remotePlayers: testRemotePlayers
     }));
-    it('adds only x and y coordinates for localPlayer to the playerStateChanges object', () => {
+    it('adds only lives, animation, x and y coordinates for localPlayer to the playerStateChanges object', () => {
       const storePlayer = testStore.getState().game.playerStateChanges[testLocalPlayer.number];
       expect(storePlayer.xCoord).to.equal(testLocalPlayer.xCoord);
       expect(storePlayer.yCoord).to.equal(testLocalPlayer.yCoord);
+      expect(storePlayer.animation).to.equal(testLocalPlayer.animation);
+      expect(storePlayer.lives).to.equal(testLocalPlayer.lives);
+      const equalKeys = ['xCoord', 'yCoord', 'animation', 'lives'];
       Object.keys(storePlayer).forEach(key => {
-        if(key !== 'xCoord' && key !== 'yCoord')
+        if(!equalKeys.includes(key))
           expect(storePlayer[key]).to.not.equal(testLocalPlayer[key]);
       });
     });
