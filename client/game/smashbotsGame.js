@@ -323,10 +323,10 @@ export function runGame(localPlayerNum, remotePlayerNums) {
 
   // ------ Render -------
   function render() {
-    //gameManager.game.debug.bodyInfo(gameManager.localPlayer.sprite, 100, 100);
-    //gameManager.game.debug.body(gameManager.localPlayer.sprite)
-    //gameManager.game.debug.body(hitBoxR);
-    //gameManager.game.debug.body(hitBoxL);
+    // gameManager.game.debug.bodyInfo(gameManager.localPlayer.sprite, 100, 100);
+    // gameManager.game.debug.body(gameManager.localPlayer.sprite)
+    // gameManager.game.debug.body(hitBoxR);
+    // gameManager.game.debug.body(hitBoxL);
   }
 
   // function winAnimation() {
